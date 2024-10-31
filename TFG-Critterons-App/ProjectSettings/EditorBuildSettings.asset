@@ -4,7 +4,16 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/DemoScene/profile-ui.unity
+    guid: bb325f69b4ad23144a510e9d5cb5c7d8
+  - enabled: 1
+    path: Assets/Scenes/DemoScene/social-ui.unity
+    guid: 0c5c53e9e9a1da64da5ac781339257a4
+  - enabled: 1
+    path: Assets/Scenes/DemoScene/hotel-ui.unity
+    guid: 529e991d3721c154585eac8b5d0927e0
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
       guid: da81dad269a7f904c8153f586ec167e5, type: 2}

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class SelectPanel : MonoBehaviour
 {
     [SerializeField]
     bool panelEnable = false;
+    [SerializeField]
+    UnityEvent actionSelected;
     [SerializeField]
     GameObject visualSelected;
     [SerializeField]
@@ -26,7 +29,7 @@ public class SelectPanel : MonoBehaviour
     private void Start()
     {
 
-      
+
         for (int i = 0; i < objectsRoot.childCount; i++)
         {
             objectsInPanel.Add(objectsRoot.GetChild(i).gameObject);
@@ -37,15 +40,15 @@ public class SelectPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(panelEnable && Input.GetMouseButtonDown(0))
+        if (panelEnable && Input.GetMouseButtonDown(0))
         {
-           
+
             PointerEventData pointerData = new PointerEventData(EventSystem.current)
             {
                 position = Input.mousePosition
             };
 
-           
+
             List<RaycastResult> results = new List<RaycastResult>();
 
             // Realiza el raycast
@@ -56,7 +59,7 @@ public class SelectPanel : MonoBehaviour
             {
                 foreach (var result in results)
                 {
-                    if(objectsInPanel.Contains(result.gameObject))
+                    if (objectsInPanel.Contains(result.gameObject))
                     {
                         ObjectSelected(result.gameObject);
                     }
@@ -68,6 +71,10 @@ public class SelectPanel : MonoBehaviour
 
     void ObjectSelected(GameObject targetObject)
     {
-        visualSelected.transform.position = targetObject.transform.position;
+        if (actionSelected != null)
+            actionSelected.Invoke();
+        if (visualSelected != null)
+            visualSelected.transform.position = targetObject.transform.position;
+ 
     }
 }
