@@ -7,7 +7,11 @@ using UnityEngine.Networking;
 
 public class ConnectionTestScript : MonoBehaviour
 {
-    private string editorPath = "Assets/Test/Scripts/prueba-0.0.1-SNAPSHOT.jar";
+    private string serverPath = "Assets/Test/Scripts/prueba-0.0.1-SNAPSHOT.jar";
+    private string testPath = "Assets/Test/Scripts/helloworld.jar";
+
+    [SerializeField]
+    bool server = false;
 
 
     void Start()
@@ -17,111 +21,118 @@ public class ConnectionTestScript : MonoBehaviour
 #endif
 
 #if UNITY_EDITOR
-        ConectionEditor();
+        StartCoroutine("ConectionEditor");
 #endif
+    }
 
+    // SendRequest();
 
-        SendRequest();
-
-        void ConectionAndroid()
+    void ConectionAndroid()
+    {
+        using (AndroidJavaClass javaClass = new AndroidJavaClass("com.example.MyJavaClass"))
         {
-            using (AndroidJavaClass javaClass = new AndroidJavaClass("com.example.MyJavaClass"))
-            {
-                string message = javaClass.CallStatic<string>("getMessage");
-                UnityEngine.Debug.Log("Mensaje desde Java: " + message);
-            }
+            string message = javaClass.CallStatic<string>("getMessage");
+            UnityEngine.Debug.Log("Mensaje desde Java: " + message);
         }
+    }
 
-        void ConectionEditor()
+    void ConectionEditor()
+    {
+
+        string jarPath;
+        if(server)
+         jarPath = Path.Combine(Application.dataPath, "..", serverPath);
+        else
+         jarPath = Path.Combine(Application.dataPath, "..", testPath);
+
+        jarPath = Path.GetFullPath(jarPath);
+
+        Process process = new Process();
+        process.StartInfo.FileName = "java";
+        process.StartInfo.Arguments = $"-jar \"{jarPath}\"";
+
+        process.StartInfo.UseShellExecute = false;
+        process.StartInfo.RedirectStandardOutput = true;
+        process.StartInfo.RedirectStandardError = true;
+        process.StartInfo.CreateNoWindow = true;
+
+
+
+        //// Captura la salida de consola y errores
+        process.OutputDataReceived += (sender, args) => UnityEngine.Debug.Log("Output: " + args.Data);
+        process.ErrorDataReceived += (sender, args) => UnityEngine.Debug.LogError("Error: " + args.Data);
+
+        try
         {
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+           //si se activa bloquea unity process.WaitForExit();
 
-            string jarPath = Path.Combine(Application.dataPath, "..", editorPath);
-            jarPath = Path.GetFullPath(jarPath);
-
-            Process process = new Process();
-            process.StartInfo.FileName = "java";
-            process.StartInfo.Arguments = $"-jar \"{jarPath}\"";
-
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.CreateNoWindow = true;
-
-            //// Captura la salida de consola y errores
-            //process.OutputDataReceived += (sender, args) => UnityEngine.Debug.Log("Output: " + args.Data);
-            //process.ErrorDataReceived += (sender, args) => UnityEngine.Debug.LogError("Error: " + args.Data);
-
-            try
-            {
-                process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-                process.WaitForExit();
-
-                UnityEngine.Debug.Log("Process exited with code: " + process.ExitCode);
-            }
-            catch (System.Exception e)
-            {
-                UnityEngine.Debug.LogError("Failed to start process: " + e.Message);
-            }
+            UnityEngine.Debug.Log("Process exited with code: " + process.ExitCode);
         }
-
-
-
-        void SendRequest()
+        catch (System.Exception e)
         {
-            // Crea una nueva instancia de Critteron
-            Critteron critteron = new Critteron
-            {
-                id = "3",
-                name = "antomon",
-                exp = 10,
-                life = 1
-            };
-
-
-            StartCoroutine(PostCritteron(critteron));
+            UnityEngine.Debug.LogError("Failed to start process: " + e.Message);
         }
+    }
 
-        IEnumerator PostCritteron(Critteron critteron)
+
+
+    public void SendRequest()
+    {
+        // Crea una nueva instancia de Critteron
+        Critteron critteron = new Critteron
         {
-            // Convierte el objeto a JSON
-            string json = JsonUtility.ToJson(critteron);
+            id = "30",
+            name = "antomon",
+            exp = 10,
+            life = 1
+        };
 
-            // Solicitud POST
-            using (UnityWebRequest request = UnityWebRequest.PostWwwForm("http://localhost:8081/api/v1/critteron", json))
+
+        StartCoroutine(PostCritteron(critteron));
+    }
+
+    IEnumerator PostCritteron(Critteron critteron)
+    {
+        // Convierte el objeto a JSON
+        string json = JsonUtility.ToJson(critteron);
+
+        // Solicitud POST
+        using (UnityWebRequest request = UnityWebRequest.PostWwwForm("http://localhost:8081/api/v1/critterons", json))
+        {
+            // Establece el tipo de contenido como JSON
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            // Carga datos en pitici�n
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+
+            // Env�a la solicitud y espera
+            yield return request.SendWebRequest();
+
+            // Logs de la respuesta
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
-                // Establece el tipo de contenido como JSON
-                request.SetRequestHeader("Content-Type", "application/json");
-
-                // Carga datos en pitici�n
-                byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
-                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-                request.downloadHandler = new DownloadHandlerBuffer();
-
-                // Env�a la solicitud y espera
-                yield return request.SendWebRequest();
-
-                // Logs de la respuesta
-                if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
-                {
-                    UnityEngine.Debug.LogError("Error: " + request.error);
-                }
-                else
-                {
-                    UnityEngine.Debug.Log("Response: " + request.downloadHandler.text);
-                }
+                UnityEngine.Debug.LogError("Error: " + request.error);
+            }
+            else
+            {
+                UnityEngine.Debug.Log("Response: " + request.downloadHandler.text);
             }
         }
     }
 }
 
-    [System.Serializable]
 
-    public class Critteron
-    {
-        public string id;
-        public string name;
-        public int exp;
-        public int life;
-    }
+[System.Serializable]
+
+public class Critteron
+{
+    public string id;
+    public string name;
+    public int exp;
+    public int life;
+}
