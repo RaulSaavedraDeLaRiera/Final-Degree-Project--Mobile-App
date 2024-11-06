@@ -82,7 +82,7 @@ public class ConnectionTestScript : MonoBehaviour
     public void SendRequest()
     {
         // Crea una nueva instancia de Critteron
-        Critteron critteron = new Critteron
+        CritteronData critteron = new CritteronData
         {
             id = "30",
             name = "antomon",
@@ -94,7 +94,7 @@ public class ConnectionTestScript : MonoBehaviour
         StartCoroutine(PostCritteron(critteron));
     }
 
-    IEnumerator PostCritteron(Critteron critteron)
+    IEnumerator PostCritteron(CritteronData critteron)
     {
         // Convierte el objeto a JSON
         string json = JsonUtility.ToJson(critteron);
@@ -129,7 +129,7 @@ public class ConnectionTestScript : MonoBehaviour
 
 [System.Serializable]
 
-public class Critteron
+public class CritteronData
 {
     public string id;
     public string name;
