@@ -14,6 +14,29 @@ public class Critteron : MonoBehaviour
         Debug.Log(gameObject.name + " attacks " + target.gameObject.name);
         target.GetDamage(damage);
     }
+    public void Attack(Critteron target, AttackSelected attackSelected, float extraDamage)
+    {
+        Debug.Log(gameObject.name + " attacks " + target.gameObject.name);
+
+        switch (attackSelected)
+        {
+            case AttackSelected.none:
+                target.GetDamage(damage);
+                break;
+            case AttackSelected.normalAttack:
+                target.GetDamage((int)(damage * extraDamage));
+                break;
+            case AttackSelected.specialAttack1:
+                target.GetDamage(damage);
+                break;
+            case AttackSelected.specialAttack2:
+                target.GetDamage(damage);
+                break;
+            default:
+                break;
+        }
+      
+    }
 
     void GetDamage(int dmg)
     {

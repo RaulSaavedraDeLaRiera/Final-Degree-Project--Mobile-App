@@ -7,7 +7,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     CombatType combatType;
     [SerializeField]
-    float turnDuration = 0.5f;
+    float turnDuration = 0.5f, attackExtraDamage = 1.25f;
     [SerializeField]
     bool autoAttack = true;
 
@@ -21,6 +21,8 @@ public class CombatManager : MonoBehaviour
         enemyCritterons = new List<Critteron>();
 
     int turn = 1;
+
+    AttackSelected attackSelected;
 
     private void Start()
     {
@@ -59,12 +61,12 @@ public class CombatManager : MonoBehaviour
                 if (enemyCritterons.Contains(critteron))
                 {
                     //fin del combate, critteron enemigo derrotado
-                    Debug.Log("derrotado enemigo");
+                    EndCombat(true);
                 }
                 else
                 {
                     //fin del combate, critteron aliado derrotado
-                    Debug.Log("derrotado aliado");
+                    EndCombat(false);
                 }
                 break;
 
@@ -74,7 +76,7 @@ public class CombatManager : MonoBehaviour
                     //fin del combate, critteron enemigo derrotado
                     CancelInvoke();
 
-                    Debug.Log("derrotado enemigo");
+                    EndCombat(true);
                 }
                 else
                 {
@@ -84,21 +86,31 @@ public class CombatManager : MonoBehaviour
                         //fin del combate
                         CancelInvoke();
 
-                        Debug.Log("derrotado aliados");
+                        EndCombat(false);
                     }
                 }
                 break;
         }
     }
 
+
+    public void AttackInput(int selected)
+    {
+
+        Debug.Log("ataque seleccionado: " + selected + " en turno " + turn);
+        attackSelected = (AttackSelected)selected;
+    }
+
     void Turn()
     {
+
+       
         switch (combatType)
         {
             //comnate 1 vs 1, atacan por momentos
             case CombatType.combat1vs1:
-                if (turn % 2 != 0)
-                    allyCritterons[0].Attack(enemyCritterons[0]);
+                if (turn % 2 != 0 && (autoAttack || attackSelected != AttackSelected.none))
+                    allyCritterons[0].Attack(enemyCritterons[0], attackSelected, attackExtraDamage);
                 else
                     enemyCritterons[0].Attack(allyCritterons[0]);
 
@@ -110,8 +122,8 @@ public class CombatManager : MonoBehaviour
                 if (turn % 3 != 0)
                 {
                     // primero el del jugador
-                    if (turn % 2 != 0)
-                        allyCritterons[0].Attack(enemyCritterons[0]);
+                    if (turn % 2 != 0 && (autoAttack || attackSelected != AttackSelected.none))
+                        allyCritterons[0].Attack(enemyCritterons[0], attackSelected, attackExtraDamage);
                     //y luego el del aliado
                     else
                         allyCritterons[1].Attack(enemyCritterons[0]);
@@ -131,7 +143,22 @@ public class CombatManager : MonoBehaviour
         }
 
         turn++;
+        attackSelected = AttackSelected.none;
+    }
+
+    void EndCombat(bool win)
+    {
+        if(win)
+        {
+            Debug.Log("derrotado enemigos");
+        }
+        else
+        {
+            Debug.Log("derrotado aliados");
+        }
+
     }
 }
 
 public enum CombatType { combat1vs1, combat2vs1 }
+public enum AttackSelected {none, normalAttack, specialAttack1, specialAttack2 }
