@@ -1,0 +1,4 @@
+GET/POST http://localhost:8081/api/v1/user
+GET/POST http://localhost:8081/api/v1/user/{id}
+
+PATH http://localhost:8081/api/v1/user/{id}?fieldName=userData.name&newValue={newValue}
