@@ -10532,7 +10532,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3928640447317372726, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1393697827}
   m_SourcePrefab: {fileID: 100100000, guid: 6614e4ba135496c48b3fe83c08a1cd6d, type: 3}
 --- !u!1 &1043828341
 GameObject:
@@ -14551,6 +14555,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1390126967}
   m_Mesh: {fileID: 3852690094728800442, guid: 49fec3a4d4a6fbb4996489f9dabd90d7, type: 3}
+--- !u!1 &1393697825 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3928640447317372726, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1035816448}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1393697827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393697825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e280abd7b9a5ee140bbb0368eff7111f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hotelWidth: 10
+  hotelHeight: 10
+  moveSpeed: 1
 --- !u!114 &1433098254 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 555157187393865471, guid: dd345f467ab36634385ec9473e7ee884,
