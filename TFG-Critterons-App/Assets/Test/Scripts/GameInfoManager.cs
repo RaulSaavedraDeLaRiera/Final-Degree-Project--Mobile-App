@@ -33,7 +33,7 @@ public class GameInfoManager : MonoBehaviour
 
     private IEnumerator gameInfoRequest()
     {
-        string url = "http://localhost:8081/api/v1/gameinfo";
+        string url = "http://localhost:8080/api/v1/gameinfo";
 
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {

@@ -16,6 +16,9 @@ public class FornitureService {
     private final GameInfoService gameInfoService;
 
     public void save(Forniture forniture) {
+        if (forniture.getId() == null || forniture.getId().isEmpty()) {
+            forniture.setId(null);
+        }
         fornitureRepository.save(forniture);
         gameInfoService.addForniture(forniture.getId());
     }

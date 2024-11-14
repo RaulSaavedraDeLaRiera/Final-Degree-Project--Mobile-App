@@ -1,6 +1,7 @@
 package com.tfg_data_base.tfg.GameInfo;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,22 @@ public class GameInfoController {
     @PostMapping("/gameinfo")
     public void setGameInfo(@RequestBody GameInfo gameInfo) {
         gameInfoService.setGameInfo(gameInfo);
+    }
+
+    @PostMapping("/gameinfo/initialize")
+    public String initializeGameInfo() {
+        gameInfoService.initializeEmptyGameInfo();
+        return "GameInfo initialized with empty lists and 7 days of rewards.";
+    }
+
+    @PostMapping("/gameinfo/weekRewards")
+    public void updateWeekRewards(@RequestBody GameInfo.WeekRewards weekRewards) {
+        gameInfoService.updateWeekRewards(weekRewards);
+    }
+
+    @PostMapping("/gameinfo/weekRewards/{day}")
+    public void updateDayReward(@PathVariable String day, @RequestParam Integer reward1, @RequestParam Integer reward2) {
+        gameInfoService.updateDayReward(day, reward1, reward2);
     }
 
     public void addCritteron(@PathVariable String critteronId) {

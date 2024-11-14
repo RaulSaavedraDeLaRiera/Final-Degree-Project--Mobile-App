@@ -1,4 +1,7 @@
 package com.tfg_data_base.tfg.GameInfo;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,28 @@ public class GameInfoService {
     public void save(GameInfo gameInfo) {
         gameInfo.setId(GAME_INFO_ID);
         gameInfoRepository.save(gameInfo);
+    }
+
+    public void updateWeekRewards(GameInfo.WeekRewards newWeekRewards) {
+        GameInfo gameInfo = getGameInfo();
+        gameInfo.setWeekRewards(newWeekRewards);
+        save(gameInfo);
+    }
+
+    public void updateDayReward(String day, Integer reward1, Integer reward2) {
+        GameInfo gameInfo = getGameInfo();
+        if (gameInfo.getWeekRewards() == null) {
+            gameInfo.setWeekRewards(new GameInfo.WeekRewards());
+        }
+
+        Map<String, GameInfo.WeekRewards.DayReward> days = gameInfo.getWeekRewards().getDays();
+        if (days == null) {
+            gameInfo.getWeekRewards().setDays(new HashMap<>());
+            days = gameInfo.getWeekRewards().getDays();
+        }
+
+        days.put(day, new GameInfo.WeekRewards.DayReward(reward1, reward2));
+        save(gameInfo);
     }
 
     public void addCritteron(String critteronID) {
@@ -89,4 +114,22 @@ public class GameInfoService {
         save(gameInfo);
     }
 
+    public void initializeEmptyGameInfo() {
+        if (!gameInfoRepository.existsById(GAME_INFO_ID)) {
+            GameInfo emptyGameInfo = new GameInfo();
+            emptyGameInfo.setId(GAME_INFO_ID);
+
+            GameInfo.WeekRewards weekRewards = new GameInfo.WeekRewards();
+            Map<String, GameInfo.WeekRewards.DayReward> days = new HashMap<>();
+            for (int i = 1; i <= 7; i++) {
+                days.put(String.valueOf(i), new GameInfo.WeekRewards.DayReward(0, 0));
+            }
+            weekRewards.setDays(days);
+            emptyGameInfo.setWeekRewards(weekRewards);
+
+            gameInfoRepository.save(emptyGameInfo);
+        } else {
+            System.out.println("El documento GameInfo ya existe en la base de datos.");
+        }
+    }
 }

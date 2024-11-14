@@ -28,7 +28,7 @@ public class EntityCreator : MonoBehaviour
     {
         foreach (string critteronID in gameInfoManager.GetCritteronIDs())
         {
-            string url = $"http://localhost:8081/api/v1/critteron/{critteronID}";
+            string url = $"http://localhost:8080/api/v1/critteron/{critteronID}";
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
                 yield return request.SendWebRequest();
@@ -52,7 +52,7 @@ public class EntityCreator : MonoBehaviour
     {
         foreach (string fornitureID in gameInfoManager.GetFornitureIDs())
         {
-            string url = $"http://localhost:8081/api/v1/forniture/{fornitureID}";
+            string url = $"http://localhost:8080/api/v1/forniture/{fornitureID}";
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
                 yield return request.SendWebRequest();
@@ -76,7 +76,7 @@ public class EntityCreator : MonoBehaviour
     {
         foreach (string userID in gameInfoManager.GetUserIDs())
         {
-            string url = $"http://localhost:8081/api/v1/user/{userID}";
+            string url = $"http://localhost:8080/api/v1/user/{userID}";
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
                 yield return request.SendWebRequest();

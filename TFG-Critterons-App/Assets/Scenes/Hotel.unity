@@ -128,7 +128,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 144439818}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 144439819}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9768df2cd135c76418cd17b5425254c2, type: 3}
@@ -808,6 +808,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 39833592}
+  - component: {fileID: 39833593}
   m_Layer: 0
   m_Name: Children_Room_2
   m_TagString: Untagged
@@ -894,6 +895,19 @@ Transform:
   - {fileID: 1208596022}
   m_Father: {fileID: 697125813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &39833593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39833591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4292f91bc49c56840ab7da1b82c1c4a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fornitures: []
 --- !u!1 &40268737
 GameObject:
   m_ObjectHideFlags: 0
@@ -2055,8 +2069,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1553370147712389706, guid: 9cf807e4867afa743ad982f89a424896,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 144439820}
   m_SourcePrefab: {fileID: 100100000, guid: 9cf807e4867afa743ad982f89a424896, type: 3}
+--- !u!1 &144439819 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1553370147712389706, guid: 9cf807e4867afa743ad982f89a424896,
+    type: 3}
+  m_PrefabInstance: {fileID: 144439818}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &144439820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144439819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e0b08b6950af3479dc36d31c8db054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rooms:
+  - {fileID: 1569786158}
+  - {fileID: 263783033}
+  - {fileID: 1389260490}
+  - {fileID: 39833591}
+  - {fileID: 929253496}
+  - {fileID: 1301269608}
 --- !u!1 &146654707
 GameObject:
   m_ObjectHideFlags: 0
@@ -3336,6 +3379,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 263783034}
+  - component: {fileID: 263783035}
   m_Layer: 0
   m_Name: Greenhouse_7
   m_TagString: Untagged
@@ -3393,6 +3437,19 @@ Transform:
   - {fileID: 377431014}
   m_Father: {fileID: 697125813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &263783035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263783033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4292f91bc49c56840ab7da1b82c1c4a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fornitures: []
 --- !u!1 &269502960
 GameObject:
   m_ObjectHideFlags: 0
@@ -9521,6 +9578,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 929253497}
+  - component: {fileID: 929253498}
   m_Layer: 0
   m_Name: Bedroom_6
   m_TagString: Untagged
@@ -9567,6 +9625,19 @@ Transform:
   - {fileID: 1772751653}
   m_Father: {fileID: 697125813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &929253498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929253496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4292f91bc49c56840ab7da1b82c1c4a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fornitures: []
 --- !u!1 &941215526
 GameObject:
   m_ObjectHideFlags: 0
@@ -13097,6 +13168,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1301269609}
+  - component: {fileID: 1301269610}
   m_Layer: 0
   m_Name: Office_1
   m_TagString: Untagged
@@ -13154,6 +13226,19 @@ Transform:
   - {fileID: 1267704772}
   m_Father: {fileID: 697125813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1301269610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301269608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4292f91bc49c56840ab7da1b82c1c4a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fornitures: []
 --- !u!1 &1312803192
 GameObject:
   m_ObjectHideFlags: 0
@@ -14325,6 +14410,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1389260491}
+  - component: {fileID: 1389260492}
   m_Layer: 0
   m_Name: Study_Room_11
   m_TagString: Untagged
@@ -14389,6 +14475,19 @@ Transform:
   - {fileID: 1759197167}
   m_Father: {fileID: 697125813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1389260492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389260490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4292f91bc49c56840ab7da1b82c1c4a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fornitures: []
 --- !u!1 &1390012981
 GameObject:
   m_ObjectHideFlags: 0
@@ -15510,6 +15609,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1569786159}
+  - component: {fileID: 1569786160}
   m_Layer: 0
   m_Name: Bedroom_12
   m_TagString: Untagged
@@ -15559,6 +15659,19 @@ Transform:
   - {fileID: 2020473574}
   m_Father: {fileID: 697125813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1569786160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569786158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4292f91bc49c56840ab7da1b82c1c4a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fornitures: []
 --- !u!1 &1571049746
 GameObject:
   m_ObjectHideFlags: 0

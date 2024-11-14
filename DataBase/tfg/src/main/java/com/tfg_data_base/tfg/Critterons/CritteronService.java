@@ -16,8 +16,11 @@ public class CritteronService {
     private final GameInfoService gameInfoService;
 
     public void save(Critteron critteron) {
+        if (critteron.getId() == null || critteron.getId().isEmpty()) {
+            critteron.setId(null);
+        }
         critteronRepository.save(critteron);
-        gameInfoService.addCritteron(critteron.getId());  
+        gameInfoService.addCritteron(critteron.getId());
     }
 
     public List<Critteron> findAll() {
@@ -30,6 +33,6 @@ public class CritteronService {
 
     public void deleteById(String id) {
         critteronRepository.deleteById(id);
-        gameInfoService.removeCritteron(id);  
+        gameInfoService.removeCritteron(id);
     }
 }
