@@ -5,15 +5,13 @@ using UnityEngine;
 public class RoomInfo : MonoBehaviour
 {
     [SerializeField]
-    List<GameObject> fornitures;
-  
-    void Start()
-    {
-        
-    }
+    List<HotelObject> fornitures;
 
-    void Update()
+    public void InitialiceRoom(List<string> boughtObjectsID)
     {
-        
+        foreach (var item in fornitures)
+        {
+            item.InitialiceObject(boughtObjectsID.Contains(item.name));
+        }
     }
 }

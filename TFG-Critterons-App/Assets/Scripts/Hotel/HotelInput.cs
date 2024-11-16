@@ -40,12 +40,23 @@ public class HotelInput : MonoBehaviour
                     critteronPopUp.EnterAnimation();
                     inputEnable = false;
                     break;
-                case "OwnedObject":
-                    ownedObjectPopUp.EnterAnimation();
-                    inputEnable = false;
-                    break;
-                case "ObjectToBuy":
-                    objectToBuyPopUp.EnterAnimation();
+                //case "OwnedObject":
+                //    ownedObjectPopUp.EnterAnimation();
+                //    inputEnable = false;
+                //    break;
+                //case "ObjectToBuy":
+                //    objectToBuyPopUp.EnterAnimation();
+                //    inputEnable = false;
+                //    break;
+                case "HotelObject":
+
+                    var hObject = target.GetComponent<HotelObject>();
+
+                    if(hObject.Bought)
+                        ownedObjectPopUp.EnterAnimation();
+                    else
+                        objectToBuyPopUp.EnterAnimation();
+
                     inputEnable = false;
                     break;
             }

@@ -7,6 +7,7 @@ TagManager:
   - Critteron
   - OwnedObject
   - ObjectToBuy
+  - HotelObject
   layers:
   - Default
   - TransparentFX
