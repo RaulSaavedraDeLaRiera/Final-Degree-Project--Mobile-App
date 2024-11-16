@@ -1,6 +1,6 @@
 package com.tfg_data_base.tfg.Users;
+
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -22,9 +22,9 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/user")
+    @PostMapping("/newUser")
     public void save(@RequestBody User user) {
-        userService.save(user);
+        userService.save(user); 
     }
 
     @GetMapping("/user")
@@ -47,8 +47,8 @@ public class UserController {
         userService.save(user);
     }
 
-     @PatchMapping("/user/{id}")
-    public void updateUserField(@PathVariable String id, @RequestParam String fieldName, @RequestParam Object newValue) {
-        userService.updateUserField(id, fieldName, newValue);
+    @PatchMapping("/user/{id}")
+    public void updateUserField(@PathVariable String id, @RequestBody UserUpdateRequest userUpdateRequest) {
+        userService.updateUserField(id, userUpdateRequest.getFieldName(), userUpdateRequest.getNewValue());
     }
 }

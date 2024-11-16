@@ -1,17 +1,14 @@
 package com.tfg_data_base.tfg.Critterons;
 
 import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import lombok.Data;
 
 @Document(value = "Critteron")
 @Data
 public class Critteron {
 @Id
-
     private String id;
     private String name;
     private Integer levelUnlock;

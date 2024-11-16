@@ -1,6 +1,7 @@
 package com.tfg_data_base.tfg.Users;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.tfg_data_base.tfg.GameInfo.GameInfoService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tfg_data_base.tfg.UserInfo.UserInfoService;
+import com.tfg_data_base.tfg.Users.User.CritteronUser;
+import com.tfg_data_base.tfg.Users.User.FurnitureOwned;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,16 +22,57 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final GameInfoService gameInfoService;
+    private final UserInfoService userInfoService;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
-
+    /**
+     * Se llama cuando se crea un nuevo usuario
+     * @param user
+     */
     public void save(User user) {
+        if (user.getUserData() == null) {
+            user.setUserData(new User.UserData());
+        }
+        if (user.getUserData().getName() == null) {
+            user.getUserData().setName("");
+        }
+    
+        if (user.getSocialStats() == null) {
+            user.setSocialStats(new ArrayList<>());
+        }
+    
+        if (user.getPersonalStats() == null) {
+            user.setPersonalStats(new User.PersonalStats());
+        }
+    
+        if (user.getCritterons() == null) {
+            user.setCritterons(new ArrayList<>());
+        }
+    
+        if (user.getFurnitureOwned() == null) {
+            user.setFurnitureOwned(new ArrayList<>());
+        }
+    
+        User.UserData userData = user.getUserData();
+        if (userData.getLevel() == null) userData.setLevel(0);
+        if (userData.getExperience() == null) userData.setExperience(0);
+        if (userData.getMoney() == null) userData.setMoney(0);
+        if (userData.getCurrentCritteron() == null) userData.setCurrentCritteron("");
+    
+        User.PersonalStats personalStats = user.getPersonalStats();
+        if (personalStats.getGlobalSteps() == null) personalStats.setGlobalSteps(0);
+        if (personalStats.getDaysStreak() == null) personalStats.setDaysStreak(0);
+        if (personalStats.getWeekSteps() == null) personalStats.setWeekSteps(0);
+        if (personalStats.getCombatWins() == null) personalStats.setCombatWins(0);
+        if (personalStats.getCritteronsOwned() == null) personalStats.setCritteronsOwned(0);
+        if (personalStats.getPercentHotel() == null) personalStats.setPercentHotel(0);
+    
         userRepository.save(user);
-        gameInfoService.addUser(user.getId());
+        userInfoService.addUser(user.getId());
     }
+    
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -39,12 +84,49 @@ public class UserService {
 
     public void deleteById(String id) {
         userRepository.deleteById(id);
-        gameInfoService.removeUser(id);
+        userInfoService.removeUser(id);
     }
 
-    public void updateUserField(String userId, String fieldName, Object newValue) {
-        Query query = new Query(Criteria.where("id").is(userId));
+
+    /**
+     * Actualizar un parametro de un usuario en concreto
+     * @param userId
+     * @param fieldName
+     * @param newValue
+     */
+public void updateUserField(String userId, String fieldName, Object newValue) {
+    Query query = new Query(Criteria.where("id").is(userId));
+
+    // Modificar / añadir critteron
+    if ("critterons".equals(fieldName)) {
+        CritteronUser newCritteron = new ObjectMapper().convertValue(newValue, CritteronUser.class);
+        Query critteronQuery = new Query(Criteria.where("id").is(userId)
+            .and("critterons.critteronID").is(newCritteron.getCritteronID()));
+        
+        if (mongoTemplate.exists(critteronQuery, User.class)) {
+            Update update = new Update()
+                .set("critterons.$.level", newCritteron.getLevel())
+                .set("critterons.$.currentLife", newCritteron.getCurrentLife())
+                .set("critterons.$.startInfo", newCritteron.getStartInfo());
+            
+            mongoTemplate.updateFirst(critteronQuery, update, User.class);
+        } else {
+            mongoTemplate.updateFirst(query, new Update().addToSet("critterons", newCritteron), User.class);
+        }
+    // Añadir mueble comprado
+    } else if ("furnitureOwned".equals(fieldName)) {
+        String newFurnitureID = (String) newValue; 
+        Query furnitureQuery = new Query(Criteria.where("furnitureOwned.furnitureID").is(newFurnitureID));
+        
+        if (!mongoTemplate.exists(furnitureQuery, User.class)) {
+            Update update = new Update().addToSet("furnitureOwned", new FurnitureOwned(newFurnitureID));
+            mongoTemplate.updateFirst(query, update, User.class);
+        }
+    } else {
         Update update = new Update().set(fieldName, newValue);
         mongoTemplate.updateFirst(query, update, User.class);
     }
 }
+    
+}
+

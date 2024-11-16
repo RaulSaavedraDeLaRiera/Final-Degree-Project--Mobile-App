@@ -1,7 +1,6 @@
 package com.tfg_data_base.tfg.GameInfo;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -11,37 +10,56 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Map;
+
+
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class GameInfoController {
     private final GameInfoService gameInfoService;
 
+    /**
+     * Obtengo el gameInfo
+     * @return
+     */
     @GetMapping("/gameinfo")
     public GameInfo getGameInfo() {
         return gameInfoService.getGameInfo();
     }
 
-    @PostMapping("/gameinfo")
-    public void setGameInfo(@RequestBody GameInfo gameInfo) {
-        gameInfoService.setGameInfo(gameInfo);
-    }
-
+    /**
+     * Crea en la base de datos un gameinfo inicial
+     * @return
+     */
     @PostMapping("/gameinfo/initialize")
     public String initializeGameInfo() {
         gameInfoService.initializeEmptyGameInfo();
-        return "GameInfo initialized with empty lists and 7 days of rewards.";
+        return "GameInfo initialized";
     }
 
+    /**
+     * Modificar las recompensas semanales en conjunto
+     * @param weekRewards
+     */
     @PostMapping("/gameinfo/weekRewards")
     public void updateWeekRewards(@RequestBody GameInfo.WeekRewards weekRewards) {
         gameInfoService.updateWeekRewards(weekRewards);
     }
 
+    /**
+     * Modificar las recompensas semanales de un dia en especifico
+     * @param day
+     * @param reward1
+     * @param reward2
+     */
     @PostMapping("/gameinfo/weekRewards/{day}")
-    public void updateDayReward(@PathVariable String day, @RequestParam Integer reward1, @RequestParam Integer reward2) {
+    public void updateDayReward(@PathVariable String day, @RequestBody Map<String, Integer> rewards) {
+        Integer reward1 = rewards.get("reward1");
+        Integer reward2 = rewards.get("reward2");
         gameInfoService.updateDayReward(day, reward1, reward2);
     }
+
 
     public void addCritteron(@PathVariable String critteronId) {
         gameInfoService.addCritteron(critteronId);
@@ -51,19 +69,11 @@ public class GameInfoController {
         gameInfoService.removeCritteron(critteronId);
     }
 
-    public void addUser(@PathVariable String userId) {
-        gameInfoService.addUser(userId);
-    }
-
-    public void removeUser(@PathVariable String userId) {
-        gameInfoService.removeUser(userId);
-    }
-   
-    public void addForniture(@PathVariable String fornitureId) {
-        gameInfoService.addForniture(fornitureId);
+    public void addForniture(@PathVariable String furnitureId) {
+        gameInfoService.addFurniture(furnitureId);
     }
   
-    public void removeForniture(@PathVariable String fornitureId) {
-        gameInfoService.removeForniture(fornitureId);
+    public void removeForniture(@PathVariable String furnitureId) {
+        gameInfoService.removeFurniture(furnitureId);
     }
 }

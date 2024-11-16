@@ -12,11 +12,12 @@ import lombok.Data;
 public class User {
     @Id
     private String id;
+    private String password;
     private UserData userData;
     private List<SocialStat> socialStats;
     private PersonalStats personalStats;
-    private List<Critteron> critterons;
-    private List<FornitureOwned> fornitureOwned;
+    private List<CritteronUser> critterons;
+    private List<FurnitureOwned> furnitureOwned;
 
     @Data
     public static class UserData {
@@ -43,7 +44,7 @@ public class User {
     }
 
     @Data
-    public static class Critteron {
+    public static class CritteronUser {
         private String critteronID;
         private Integer level;
         private Float currentLife;
@@ -60,7 +61,10 @@ public class User {
     }
 
     @Data
-    public static class FornitureOwned {
-        private String fornitureID;
+    public static class FurnitureOwned {
+        private String furnitureID;
+            public FurnitureOwned(String furnitureID) {
+            this.furnitureID = furnitureID;
+        }
     }
 }

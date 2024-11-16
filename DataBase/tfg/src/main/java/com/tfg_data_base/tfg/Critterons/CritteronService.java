@@ -2,11 +2,8 @@ package com.tfg_data_base.tfg.Critterons;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-
 import com.tfg_data_base.tfg.GameInfo.GameInfoService;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,7 +19,7 @@ public class CritteronService {
         critteronRepository.save(critteron);
         gameInfoService.addCritteron(critteron.getId());
     }
-
+    
     public List<Critteron> findAll() {
         return critteronRepository.findAll();
     }

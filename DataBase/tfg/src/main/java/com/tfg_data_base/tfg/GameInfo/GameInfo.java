@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
@@ -12,11 +11,10 @@ import lombok.Data;
 @Document(value = "GameInfo")
 @Data
 public class GameInfo {
-    @Id
-    private String id; 
+    // El id sera unico ya que solo exitira un json con la informacion
+    private String id = "GAME_INFO_ID";
     private List<Critteron> critterons = new ArrayList<>();
-    private List<Forniture> forniture = new ArrayList<>();
-    private List<User> users = new ArrayList<>();
+    private List<Furniture> furniture = new ArrayList<>();
     private WeekRewards weekRewards;
 
     @Data
@@ -25,13 +23,8 @@ public class GameInfo {
     }
 
     @Data
-    public static class Forniture {
-        private String fornitureID;
-    }
-
-    @Data
-    public static class User {
-        private String userID;
+    public static class Furniture {
+        private String furnitureID;
     }
 
     @Data
