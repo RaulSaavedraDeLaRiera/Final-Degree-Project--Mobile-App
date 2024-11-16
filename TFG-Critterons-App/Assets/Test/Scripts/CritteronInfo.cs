@@ -11,7 +11,19 @@ public class CritteronInfo
     public int life;
     public int basicDamage;
     public int defense;
-    public List<Attack> attacks;
+    public Attack[] attacks = new Attack[2];
+
+    public CritteronInfo(string id, string name, string mesh,
+        int levelUnlock, int life, int basicDamage, int defense)
+    {
+        this.id = id;
+        this.name = name;
+        this.mesh = mesh;
+        this.levelUnlock = levelUnlock;
+        this.life = life;
+        this.basicDamage = basicDamage;
+        this.defense = defense;
+    }
 
     [Serializable]
     public class Attack

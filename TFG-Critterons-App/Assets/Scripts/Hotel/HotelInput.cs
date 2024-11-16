@@ -7,6 +7,8 @@ public class HotelInput : MonoBehaviour
     //habra que cambiarlo a un popup segun tipo
     [SerializeField]
     ButtonActions critteronPopUp, ownedObjectPopUp, objectToBuyPopUp;
+    [SerializeField]
+    CritteronInfoPopUp infoCritteronPopUp;
 
     bool inputEnable = true;
 
@@ -37,7 +39,11 @@ public class HotelInput : MonoBehaviour
             switch (target.tag)
             {
                 case "Critteron":
+                    var hCritteron = target.GetComponent<HotelCritteron>();
+
                     critteronPopUp.EnterAnimation();
+                    infoCritteronPopUp.AssignInfo(hCritteron.InfoCritteron);
+
                     inputEnable = false;
                     break;
                 //case "OwnedObject":

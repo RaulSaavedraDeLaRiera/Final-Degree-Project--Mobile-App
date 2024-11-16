@@ -908,6 +908,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fornitures: []
+  critteronsInRoom: []
+  entryPointToCritterons: {fileID: 0}
 --- !u!1 &40268737
 GameObject:
   m_ObjectHideFlags: 0
@@ -2011,6 +2013,11 @@ PrefabInstance:
       propertyPath: ownedObjectPopUp
       value: 
       objectReference: {fileID: 239944231}
+    - target: {fileID: 430850816431273983, guid: 9cf807e4867afa743ad982f89a424896,
+        type: 3}
+      propertyPath: infoCritteronPopUp
+      value: 
+      objectReference: {fileID: 1433098256}
     - target: {fileID: 1469899865960724521, guid: 9cf807e4867afa743ad982f89a424896,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2094,6 +2101,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomsRoot: {fileID: 697125813}
+  critteronsRoot: {fileID: 323980976}
+  critteronPrefab: {fileID: 4919490424931320453, guid: e2f7dc6c2df2ee240ab528ff024282ec,
+    type: 3}
 --- !u!1 &146654707
 GameObject:
   m_ObjectHideFlags: 0
@@ -3444,6 +3454,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fornitures: []
+  critteronsInRoom: []
+  entryPointToCritterons: {fileID: 0}
 --- !u!1 &269502960
 GameObject:
   m_ObjectHideFlags: 0
@@ -4025,6 +4037,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 288163213}
   m_Mesh: {fileID: 1536501902401793897, guid: 49fec3a4d4a6fbb4996489f9dabd90d7, type: 3}
+--- !u!1 &290303149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 290303150}
+  m_Layer: 0
+  m_Name: roomTP
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &290303150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290303149}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.912, y: 1.36, z: 1.61}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 929253497}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &290763933
 GameObject:
   m_ObjectHideFlags: 0
@@ -4274,6 +4317,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 309667405}
   m_Mesh: {fileID: -2300024699317532114, guid: 49fec3a4d4a6fbb4996489f9dabd90d7, type: 3}
+--- !u!1 &323980975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 323980976}
+  m_Layer: 0
+  m_Name: Critterons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &323980976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323980975}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &325267590
 GameObject:
   m_ObjectHideFlags: 0
@@ -7624,7 +7698,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697125812}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.9848078, z: -0.17364816, w: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0.7, y: 1, z: 1.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7636,7 +7710,7 @@ Transform:
   - {fileID: 39833592}
   - {fileID: 1301269609}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 20, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &719394537
 GameObject:
   m_ObjectHideFlags: 0
@@ -9580,6 +9654,7 @@ Transform:
   m_Children:
   - {fileID: 2103501430}
   - {fileID: 1918058051}
+  - {fileID: 290303150}
   m_Father: {fileID: 697125813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &929253498
@@ -9597,6 +9672,10 @@ MonoBehaviour:
   fornitures:
   - {fileID: 2012139663}
   - {fileID: 1320876891}
+  critteronsInRoom:
+  - {fileID: 0}
+  - {fileID: 0}
+  entryPointToCritterons: {fileID: 290303150}
 --- !u!1 &941215526
 GameObject:
   m_ObjectHideFlags: 0
@@ -10106,6 +10185,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2324698749747111985, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2979332591976049009, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
       propertyPath: m_Pivot.x
@@ -10216,6 +10300,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: set_InputEnable
       objectReference: {fileID: 0}
+    - target: {fileID: 5406765741664877320, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5523372123089390190, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -10235,11 +10324,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: set_InputEnable
+      objectReference: {fileID: 0}
+    - target: {fileID: 5991513577263902381, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6881007230290526444, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
       propertyPath: m_Name
       value: CanvasHotel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7025564628928404397, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7025564628928404397, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10558,6 +10662,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enviroment
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146984447735892205, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146984447735892205, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9848078
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146984447735892205, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.17364816
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146984447735892205, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146984447735892205, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146984447735892205, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13198,6 +13332,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fornitures: []
+  critteronsInRoom: []
+  entryPointToCritterons: {fileID: 0}
 --- !u!1 &1312803192
 GameObject:
   m_ObjectHideFlags: 0
@@ -13403,7 +13539,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -14492,6 +14628,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fornitures: []
+  critteronsInRoom: []
+  entryPointToCritterons: {fileID: 0}
 --- !u!1 &1390012981
 GameObject:
   m_ObjectHideFlags: 0
@@ -14689,6 +14827,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a22f09cd87849745957d6f236c1179b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1433098256 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1165444346099779170, guid: dd345f467ab36634385ec9473e7ee884,
+    type: 3}
+  m_PrefabInstance: {fileID: 978468337}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f05f9c44c163e94489d61baa3ddc2d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1438419512
@@ -15676,6 +15826,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fornitures: []
+  critteronsInRoom: []
+  entryPointToCritterons: {fileID: 0}
 --- !u!1 &1571049746
 GameObject:
   m_ObjectHideFlags: 0
@@ -19100,7 +19252,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -21063,3 +21215,4 @@ SceneRoots:
   - {fileID: 978468337}
   - {fileID: 697125813}
   - {fileID: 170247610}
+  - {fileID: 323980976}

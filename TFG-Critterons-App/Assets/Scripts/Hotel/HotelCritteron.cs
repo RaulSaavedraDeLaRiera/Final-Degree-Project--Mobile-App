@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class HotelCritteron : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    [SerializeField]
+    CritteronInfo infoCritteron;
+
+    [SerializeField]
+    Transform visualRoot;
+
+    public CritteronInfo InfoCritteron
     {
-        
+        get
+        {
+            return infoCritteron;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    //animato etc
+
+    public void InitialiceCritteron(CritteronInfo info)
     {
-        
+        infoCritteron = info;
+
+        gameObject.name = infoCritteron.name;
+
+        var visual = visualRoot.Find(infoCritteron.mesh);
+
+        visual.gameObject.SetActive(true);
     }
 }

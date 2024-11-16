@@ -5,10 +5,13 @@ using UnityEngine;
 public class HotelManager : MonoBehaviour
 {
     [SerializeField]
-    Transform roomsRoot;
+    Transform roomsRoot, critteronsRoot;
+    [SerializeField]
+    GameObject critteronPrefab;
    
     List<RoomInfo> rooms = new List<RoomInfo>();
     List<Critteron> userCritterons;
+
 
     void Awake()
     {
@@ -21,6 +24,7 @@ public class HotelManager : MonoBehaviour
     void Start()
     {
         InitialiceRooms();
+        InitialiceCritterons();
     }
 
     void InitialiceRooms()
@@ -34,6 +38,35 @@ public class HotelManager : MonoBehaviour
         foreach (var room in rooms)
         {
             room.InitialiceRoom(data);
+        }
+    }
+
+    void InitialiceCritterons()
+    {
+        //datos del servidor
+        List<CritteronInfo> data = new List<CritteronInfo>();
+        CritteronInfo critteron1 = new CritteronInfo("c1", "bird", "birdMesh",
+            1, 10, 3, 2);
+        data.Add(critteron1);
+
+
+        foreach (var critteron in data)
+        {
+            RoomInfo room = null;
+            //presuponemos que siempre habra heucos suficiente para los critterons
+            do
+            {
+                var r = rooms[Random.Range(0, rooms.Count)];
+                if (r.AvailableSpace)
+                    room = r;
+
+            } while (room == null);
+
+            var hotelCritteron = Instantiate<GameObject>(critteronPrefab,
+                room.EntryPoint.position, room.EntryPoint.rotation, critteronsRoot)
+                .GetComponent<HotelCritteron>();
+
+            hotelCritteron.InitialiceCritteron(critteron);
         }
     }
 }
