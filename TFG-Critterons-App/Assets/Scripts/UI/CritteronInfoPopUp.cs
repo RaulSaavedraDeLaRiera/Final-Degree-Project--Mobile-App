@@ -11,7 +11,7 @@ public class CritteronInfoPopUp : MonoBehaviour
     [SerializeField]
     Slider healthS;
 
-    public void AssignInfo(CritteronInfo cInfo)
+    public void AssignInfo(I_Critteron cInfo)
     {
         nameC.text = cInfo.name;
         healthC.text = "3";

@@ -24,6 +24,8 @@ public class HotelMove : MonoBehaviour
 
     void Start()
     {
+
+        RequestGameInfo.Instance.GetAllCritteron();
         isDragging = false;
         moveSpeed /= 100;
 

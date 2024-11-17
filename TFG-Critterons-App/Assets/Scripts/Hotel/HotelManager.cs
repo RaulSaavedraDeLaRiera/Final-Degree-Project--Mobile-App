@@ -44,8 +44,8 @@ public class HotelManager : MonoBehaviour
     void InitialiceCritterons()
     {
         //datos del servidor
-        List<CritteronInfo> data = new List<CritteronInfo>();
-        CritteronInfo critteron1 = new CritteronInfo("c1", "bird", "birdMesh",
+        List<I_Critteron> data = new List<I_Critteron>();
+        I_Critteron critteron1 = new I_Critteron("c1", "bird", "birdMesh",
             1, 10, 3, 2);
         data.Add(critteron1);
 

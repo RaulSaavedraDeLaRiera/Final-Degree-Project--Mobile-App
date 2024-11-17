@@ -11,6 +11,7 @@ public class Critteron {
 @Id
     private String id;
     private String name;
+    private String mesh;
     private Integer levelUnlock;
     private Integer life;
     private Integer basicDamage;

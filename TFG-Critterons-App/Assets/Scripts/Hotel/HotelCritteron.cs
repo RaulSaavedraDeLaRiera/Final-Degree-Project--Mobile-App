@@ -6,12 +6,12 @@ public class HotelCritteron : MonoBehaviour
 {
 
     [SerializeField]
-    CritteronInfo infoCritteron;
+    I_Critteron infoCritteron;
 
     [SerializeField]
     Transform visualRoot;
 
-    public CritteronInfo InfoCritteron
+    public I_Critteron InfoCritteron
     {
         get
         {
@@ -21,7 +21,7 @@ public class HotelCritteron : MonoBehaviour
 
     //animato etc
 
-    public void InitialiceCritteron(CritteronInfo info)
+    public void InitialiceCritteron(I_Critteron info)
     {
         infoCritteron = info;
 

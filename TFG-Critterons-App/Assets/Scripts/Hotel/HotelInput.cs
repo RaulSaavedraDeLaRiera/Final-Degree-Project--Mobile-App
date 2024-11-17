@@ -41,6 +41,7 @@ public class HotelInput : MonoBehaviour
                 case "Critteron":
                     var hCritteron = target.GetComponent<HotelCritteron>();
 
+                   
                     critteronPopUp.EnterAnimation();
                     infoCritteronPopUp.AssignInfo(hCritteron.InfoCritteron);
 

@@ -11,6 +11,7 @@ public class Furniture {
 @Id
     private String id;
     private String name;
+    private String mesh;
     private Integer price;
     private Float percent;
     private Integer type;
