@@ -116,6 +116,10 @@ public class ServerConnection : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Antes de inicializar el gameInfo, el UserInfo y cambiar de escena comprobamos que el server se haya conectado correctamente
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator WaitForServerReady()
     {
         float timeout = 30f;
@@ -222,13 +226,13 @@ public class ServerConnection : MonoBehaviour
             }
         }
     }
-
     /// <summary>
-    /// Pedimos la informacion de un critteron a traves de su id
+    /// Pedimos la información de un critteron a través de su ID
     /// </summary>
     /// <param name="id"></param>
+    /// <param name="callback"></param>
     /// <returns></returns>
-    public I_Critteron GetCritteronByID(string id)
+    public IEnumerator GetCritteronByID(string id, Action<I_Critteron> callback)
     {
         if (critteronIDs.Contains(id))
         {
@@ -237,7 +241,8 @@ public class ServerConnection : MonoBehaviour
 
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
-                request.SendWebRequest();
+                yield return request.SendWebRequest();
+
                 if (request.result == UnityWebRequest.Result.Success)
                 {
                     string json = request.downloadHandler.text;
@@ -245,36 +250,45 @@ public class ServerConnection : MonoBehaviour
                 }
             }
 
-            return i_critteron;
+            callback(i_critteron);
         }
         else
         {
             UnityEngine.Debug.LogError("Critteron not found");
-            return null;
+            callback(null);
         }
     }
 
     /// <summary>
     /// Lista con todos los critterons de la base de datos
     /// </summary>
+    /// <param name="callback"></param>
     /// <returns></returns>
-    public List<I_Critteron> GetAllCritteron()
+    public IEnumerator GetAllCritteronAsync(Action<List<I_Critteron>> callback)
     {
-        List<I_Critteron> i_critteronList = null;
+        List<I_Critteron> i_critteronList = new List<I_Critteron>();
 
         foreach (string id in critteronIDs)
-            i_critteronList.Add(GetCritteronByID(id));
+        {
+            yield return StartCoroutine(GetCritteronByID(id, (critteron) =>
+            {
+                if (critteron != null)
+                {
+                    i_critteronList.Add(critteron);
+                }
+            }));
+        }
 
-        return i_critteronList;
+        callback(i_critteronList);
     }
 
-
     /// <summary>
-    /// Pedimos la informacion de un furniture a traves de su id
+    /// Pedimos la información de un furniture a través de su ID
     /// </summary>
     /// <param name="id"></param>
+    /// <param name="callback"></param>
     /// <returns></returns>
-    public I_Furniture GetFurnitureByID(string id)
+    public IEnumerator GetFurnitureByID(string id, Action<I_Furniture> callback)
     {
         if (furnitureIDs.Contains(id))
         {
@@ -283,7 +297,8 @@ public class ServerConnection : MonoBehaviour
 
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
-                request.SendWebRequest();
+                yield return request.SendWebRequest();
+
                 if (request.result == UnityWebRequest.Result.Success)
                 {
                     string json = request.downloadHandler.text;
@@ -291,30 +306,45 @@ public class ServerConnection : MonoBehaviour
                 }
             }
 
-            return i_furniture;
+            callback(i_furniture);
         }
         else
         {
             UnityEngine.Debug.LogError("Furniture not found");
-            return null;
+            callback(null);
         }
     }
 
     /// <summary>
-    /// Lista con todos los furniture de la base de datos
+    /// Lista con todos los furnitures de la base de datos
     /// </summary>
+    /// <param name="callback"></param>
     /// <returns></returns>
-    public List<I_Furniture> GetAllFurnitures()
+    public IEnumerator GetAllFurnitureAsync(Action<List<I_Furniture>> callback)
     {
-        List<I_Furniture> i_furnitureList = null;
+        List<I_Furniture> i_furnitureList = new List<I_Furniture>();
 
         foreach (string id in furnitureIDs)
-            i_furnitureList.Add(GetFurnitureByID(id));
+        {
+            yield return StartCoroutine(GetFurnitureByID(id, (furniture) =>
+            {
+                if (furniture != null)
+                {
+                    i_furnitureList.Add(furniture);
+                }
+            }));
+        }
 
-        return i_furnitureList;
+        callback(i_furnitureList);
     }
 
 
+    /// <summary>
+    /// Obtenemos a un usuario a traves de su id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="callback"></param>
+    /// <returns></returns>
     public IEnumerator GetUserByID(string id, System.Action<I_User> callback)
     {
         if (userIDs.Contains(id))
@@ -363,6 +393,14 @@ public class ServerConnection : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Modificamos una varible del usuario
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="userId"></param>
+    /// <param name="fieldName"></param>
+    /// <param name="newValue"></param>
+    /// <returns></returns>
     public IEnumerator ModifyUserField<T>(string userId, string fieldName, T newValue)
     {
         string url = $"http://localhost:8080/api/v1/user/{userId}";
@@ -390,14 +428,22 @@ public class ServerConnection : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Creacion de un nuevo usuario
+    /// </summary>
+    /// <param name="nickname"></param>
+    /// <param name="password"></param>
+    /// <returns></returns>
     public IEnumerator CreateNewUser(string nickname, string password)
     {
         string url = $"http://localhost:8080/api/v1/newUser";
 
         var json = new JSONObject();
         json["password"] = password;
-        json["name"] = nickname;
+
+        var userData = new JSONObject();
+        userData["name"] = nickname;
+        json["userData"] = userData;
 
         string jsonSend = json.ToString();
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,23 +32,35 @@ public class RequestGameInfo : MonoBehaviour
         }
     }
 
-    public I_Critteron GetCritteronByID(string ID)
-    { 
-        return ServerConnection.Instance.GetCritteronByID(ID);
+    // <summary>
+    /// Obtener un critteron por ID
+    /// </summary>
+    public void GetCritteronByID(string id, Action<I_Critteron> callback)
+    {
+        StartCoroutine(ServerConnection.Instance.GetCritteronByID(id, callback));
     }
 
-    public List<I_Critteron> GetAllCritteron()
+    /// <summary>
+    /// Obtener todos los critterons
+    /// </summary>
+    public void GetAllCritteron(Action<List<I_Critteron>> callback)
     {
-        return ServerConnection.Instance.GetAllCritteron();
+        StartCoroutine(ServerConnection.Instance.GetAllCritteronAsync(callback));
     }
 
-    public I_Furniture GetFurnitureByID(string ID)
+    /// <summary>
+    /// Obtener un furniture por ID
+    /// </summary>
+    public void GetFurnitureByID(string id, Action<I_Furniture> callback)
     {
-        return ServerConnection.Instance.GetFurnitureByID(ID);
+        StartCoroutine(ServerConnection.Instance.GetFurnitureByID(id, callback));
     }
 
-    public List<I_Furniture> GetAllFurniture()
+    /// <summary>
+    /// Obtener todos los furnitures
+    /// </summary>
+    public void GetAllFurniture(Action<List<I_Furniture>> callback)
     {
-        return ServerConnection.Instance.GetAllFurnitures();
+        StartCoroutine(ServerConnection.Instance.GetAllFurnitureAsync(callback));
     }
 }
