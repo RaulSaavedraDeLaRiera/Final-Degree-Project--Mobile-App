@@ -66,9 +66,26 @@ public class RequestUserInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.ModifyUserField(id, "userData.currentCritteron", newValue));
     }
 
+    public void ModifyUserForniture(string id, string newValue)
+    {
+        StartCoroutine(ServerConnection.Instance.ModifyUserField(id, "furnitureOwned", newValue));
+    }
+
+    /// <summary>
+    /// Metodo para modificar o añadir informacion sobre los critterons del jugador
+    /// </summary>
+    /// <param name="idUser"></param>
+    /// <param name="idCritteron"></param>
+    /// <param name="level"></param>
+    /// <param name="currentLife"></param>
+    /// <param name="stepAsPartner"></param>
+    /// <param name="usedAttacks"></param>
+    /// <param name="combatWins"></param>
+    /// <param name="timeAnaerobic"></param>
+    /// <param name="stepsDoingParade"></param>
     public void ModifyUserCritteron(string idUser, string idCritteron, int? level = null,
-     float? currentLife = null, int? stepAsPartner = null, int? usedAttacks = null,
-     int? combatWins = null, int? timeAnaerobic = null, int? stepsDoingParade = null)
+    float? currentLife = null, int? stepAsPartner = null, int? usedAttacks = null,
+    int? combatWins = null, int? timeAnaerobic = null, int? stepsDoingParade = null)
     {
         GetUserByID(idUser, (auxUser) =>
         {
@@ -80,6 +97,7 @@ public class RequestUserInfo : MonoBehaviour
 
             I_User.Critteron critteron = auxUser.critterons.Find(c => c.critteronID == idCritteron);
 
+            // Critteron nuevo para el usuario
             if (critteron == null)
             {
                 critteron = new I_User.Critteron
@@ -97,6 +115,7 @@ public class RequestUserInfo : MonoBehaviour
                     }
                 };
             }
+            // Ya tenia el critteron cambiamos la variables nuevas
             else
             {
                 critteron.level = level ?? critteron.level;
@@ -112,30 +131,33 @@ public class RequestUserInfo : MonoBehaviour
                 critteron.startInfo.stepsDoingParade = stepsDoingParade ?? critteron.startInfo.stepsDoingParade;
             }
 
-            var json = new SimpleJSON.JSONObject
-            {
-                ["fieldName"] = "critterons",
-                ["newValue"] = new SimpleJSON.JSONObject
-                {
-                    ["critteronID"] = critteron.critteronID,
-                    ["level"] = critteron.level,
-                    ["currentLife"] = critteron.currentLife,
-                    ["startInfo"] = new SimpleJSON.JSONObject
-                    {
-                        ["stepAsPartner"] = critteron.startInfo.stepAsPartner,
-                        ["usedAttacks"] = critteron.startInfo.usedAttacks,
-                        ["combatWins"] = critteron.startInfo.combatWins,
-                        ["timeAnaerobic"] = critteron.startInfo.timeAnaerobic,
-                        ["stepsDoingParade"] = critteron.startInfo.stepsDoingParade
-                    }
-                }
-            };
+            var jsonObject = new SimpleJSON.JSONObject();
+            jsonObject["critteronID"] = critteron.critteronID;
+            jsonObject["level"] = critteron.level;
+            jsonObject["currentLife"] = critteron.currentLife;
 
-            StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "critterons", json));
+            var startInfo = new SimpleJSON.JSONObject();
+            startInfo["stepAsPartner"] = critteron.startInfo.stepAsPartner;
+            startInfo["usedAttacks"] = critteron.startInfo.usedAttacks;
+            startInfo["combatWins"] = critteron.startInfo.combatWins;
+            startInfo["timeAnaerobic"] = critteron.startInfo.timeAnaerobic;
+            startInfo["stepsDoingParade"] = critteron.startInfo.stepsDoingParade;
+
+            jsonObject["startInfo"] = startInfo;
+
+            StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "critterons", jsonObject));
         });
     }
 
-
+  
+    /// <summary>
+    /// Modificar cualquier campo de usuario, debemos tener en cuenta que newValue debe de ser correcto dependiendo del campo que usemos
+    /// Para campos complejos se recomienda usar los metodos anteriores
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="id"></param>
+    /// <param name="fieldName"></param>
+    /// <param name="newValue"></param>
     public void ModifyUserField<T>(string id, string fieldName, T newValue)
     {
         StartCoroutine(ServerConnection.Instance.ModifyUserField(id, fieldName, newValue));
