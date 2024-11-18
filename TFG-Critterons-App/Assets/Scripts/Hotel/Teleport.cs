@@ -39,6 +39,7 @@ public class Teleport : MonoBehaviour
         {
             critteron.ChangePosition(critteron.Target.Room.EntryPoint.position);
             critteron.Target.Room.AddCritteron(critteron);
+            critteron.CurrentRoom.RemoveCritteron(critteron);
 
             critteron.ForceUpdate(0.25f);
         }

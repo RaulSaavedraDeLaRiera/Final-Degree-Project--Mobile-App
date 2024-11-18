@@ -1,5 +1,7 @@
 
 using System.Collections;
+using UnityEditor.Animations;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -18,6 +20,8 @@ public class HotelCritteron : MonoBehaviour
 
     [SerializeField]
     NavMeshAgent agent;
+
+    Animator animator;
 
     RoomInfo currentRoom;
     HotelObject target;
@@ -51,9 +55,12 @@ public class HotelCritteron : MonoBehaviour
         }
     }
 
+  
 
     public void Start()
     {
+        animator.Play("Move");
+
         InvokeRepeating("BehaviourUpdate", Random.Range(0, updateBehaviourRandom), updateBehaviourRate);
     }
 
@@ -70,6 +77,7 @@ public class HotelCritteron : MonoBehaviour
         var visual = visualRoot.Find(infoCritteron.mesh);
 
         visual.gameObject.SetActive(true);
+        animator = visual.transform.GetComponent<Animator>();
 
         this.currentRoom = currentRoom;
     }
@@ -81,6 +89,8 @@ public class HotelCritteron : MonoBehaviour
     public void StopCritteron()
     {
         agent.enabled = false;
+
+        animator.Play("Idle");
     }
 
     public void ActivateCritteron(float time = 0)
@@ -88,10 +98,16 @@ public class HotelCritteron : MonoBehaviour
         target = null;
 
         if (time == 0)
+        {
             agent.enabled = true;
+            animator.Play("Move");
+        }
         //esta bien u otro metodo?
         else
-            StartCoroutine(DelayFunction(() => { agent.enabled = true; }, time));
+            StartCoroutine(DelayFunction(() =>
+            {
+                agent.enabled = true; animator.Play("Move");
+            }, time));
 
     }
 
@@ -113,7 +129,7 @@ public class HotelCritteron : MonoBehaviour
 
 
             //aqui seria current live
-            if (infoCritteron.life < infoCritteron.life)
+            if (3 < infoCritteron.life)
             {
                 //intenta ir a ua zona de curacion acelerada
                 target = NavigationControl.GetTarget(HotelObjectType.cureObject);

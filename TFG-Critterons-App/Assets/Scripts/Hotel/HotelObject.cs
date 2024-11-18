@@ -69,8 +69,8 @@ public class HotelObject : MonoBehaviour
         currentUser = null;
     }
 
-    //deberia ser enter pero por si quieren usarlo de nuevo sin haberse salido de estar pegados a el
-    private void OnTriggerStay(Collider other)
+  //falla si quiere subir al mismo no detecta que vuela a entrar
+    private void OnTriggerEnter(Collider other)
     {
         if(currentUser != null && other.gameObject == currentUser.gameObject)
         {

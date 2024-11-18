@@ -24,7 +24,7 @@ public class HotelMove : MonoBehaviour
 
     void Start()
     {
-        // RequestUserInfo.Instance.CreateNewUser("aaaaaaaa", "aaa");
+        RequestUserInfo.Instance.CreateNewUser("raul", "aaa");
         // RequestUserInfo.Instance.ModifyUserCritteron("673b1caf2a81f24efe0796c8", "673a1a8c69f25059e2e01e0c", level: 10, currentLife: 89, combatWins: 10, stepAsPartner: 190);
 
         //RequestUserInfo.Instance.ModifyUserLevel("673a8540bc255e64e48ef7b2", 10);

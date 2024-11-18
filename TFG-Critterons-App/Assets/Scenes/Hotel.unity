@@ -13634,6 +13634,7 @@ GameObject:
   - component: {fileID: 1320876890}
   - component: {fileID: 1320876889}
   - component: {fileID: 1320876892}
+  - component: {fileID: 1320876893}
   m_Layer: 0
   m_Name: 3
   m_TagString: Untagged
@@ -13721,7 +13722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219cf129c6026b54b8072065eadc0ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeHotelObject: 2
+  typeHotelObject: 0
   actionValue: 1.2
   timeInObject: 3
   timeInObjectVariation: 1
@@ -13753,6 +13754,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 1.2742785, z: 2}
   m_Center: {x: -0.0074548125, y: 1, z: -0.007453782}
+--- !u!208 &1320876893
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320876887}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.007, y: 0.637, z: -0.007}
+  m_TimeToStationary: 0.5
 --- !u!1 &1321621095
 GameObject:
   m_ObjectHideFlags: 0
@@ -19590,7 +19607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219cf129c6026b54b8072065eadc0ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeHotelObject: 2
+  typeHotelObject: 1
   actionValue: 0
   timeInObject: 3
   timeInObjectVariation: 1
