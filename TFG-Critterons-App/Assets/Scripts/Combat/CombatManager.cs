@@ -17,8 +17,8 @@ public class CombatManager : MonoBehaviour
     Transform[] allyCritteronsPos, enemyCritteronsPos;
 
     [SerializeField]
-    List<Critteron> allyCritterons = new List<Critteron>(),
-        enemyCritterons = new List<Critteron>();
+    List<CritteronCombat> allyCritterons = new List<CritteronCombat>(),
+        enemyCritterons = new List<CritteronCombat>();
 
     int turn = 1;
 
@@ -49,7 +49,7 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void CritteronDefeated(Critteron critteron)
+    public void CritteronDefeated(CritteronCombat critteron)
     {
         switch (combatType)
         {

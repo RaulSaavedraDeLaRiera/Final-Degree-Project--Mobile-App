@@ -10,7 +10,7 @@ public class HotelManager : MonoBehaviour
     GameObject critteronPrefab;
    
     List<RoomInfo> rooms = new List<RoomInfo>();
-    List<Critteron> userCritterons;
+    List<CritteronCombat> userCritterons;
 
 
     void Awake()

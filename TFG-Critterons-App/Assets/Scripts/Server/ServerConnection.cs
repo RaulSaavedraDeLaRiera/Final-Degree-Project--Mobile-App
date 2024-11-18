@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Collections;
 using static System.Net.WebRequestMethods;
+using System.Text;
+using SimpleJSON;
+using static I_UserInfo;
+using System;
 
 public class ServerConnection : MonoBehaviour
 {
@@ -13,12 +17,14 @@ public class ServerConnection : MonoBehaviour
     private string serverPath = "Assets/Scripts/Server/JAR/tfg-0.0.1-SNAPSHOT.jar";
     private Process serverProcess;
 
-    private I_GameInfo gameInfo;
+    private I_GameInfo gameInfo = null;
     private List<string> critteronIDs = new List<string>();
     private List<string> furnitureIDs = new List<string>();
 
-    private I_UserInfo userInfo;
-    private List<string> userIDs = new List<string>();
+    private I_UserInfo userInfo = null;
+    public List<string> userIDs = new List<string>();
+
+    private bool isServerReady = false;
 
     public static ServerConnection Instance
     {
@@ -39,7 +45,7 @@ public class ServerConnection : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (_instance != this)
         {
             Destroy(gameObject);
         }
@@ -57,6 +63,10 @@ public class ServerConnection : MonoBehaviour
     }
 
     void OnApplicationQuit()
+    {
+        StopServer();
+    }
+    void OnDisable()
     {
         StopServer();
     }
@@ -97,12 +107,8 @@ public class ServerConnection : MonoBehaviour
             serverProcess.Start();
             serverProcess.BeginOutputReadLine();
             serverProcess.BeginErrorReadLine();
-            UnityEngine.Debug.Log("Server started.");
 
-            StartCoroutine(GameInfoInit());
-            StartCoroutine(UserInfoInit());
-
-            SceneManager.LoadScene("Hotel");
+            StartCoroutine(WaitForServerReady());
         }
         catch (System.Exception e)
         {
@@ -110,6 +116,38 @@ public class ServerConnection : MonoBehaviour
         }
     }
 
+    private IEnumerator WaitForServerReady()
+    {
+        float timeout = 30f;
+        float elapsedTime = 0f;
+        string checkUrl = "http://localhost:8080/connected";
+
+        UnityEngine.Debug.Log("Checking if the server is ready...");
+
+        while (!isServerReady && elapsedTime < timeout)
+        {
+            using (UnityWebRequest request = UnityWebRequest.Get(checkUrl))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result == UnityWebRequest.Result.Success && request.downloadHandler.text.Contains("Server fully conected"))
+                {
+                    isServerReady = true;
+                    break;
+                }
+            }
+
+            yield return new WaitForSeconds(1f);
+            elapsedTime += 1f;
+        }
+
+        if (isServerReady)
+        {
+            yield return StartCoroutine(GameInfoInit());
+            yield return StartCoroutine(UserInfoInit());
+            SceneManager.LoadScene("Hotel");
+        }
+    }
 
     /// <summary>
     /// Acabar con el proceso de coneccion con el servidor 
@@ -148,18 +186,13 @@ public class ServerConnection : MonoBehaviour
                 string json = request.downloadHandler.text;
                 gameInfo = JsonUtility.FromJson<I_GameInfo>(json);
 
-                critteronIDs.Clear();
-                furnitureIDs.Clear();
-
                 foreach (var critteron in gameInfo.critterons)
-                {
                     critteronIDs.Add(critteron.critteronID);
-                }
 
                 foreach (var forniture in gameInfo.forniture)
-                {
                     furnitureIDs.Add(forniture.fornitureID);
-                }
+
+                UnityEngine.Debug.Log("GameInfo init");
             }
         }
     }
@@ -171,7 +204,6 @@ public class ServerConnection : MonoBehaviour
     private IEnumerator UserInfoInit()
     {
         string url = "http://localhost:8080/api/v1/userinfo";
-
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
             yield return request.SendWebRequest();
@@ -181,16 +213,15 @@ public class ServerConnection : MonoBehaviour
                 string json = request.downloadHandler.text;
                 userInfo = JsonUtility.FromJson<I_UserInfo>(json);
 
-                userIDs.Clear();
-
                 foreach (var user in userInfo.users)
                 {
                     userIDs.Add(user.userID);
                 }
+
+                UnityEngine.Debug.Log("UserInfo init");
             }
         }
     }
-
 
     /// <summary>
     /// Pedimos la informacion de un critteron a traves de su id
@@ -284,7 +315,7 @@ public class ServerConnection : MonoBehaviour
     }
 
 
-    public I_User GetUserByID(string id)
+    public IEnumerator GetUserByID(string id, System.Action<I_User> callback)
     {
         if (userIDs.Contains(id))
         {
@@ -293,20 +324,19 @@ public class ServerConnection : MonoBehaviour
 
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
-                request.SendWebRequest();
+                yield return request.SendWebRequest();
                 if (request.result == UnityWebRequest.Result.Success)
                 {
                     string json = request.downloadHandler.text;
                     i_user = JsonUtility.FromJson<I_User>(json);
+                    callback(i_user);
                 }
             }
-
-            return i_user;
         }
         else
         {
             UnityEngine.Debug.LogError("User not found");
-            return null;
+            callback(null);
         }
     }
 
@@ -314,35 +344,73 @@ public class ServerConnection : MonoBehaviour
     /// Lista con todos los users de la base de datos
     /// </summary>
     /// <returns></returns>
-    public List<I_User> GetAllUsers()
+    public IEnumerator GetAllUsersAsync(Action<List<I_User>> callback)
     {
-        List<I_User> i_userList = null;
+        List<I_User> i_userList = new List<I_User>();
 
         foreach (string id in userIDs)
-            i_userList.Add(GetUserByID(id));
+        {
+            yield return StartCoroutine(GetUserByID(id, (user) =>
+            {
+                if (user != null)
+                {
+                    i_userList.Add(user);
+                }
+            }));
+        }
 
-        return i_userList;
+        callback(i_userList);
     }
+
 
     public IEnumerator ModifyUserField<T>(string userId, string fieldName, T newValue)
     {
         string url = $"http://localhost:8080/api/v1/user/{userId}";
 
-        var payload = new
-        {
-            fieldName = fieldName,
-            newValue = newValue
-        };
+        var json = new JSONObject();
+        json["fieldName"] = fieldName;
 
-        string jsonPayload = JsonUtility.ToJson(payload);
+        if (newValue is string || newValue is int || newValue is float)
+            json["newValue"] = new JSONString(newValue.ToString());
+        else if (newValue is JSONObject jsonValue)
+            json["newValue"] = jsonValue;
+        else
+            json["newValue"] = JSON.Parse(JsonUtility.ToJson(newValue));
 
-        using (UnityWebRequest request = UnityWebRequest.Put(url, jsonPayload))
+        string jsonPayload = json.ToString();
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
         {
-            request.method = "PATCH"; 
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonPayload);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
             yield return request.SendWebRequest();
         }
     }
+
+
+    public IEnumerator CreateNewUser(string nickname, string password)
+    {
+        string url = $"http://localhost:8080/api/v1/newUser";
+
+        var json = new JSONObject();
+        json["password"] = password;
+        json["name"] = nickname;
+
+        string jsonSend = json.ToString();
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonSend);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+
+            request.SetRequestHeader("Content-Type", "application/json");
+            yield return request.SendWebRequest();
+        }
+    }
 }
+
 

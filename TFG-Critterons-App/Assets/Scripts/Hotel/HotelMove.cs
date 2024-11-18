@@ -24,8 +24,10 @@ public class HotelMove : MonoBehaviour
 
     void Start()
     {
+        // RequestUserInfo.Instance.CreateNewUser("antonio", "qwqweqwe");
+        //RequestUserInfo.Instance.ModifyUserCritteron("673a8540bc255e64e48ef7b2", "673a1a8c69f25059e2e01e0c", level: 10, currentLife: 50f, combatWins: 5);
 
-        RequestGameInfo.Instance.GetAllCritteron();
+        //RequestUserInfo.Instance.ModifyUserLevel("673a8540bc255e64e48ef7b2", 10);
         isDragging = false;
         moveSpeed /= 100;
 
@@ -39,7 +41,6 @@ public class HotelMove : MonoBehaviour
         maxY = halfHeight;
 
     }
-
     void Update()
     {
         // Editor de Unity

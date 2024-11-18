@@ -30,7 +30,6 @@ public class RequestGameInfo : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
 
     public I_Critteron GetCritteronByID(string ID)
     { 
