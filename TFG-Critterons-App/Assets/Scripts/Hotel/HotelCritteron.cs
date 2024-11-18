@@ -1,16 +1,14 @@
+
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class HotelCritteron : MonoBehaviour
 {
     //metemos todo esto en una clase static config?
     static float updateBehaviourRate = 5f, updateBehaviourRandom = .2f,
-        useItemsProbability = 0.1f,
-        timeInLevelObjects = 20, randomTimeInLevelObjects = 3,
-        timeInDecorationObjects = 20, randomTimeInDecorationObjects = 3;
+        useItemsProbability = 0.1f;
 
     [SerializeField]
     I_Critteron infoCritteron;
@@ -39,6 +37,18 @@ public class HotelCritteron : MonoBehaviour
         {
             return currentRoom;
         }
+        set
+        {
+            currentRoom = value;
+        }
+    }
+
+    public HotelObject Target
+    {
+        get
+        {
+            return target;
+        }
     }
 
 
@@ -64,69 +74,96 @@ public class HotelCritteron : MonoBehaviour
         this.currentRoom = currentRoom;
     }
 
+    public void ForceUpdate(float time)
+    {
+        Invoke("BehaviourUpdate", time);
+    }
+    public void StopCritteron()
+    {
+        agent.enabled = false;
+    }
+
+    public void ActivateCritteron(float time = 0)
+    {
+        target = null;
+
+        if (time == 0)
+            agent.enabled = true;
+        //esta bien u otro metodo?
+        else
+            StartCoroutine(DelayFunction(() => { agent.enabled = true; }, time));
+
+    }
+
+    public void ChangePosition(Vector3 newPosition)
+    {
+        transform.position = newPosition;
+        agent.Warp(newPosition);
+    }
 
     void BehaviourUpdate()
     {
-        //return desde que cuele alguna
-
-
         //ahora eta en un objeto y su agente desactivado
         if (!agent.enabled)
             return;
 
         //si ahora mismo no quiere ir a ningunn objeto o si esta en algun objeto actualmente
-        if(target == null)
+        if (target == null)
         {
+
+
             //aqui seria current live
-            if (3 < infoCritteron.life)
+            if (infoCritteron.life < infoCritteron.life)
             {
                 //intenta ir a ua zona de curacion acelerada
                 target = NavigationControl.GetTarget(HotelObjectType.cureObject);
-
-                if(target != null)
-                {
-                    //va a el
-                    return;
-                }
             }
 
-            else
+            else if (target == null)
             {
                 //intenta ir a zona de mejora de nivel acelerada
                 target = NavigationControl.GetTarget(HotelObjectType.levelObject);
-
-                if (target != null)
-                {
-                    //va a el
-                    return;
-                }
             }
 
             if (Random.Range(0, 1f) <= useItemsProbability)
             {
                 //intenta ir a jugar a algun objeto
                 target = NavigationControl.GetTarget(HotelObjectType.decorationObject);
-
-                if (target != null)
-                {
-                    //va a el
-                    return;
-                }
             }
 
-            //se mueve a sitio aleatorio de la habitacion
-            agent.SetDestination(NavigationControl.GetRandomPoint(this));
 
+            if (target != null)
+                target.CurrentUser = this;
+
+        }
+
+
+        if (target != null)
+        {
+            Debug.Log(gameObject.name + " moviendose a " + Target.gameObject.name);
+
+            //esta yendo a algun kugar
+            agent.SetDestination(NavigationControl.GetNextRoutePoint(this).position);
         }
 
         else
         {
-            //esta yendo a algun kugar
+            Debug.Log(gameObject.name + " moviendose a posicion aleatoria");
+
+            //sitio aleatorio de la habitacion
+            agent.SetDestination(NavigationControl.GetRandomPoint(this));
         }
 
 
 
-        
+
+
+    }
+
+    IEnumerator DelayFunction(UnityAction action, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        action?.Invoke();
     }
 
 

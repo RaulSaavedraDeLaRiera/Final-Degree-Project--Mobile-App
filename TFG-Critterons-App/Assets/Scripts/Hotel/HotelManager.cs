@@ -20,9 +20,14 @@ public class HotelManager : MonoBehaviour
 
     void Awake()
     {
+        RoomInfo room;
+
         for (int i = 0; i < roomsRoot.childCount; i++)
         {
-            rooms.Add(roomsRoot.GetChild(i).GetComponent<RoomInfo>());
+            room = roomsRoot.GetChild(i).GetComponent<RoomInfo>();
+
+            if(room != null)
+            rooms.Add(room);
         }
     }
 
@@ -87,6 +92,7 @@ public class HotelManager : MonoBehaviour
         List<string> data = new List<string>();
         data.Add("1");
         data.Add("2");
+        data.Add("3");
 
         foreach (var room in rooms)
         {

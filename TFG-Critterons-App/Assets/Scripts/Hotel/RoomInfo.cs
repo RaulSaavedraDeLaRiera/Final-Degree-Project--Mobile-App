@@ -10,7 +10,7 @@ public class RoomInfo : MonoBehaviour
     [SerializeField]
     HotelCritteron[] critteronsInRoom;
     [SerializeField]
-    Transform entryPointToCritterons;
+    Teleport entryPointToCritterons;
 
     [SerializeField]
     float xSize, zSize;
@@ -23,11 +23,16 @@ public class RoomInfo : MonoBehaviour
 
     public Transform EntryPoint
     {
-        get { return entryPointToCritterons; }
+        get { return entryPointToCritterons.transform; }
     }
     public Tuple<float, float> Size
     {
         get { return new Tuple<float, float>(xSize, zSize); }
+    }
+
+    void Start()
+    {
+        entryPointToCritterons.Room = this;
     }
 
     public void InitialiceRoom(List<string> boughtObjectsID, HotelManager hM)
@@ -40,8 +45,10 @@ public class RoomInfo : MonoBehaviour
        
     }
 
-    void AddCritteron(HotelCritteron critteron)
+    public void AddCritteron(HotelCritteron critteron)
     {
+        critteron.CurrentRoom = this;
+
         numCritteronsInRoom++;
 
         for (int i = 0; i < critteronsInRoom.Length; i++)
@@ -51,7 +58,7 @@ public class RoomInfo : MonoBehaviour
         }
     }
 
-    void RemoveCritteron(HotelCritteron critteron)
+    public void RemoveCritteron(HotelCritteron critteron)
     {
         numCritteronsInRoom--;
 

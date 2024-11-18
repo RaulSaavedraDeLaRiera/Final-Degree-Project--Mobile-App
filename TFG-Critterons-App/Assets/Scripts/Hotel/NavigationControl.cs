@@ -30,9 +30,16 @@ public class NavigationControl : MonoBehaviour
         return instance.hotelManager.GetHotelObject(typeObject);
     }
 
-    public static Transform GetNextRoutePoint(HotelCritteron critteron, Object target)
+    public static Transform GetNextRoutePoint(HotelCritteron critteron)
     {
-        return null;
+        if(critteron.Target.Room == critteron.CurrentRoom)
+        {
+            return critteron.Target.transform;
+        }
+        else
+        {
+            return critteron.CurrentRoom.EntryPoint;
+        }
     }
     public static Vector3 GetRandomPoint(HotelCritteron critteron)
     {
