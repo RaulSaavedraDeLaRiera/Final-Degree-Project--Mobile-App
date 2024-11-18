@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,9 @@ public class RoomInfo : MonoBehaviour
     [SerializeField]
     Transform entryPointToCritterons;
 
+    [SerializeField]
+    float xSize, zSize;
+
     int numCritteronsInRoom = 0;
     public bool AvailableSpace
     {
@@ -21,13 +25,19 @@ public class RoomInfo : MonoBehaviour
     {
         get { return entryPointToCritterons; }
     }
+    public Tuple<float, float> Size
+    {
+        get { return new Tuple<float, float>(xSize, zSize); }
+    }
 
-    public void InitialiceRoom(List<string> boughtObjectsID)
+    public void InitialiceRoom(List<string> boughtObjectsID, HotelManager hM)
     {
         foreach (var item in fornitures)
         {
-            item.InitialiceObject(boughtObjectsID.Contains(item.name));
+            item.InitialiceObject(boughtObjectsID.Contains(item.name), this, hM);
         }
+
+       
     }
 
     void AddCritteron(HotelCritteron critteron)

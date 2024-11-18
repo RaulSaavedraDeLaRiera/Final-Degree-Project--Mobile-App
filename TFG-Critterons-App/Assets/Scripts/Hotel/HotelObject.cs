@@ -17,6 +17,10 @@ public class HotelObject : MonoBehaviour
     float actionValue;
 
     Material originMat;
+
+    RoomInfo room;
+    HotelCritteron currentUser;
+
     public bool Bought
     {
         get { return bought; }
@@ -25,6 +29,10 @@ public class HotelObject : MonoBehaviour
     {
         get { return typeHotelObject; }
     }
+    public HotelCritteron CurrentUser
+    {
+        get { return currentUser; }
+    }
 
     private void Awake()
     {
@@ -32,19 +40,25 @@ public class HotelObject : MonoBehaviour
         originMat = visuals[0].material;
     }
 
-    public void InitialiceObject(bool bought)
+    public void InitialiceObject(bool bought, RoomInfo room, HotelManager hM)
     {
         this.bought = bought;
+        this.room = room;
 
         if (!bought)
         {
             foreach (var item in visuals)
                 item.material = nonBoughtMat;
         }
+        else
+            hM.AddObject(this, typeHotelObject);
 
     }
 
+
+
 }
 
-public enum HotelObjectType { decorationObject, cureObject }
+//Decoration siempre el ultimo
+public enum HotelObjectType { cureObject, levelObject, decorationObject }
 

@@ -1,4 +1,4 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +8,14 @@ public class HotelManager : MonoBehaviour
     Transform roomsRoot, critteronsRoot;
     [SerializeField]
     GameObject critteronPrefab;
-   
+
     List<RoomInfo> rooms = new List<RoomInfo>();
     List<CritteronCombat> userCritterons;
+
+    List<HotelObject> healthObjects = new List<HotelObject>(),
+        levelObjects = new List<HotelObject>(),
+        decorationObjects = new List<HotelObject>();
+
 
 
     void Awake()
@@ -27,6 +32,54 @@ public class HotelManager : MonoBehaviour
         InitialiceCritterons();
     }
 
+    public void AddObject(HotelObject hotelObject, HotelObjectType typeObject)
+    {
+        switch (typeObject)
+        {
+            case HotelObjectType.cureObject:
+                healthObjects.Add(hotelObject);
+                break;
+            case HotelObjectType.levelObject:
+                levelObjects.Add(hotelObject);
+                break;
+            case HotelObjectType.decorationObject:
+                decorationObjects.Add(hotelObject);
+                break;
+        }
+    }
+
+    public HotelObject GetHotelObject(HotelObjectType typeObject)
+    {
+
+        List<HotelObject> objects;
+
+        switch (typeObject)
+        {
+            case HotelObjectType.cureObject:
+                objects = healthObjects;
+                break;
+            case HotelObjectType.levelObject:
+                objects = levelObjects;
+                break;
+            default:
+                objects = decorationObjects;
+                break;
+        }
+
+
+        int randomStart = UnityEngine.Random.Range(0, objects.Count);
+
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (objects[(randomStart+i)%objects.Count].CurrentUser == null)
+            {
+                return objects[(randomStart + i) % objects.Count];
+            }
+        }
+
+        return null;
+    }
+
     void InitialiceRooms()
     {
 
@@ -37,7 +90,7 @@ public class HotelManager : MonoBehaviour
 
         foreach (var room in rooms)
         {
-            room.InitialiceRoom(data);
+            room.InitialiceRoom(data, this);
         }
     }
 
@@ -56,7 +109,7 @@ public class HotelManager : MonoBehaviour
             //presuponemos que siempre habra heucos suficiente para los critterons
             do
             {
-                var r = rooms[Random.Range(0, rooms.Count)];
+                var r = rooms[UnityEngine.Random.Range(0, rooms.Count)];
                 if (r.AvailableSpace)
                     room = r;
 
@@ -66,7 +119,7 @@ public class HotelManager : MonoBehaviour
                 room.EntryPoint.position, room.EntryPoint.rotation, critteronsRoot)
                 .GetComponent<HotelCritteron>();
 
-            hotelCritteron.InitialiceCritteron(critteron);
+            hotelCritteron.InitialiceCritteron(critteron, room);
         }
     }
 }
