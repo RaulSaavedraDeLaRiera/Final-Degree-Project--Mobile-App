@@ -22,7 +22,7 @@ public class ServerConnection : MonoBehaviour
     private List<string> furnitureIDs = new List<string>();
 
     private I_UserInfo userInfo = null;
-    public List<string> userIDs = new List<string>();
+    private List<string> userIDs = new List<string>();
 
     private bool isServerReady = false;
 

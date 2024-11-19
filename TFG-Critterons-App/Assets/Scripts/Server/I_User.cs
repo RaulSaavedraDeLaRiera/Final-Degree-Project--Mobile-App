@@ -9,7 +9,7 @@ public class I_User
     public List<SocialStat> socialStats;
     public PersonalStats personalStats;
     public List<Critteron> critterons;
-    public List<FornitureOwned> fornitureOwned;
+    public List<FurnitureOwned> furnitureOwned;
 
     [Serializable]
     public class UserData
@@ -58,8 +58,8 @@ public class I_User
     }
 
     [Serializable]
-    public class FornitureOwned
+    public class FurnitureOwned
     {
-        public string fornitureID;
+        public string furnitureID;
     }
 }
