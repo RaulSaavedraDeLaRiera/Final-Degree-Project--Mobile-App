@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/ChargeServer.unity
+    guid: 5c3b1a1570695794caaa81be1fc84218
+  - enabled: 1
+    path: Assets/Scenes/Login.unity
+    guid: 4f6dab4ef25cbd342ab438a0d6d6da9c
+  - enabled: 1
+    path: Assets/Scenes/Hotel.unity
+    guid: c850ee8c3b14cc8459e7e186857cf567
+  - enabled: 1
     path: Assets/Scenes/DemoScene/profile-ui.unity
     guid: bb325f69b4ad23144a510e9d5cb5c7d8
   - enabled: 1
@@ -14,12 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DemoScene/hotel-ui.unity
     guid: 529e991d3721c154585eac8b5d0927e0
-  - enabled: 1
-    path: Assets/Scenes/ChargeServer.unity
-    guid: 5c3b1a1570695794caaa81be1fc84218
-  - enabled: 1
-    path: Assets/Scenes/Hotel.unity
-    guid: c850ee8c3b14cc8459e7e186857cf567
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
       guid: da81dad269a7f904c8153f586ec167e5, type: 2}

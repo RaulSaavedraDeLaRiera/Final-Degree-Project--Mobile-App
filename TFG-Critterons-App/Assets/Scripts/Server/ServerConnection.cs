@@ -149,7 +149,7 @@ public class ServerConnection : MonoBehaviour
         {
             yield return StartCoroutine(GameInfoInit());
             yield return StartCoroutine(UserInfoInit());
-            SceneManager.LoadScene("Hotel");
+            SceneManager.LoadScene("Login");
         }
     }
 
@@ -351,9 +351,10 @@ public class ServerConnection : MonoBehaviour
         {
             string url = $"http://localhost:8080/api/v1/user/{id}";
             I_User i_user = null;
-
+          
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
+                request.SetRequestHeader("Authorization", $"Bearer {PlayerPrefs.GetString("token")}");
                 yield return request.SendWebRequest();
                 if (request.result == UnityWebRequest.Result.Success)
                 {
@@ -416,6 +417,7 @@ public class ServerConnection : MonoBehaviour
             json["newValue"] = JSON.Parse(JsonUtility.ToJson(newValue));
 
         string jsonPayload = json.ToString();
+        string token = PlayerPrefs.GetString("token");
 
         using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
         {
@@ -423,6 +425,7 @@ public class ServerConnection : MonoBehaviour
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Authorization", $"Bearer {token}");
 
             yield return request.SendWebRequest();
         }
@@ -447,6 +450,7 @@ public class ServerConnection : MonoBehaviour
 
         string jsonSend = json.ToString();
 
+
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
         {
             byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonSend);
@@ -457,6 +461,44 @@ public class ServerConnection : MonoBehaviour
             yield return request.SendWebRequest();
         }
     }
+
+    public IEnumerator LoginToken(string mail, string password, System.Action<string> callback)
+    {
+        string url = "http://localhost:8080/api/v1/login";
+
+        // Crear JSON del cuerpo
+        var json = new JSONObject();
+        json["password"] = password;
+        json["mail"] = mail;
+        string jsonSend = json.ToString();
+
+        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        {
+            // Configurar el cuerpo de la solicitud
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonSend);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            // Enviar la solicitud
+            yield return request.SendWebRequest();
+
+            // Manejo de la respuesta
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                // Respuesta exitosa
+                string responseText = request.downloadHandler.text;
+                callback(responseText);
+            }
+            else
+            {
+                
+
+                callback(""); // Llamar al callback con un valor vacío en caso de error
+            }
+        }
+    }
 }
+
 
 

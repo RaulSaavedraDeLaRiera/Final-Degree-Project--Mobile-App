@@ -129,7 +129,7 @@ public class HotelCritteron : MonoBehaviour
 
 
             //aqui seria current live
-            if (3 < infoCritteron.life)
+            if (infoCritteron.life < infoCritteron.life)
             {
                 //intenta ir a ua zona de curacion acelerada
                 target = NavigationControl.GetTarget(HotelObjectType.cureObject);

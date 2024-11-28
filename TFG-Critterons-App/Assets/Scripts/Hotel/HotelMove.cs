@@ -24,21 +24,18 @@ public class HotelMove : MonoBehaviour
 
     void Start()
     {
-        // RequestUserInfo.Instance.CreateNewUser("raul", "aaa");
+        // RequestUserInfo.Instance.CreateNewUser("raul", "12341234");
         // RequestUserInfo.Instance.ModifyUserCritteron("673b1caf2a81f24efe0796c8", "673a1a8c69f25059e2e01e0c", level: 10, currentLife: 89, combatWins: 10, stepAsPartner: 190);
 
-        //RequestUserInfo.Instance.ModifyUserLevel("673a8540bc255e64e48ef7b2", 10);
-        //RequestUserInfo.Instance.GetCritteronCurrentLife("673b190b8b45ad6fe5c2a522", "673a1a8c69f25059e2e01e0c", (currentLife) =>
+        //RequestUserInfo.Instance.GetUserData("673b190b8b45ad6fe5c2a522", (currentLife) =>
         //{
-        //    if (currentLife >= 0) 
-        //    {
-        //        Debug.Log($"La vida actual del Critteron con ID 'critteron123' es: {currentLife}");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("No se pudo encontrar el Critteron con el ID especificado.");
-        //    }
+        //    currentLife = null;
         //});
+
+        //RequestUserInfo.Instance.ModifyUserData("673ca65cdb656c6a28ba1ba5", level: 2, money: 100);
+        //RequestUserInfo.Instance.ModifyUserCritteron("673ca65cdb656c6a28ba1ba5", "673a1a8c69f25059e2e01e0c", level: 2, usedAttacks: 100, stepAsPartner: 1);
+
+
 
         isDragging = false;
         moveSpeed /= 100;

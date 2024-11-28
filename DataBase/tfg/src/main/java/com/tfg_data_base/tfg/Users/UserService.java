@@ -1,6 +1,7 @@
 package com.tfg_data_base.tfg.Users;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tfg_data_base.tfg.Security.JwtUtils;
 import com.tfg_data_base.tfg.UserInfo.UserInfoService;
 import com.tfg_data_base.tfg.Users.User.CritteronUser;
 import com.tfg_data_base.tfg.Users.User.FurnitureOwned;
@@ -24,6 +26,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserInfoService userInfoService;
 
+    private JwtUtils jwtUtils = new JwtUtils();
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -34,9 +38,6 @@ public class UserService {
     public void save(User user) {
         if (user.getUserData() == null) {
             user.setUserData(new User.UserData());
-        }
-        if (user.getUserData().getName() == null) {
-            user.getUserData().setName("");
         }
     
         if (user.getSocialStats() == null) {
@@ -56,6 +57,7 @@ public class UserService {
         }
     
         User.UserData userData = user.getUserData();
+        if (userData.getName() == null) userData.setName("");
         if (userData.getLevel() == null) userData.setLevel(0);
         if (userData.getExperience() == null) userData.setExperience(0);
         if (userData.getMoney() == null) userData.setMoney(0);
@@ -72,8 +74,24 @@ public class UserService {
         userRepository.save(user);
         userInfoService.addUser(user.getId());
     }
-    
 
+    public String login(String mail, String password)
+    {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("mail").is(mail));
+        query.fields().include("password").include("mail"); // Solo incluye los campos necesarios
+
+        // Encuentra al usuario
+        Map<String, Object> user = mongoTemplate.findOne(query, Map.class, "User");
+
+        // Si no se encuentra el usuario, retorna false
+        if (user != null && password.equals((String) user.get("password"))) {
+            return  jwtUtils.generateJwtToken(mail);
+        }
+
+      return "";
+    }
+   
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -86,7 +104,6 @@ public class UserService {
         userRepository.deleteById(id);
         userInfoService.removeUser(id);
     }
-
 
     /**
      * Actualizar un parametro de un usuario en concreto

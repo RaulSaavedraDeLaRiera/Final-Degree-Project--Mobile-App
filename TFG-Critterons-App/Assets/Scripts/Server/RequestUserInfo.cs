@@ -32,7 +32,7 @@ public class RequestUserInfo : MonoBehaviour
         }
     }
 
-    private void GetUserByID(string id, System.Action<I_User> callback)
+    public void GetUserByID(string id, System.Action<I_User> callback)
     {
         StartCoroutine(ServerConnection.Instance.GetUserByID(id, callback));
     }
@@ -222,4 +222,7 @@ public class RequestUserInfo : MonoBehaviour
             StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "critterons", jsonObject));
         });
     }
+
+
+
 }

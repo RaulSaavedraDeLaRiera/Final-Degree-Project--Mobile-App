@@ -8,15 +8,7 @@ public class UserUpdateRequest {
             return fieldName;
         }
     
-        public void setFieldName(String fieldName) {
-            this.fieldName = fieldName;
-        }
-    
         public Object getNewValue() {
             return newValue;
-        }
-    
-        public void setNewValue(Object newValue) {
-            this.newValue = newValue;
         }
 }

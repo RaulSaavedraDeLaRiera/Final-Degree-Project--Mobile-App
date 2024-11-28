@@ -92,7 +92,6 @@ public class HotelManager : MonoBehaviour
         List<string> data = new List<string>();
         data.Add("1");
         data.Add("2");
-        data.Add("3");
 
         foreach (var room in rooms)
         {
