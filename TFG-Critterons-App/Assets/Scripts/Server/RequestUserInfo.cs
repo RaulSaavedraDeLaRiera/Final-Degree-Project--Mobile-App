@@ -24,6 +24,7 @@ public class RequestUserInfo : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+            ServerConnection.Instance.UserInfoInit();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -39,7 +40,7 @@ public class RequestUserInfo : MonoBehaviour
 
     public void GetAllUsers(Action<List<I_User>> callback)
     {
-        StartCoroutine(ServerConnection.Instance.GetAllUsersAsync(callback));
+        StartCoroutine(ServerConnection.Instance.GetAllUsers(callback));
     }
 
     public void GetUserData(string id, System.Action<I_User.UserData> callback)
@@ -108,9 +109,16 @@ public class RequestUserInfo : MonoBehaviour
     /// </summary>
     /// <param name="nickname">Nombre de usuario</param>
     /// <param name="password">Contraseña</param>
-    public void CreateNewUser(string nickname, string password)
+    public void CreateNewUser(string nickname, string password, string mail)
     {
-        StartCoroutine(ServerConnection.Instance.CreateNewUser(nickname, password));
+        StartCoroutine(ServerConnection.Instance.CreateNewUser(nickname, password, mail,(success) =>
+        {
+            if (success)
+                Debug.Log("User created successfully!");
+            else
+                Debug.LogError("Failed to create user.");
+        }));
+
     }
 
     public void ModifyUserForniture(string id, string newValue)

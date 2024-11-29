@@ -27,7 +27,7 @@ public class JwtUtils {
     private String jwtSecret = "Ladie5de5g3ntlem3nD3dicadoatodo5lo5vividore5folladore5yborderline5AmadorRiva5";
 
    
-    private int jwtExpirationMs = Integer.MAX_VALUE;
+    private int jwtExpirationMs = Integer.MAX_VALUE; //1 semana
 
     public String generateJwtToken(String mail) {
 

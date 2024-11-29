@@ -14,8 +14,6 @@ using System;
 public class ServerConnection : MonoBehaviour
 {
     private static ServerConnection _instance;
-    private string serverPath = "Assets/Scripts/Server/JAR/tfg-0.0.1-SNAPSHOT.jar";
-    private Process serverProcess;
 
     private I_GameInfo gameInfo = null;
     private List<string> critteronIDs = new List<string>();
@@ -23,8 +21,7 @@ public class ServerConnection : MonoBehaviour
 
     private I_UserInfo userInfo = null;
     private List<string> userIDs = new List<string>();
-
-    private bool isServerReady = false;
+    private float timeOut = 15f;
 
     public static ServerConnection Instance
     {
@@ -51,125 +48,88 @@ public class ServerConnection : MonoBehaviour
         }
     }
 
-    void Start()
+    public IEnumerator LoginToken(string mail, string password, Action<string> callback)
     {
-#if PLATFORM_ANDROID
-        ConectionAndroid();
-#endif
+        string url = $"http://localhost:8080/api/v1/login";
 
-#if UNITY_EDITOR
-        StartCoroutine("ConectionEditor");
-#endif
-    }
+        var jsonPayload = new JSONObject();
+        jsonPayload["mail"] = mail;
+        jsonPayload["password"] = password;
 
-    void OnApplicationQuit()
-    {
-        StopServer();
-    }
-    void OnDisable()
-    {
-        StopServer();
-    }
-
-    void ConectionAndroid()
-    {
-    }
-
-    /// <summary>
-    /// Conectamos con el servidor y damos paso a la escena de juego una vez se haya realizado la coneccion
-    /// </summary>
-    private void ConectionEditor()
-    {
-        string jarPath;
-        jarPath = Path.Combine(Application.dataPath, "..", serverPath);
-        jarPath = Path.GetFullPath(jarPath);
-
-        serverProcess = new Process();
-        serverProcess.StartInfo.FileName = "java";
-        serverProcess.StartInfo.Arguments = $"-jar \"{jarPath}\"";
-
-        serverProcess.StartInfo.UseShellExecute = false;
-        serverProcess.StartInfo.RedirectStandardOutput = true;
-        serverProcess.StartInfo.RedirectStandardError = true;
-        serverProcess.StartInfo.CreateNoWindow = true;
-
-        serverProcess.OutputDataReceived += (sender, args) =>
-        {
-            UnityEngine.Debug.Log("Output: " + args.Data);
-        };
-        serverProcess.ErrorDataReceived += (sender, args) =>
-        {
-            UnityEngine.Debug.LogError("Error: " + args.Data);
-        };
-
-        try
-        {
-            serverProcess.Start();
-            serverProcess.BeginOutputReadLine();
-            serverProcess.BeginErrorReadLine();
-
-            StartCoroutine(WaitForServerReady());
-        }
-        catch (System.Exception e)
-        {
-            UnityEngine.Debug.LogError("Failed to start server: " + e.Message);
-        }
-    }
-
-    /// <summary>
-    /// Antes de inicializar el gameInfo, el UserInfo y cambiar de escena comprobamos que el server se haya conectado correctamente
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator WaitForServerReady()
-    {
-        float timeout = 30f;
-        float elapsedTime = 0f;
-        string checkUrl = "http://localhost:8080/connected";
-
-        UnityEngine.Debug.Log("Checking if the server is ready...");
-
-        while (!isServerReady && elapsedTime < timeout)
-        {
-            using (UnityWebRequest request = UnityWebRequest.Get(checkUrl))
+        yield return StartCoroutine(SendRequest(url, "GET", jsonPayload,
+            (response) =>
             {
-                yield return request.SendWebRequest();
+                UnityEngine.Debug.Log("Login successful");
+                callback(response);
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Login error: {error}");
+                callback("");
+            }
+        ));
+    }
 
-                if (request.result == UnityWebRequest.Result.Success && request.downloadHandler.text.Contains("Server fully conected"))
+    public IEnumerator CreateNewUser(string nickname, string password, string mail, Action<bool> callback)
+    {
+        string url = $"http://localhost:8080/api/v1/newUser";
+
+        var jsonPayload = new JSONObject();
+        jsonPayload["password"] = password;
+        jsonPayload["mail"] = mail;
+
+        var userData = new JSONObject();
+        userData["name"] = nickname;
+        jsonPayload["userData"] = userData;
+
+        yield return StartCoroutine(SendRequest(url, "POST", jsonPayload,
+            (response) =>
+            {
+                UnityEngine.Debug.Log("User created successfully");
+                callback(true);
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Create user error: {error}");
+                callback(false);
+            }
+        ));
+    }
+
+    private IEnumerator SendRequest(string url, string method, JSONObject jsonPayload, Action<string> onSuccess, Action<string> onError)
+    {
+        using (UnityWebRequest request = new UnityWebRequest(url, method))
+        {
+            if (jsonPayload != null)
+            {
+                string jsonSend = jsonPayload.ToString();
+                byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonSend);
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            }
+            request.SetRequestHeader("Authorization", $"Bearer {PlayerPrefs.GetString("token")}");
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            float elapsedTime = 0f;
+            bool requestCompleted = false;
+
+            request.SendWebRequest();
+
+            while (!request.isDone)
+            {
+                elapsedTime += Time.deltaTime;
+                if (elapsedTime >= timeOut)
                 {
-                    isServerReady = true;
-                    break;
+                    onError?.Invoke("Timeout");
+                    yield break;
                 }
+                yield return null;
             }
 
-            yield return new WaitForSeconds(1f);
-            elapsedTime += 1f;
-        }
-
-        if (isServerReady)
-        {
-            yield return StartCoroutine(GameInfoInit());
-            yield return StartCoroutine(UserInfoInit());
-            SceneManager.LoadScene("Login");
-        }
-    }
-
-    /// <summary>
-    /// Acabar con el proceso de coneccion con el servidor 
-    /// </summary>
-    private void StopServer()
-    {
-        if (serverProcess != null && !serverProcess.HasExited)
-        {
-            try
-            {
-                serverProcess.Kill();
-                serverProcess.WaitForExit();
-                UnityEngine.Debug.Log("Server stopped.");
-            }
-            catch (System.Exception e)
-            {
-                UnityEngine.Debug.LogError("Failed to stop server: " + e.Message);
-            }
+            if (request.result == UnityWebRequest.Result.Success)
+                onSuccess?.Invoke(request.downloadHandler.text);
+            else
+                onError?.Invoke(request.error ?? "Unknown error occurred.");
         }
     }
 
@@ -177,18 +137,15 @@ public class ServerConnection : MonoBehaviour
     /// Guardamos todas las variables del juego asi como los id de las entidades
     /// </summary>
     /// <returns></returns>
-    private IEnumerator GameInfoInit()
+    public IEnumerator GameInfoInit()
     {
         string url = "http://localhost:8080/api/v1/gameinfo";
 
-        using (UnityWebRequest request = UnityWebRequest.Get(url))
-        {
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
+        yield return StartCoroutine(SendRequest(url, "GET", null,
+            (response) =>
             {
-                string json = request.downloadHandler.text;
-                gameInfo = JsonUtility.FromJson<I_GameInfo>(json);
+                // Procesamos la respuesta exitosa
+                gameInfo = JsonUtility.FromJson<I_GameInfo>(response);
 
                 foreach (var critteron in gameInfo.critterons)
                     critteronIDs.Add(critteron.critteronID);
@@ -197,35 +154,40 @@ public class ServerConnection : MonoBehaviour
                     furnitureIDs.Add(forniture.fornitureID);
 
                 UnityEngine.Debug.Log("GameInfo init");
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error fetching game info: {error}");
             }
-        }
+        ));
     }
 
     /// <summary>
     /// Guardamos todos los id de usuarios
     /// </summary>
     /// <returns></returns>
-    private IEnumerator UserInfoInit()
+    public IEnumerator UserInfoInit()
     {
         string url = "http://localhost:8080/api/v1/userinfo";
-        using (UnityWebRequest request = UnityWebRequest.Get(url))
-        {
-            yield return request.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.Success)
+        yield return StartCoroutine(SendRequest(url, "GET", null,
+            (response) =>
             {
-                string json = request.downloadHandler.text;
-                userInfo = JsonUtility.FromJson<I_UserInfo>(json);
+                // Procesamos la respuesta exitosa
+                userInfo = JsonUtility.FromJson<I_UserInfo>(response);
 
                 foreach (var user in userInfo.users)
-                {
                     userIDs.Add(user.userID);
-                }
 
                 UnityEngine.Debug.Log("UserInfo init");
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error fetching user info: {error}");
             }
-        }
+        ));
     }
+
     /// <summary>
     /// Pedimos la información de un critteron a través de su ID
     /// </summary>
@@ -237,20 +199,19 @@ public class ServerConnection : MonoBehaviour
         if (critteronIDs.Contains(id))
         {
             string url = $"http://localhost:8080/api/v1/critteron/{id}";
-            I_Critteron i_critteron = null;
 
-            using (UnityWebRequest request = UnityWebRequest.Get(url))
-            {
-                yield return request.SendWebRequest();
-
-                if (request.result == UnityWebRequest.Result.Success)
+            yield return StartCoroutine(SendRequest(url, "GET", null,
+                (response) =>
                 {
-                    string json = request.downloadHandler.text;
-                    i_critteron = JsonUtility.FromJson<I_Critteron>(json);
+                    I_Critteron i_critteron = JsonUtility.FromJson<I_Critteron>(response);
+                    callback(i_critteron);
+                },
+                (error) =>
+                {
+                    UnityEngine.Debug.LogError($"Error fetching critteron by ID {id}: {error}");
+                    callback(null);
                 }
-            }
-
-            callback(i_critteron);
+            ));
         }
         else
         {
@@ -264,10 +225,9 @@ public class ServerConnection : MonoBehaviour
     /// </summary>
     /// <param name="callback"></param>
     /// <returns></returns>
-    public IEnumerator GetAllCritteronAsync(Action<List<I_Critteron>> callback)
+    public IEnumerator GetAllCritteron(Action<List<I_Critteron>> callback)
     {
         List<I_Critteron> i_critteronList = new List<I_Critteron>();
-
         foreach (string id in critteronIDs)
         {
             yield return StartCoroutine(GetCritteronByID(id, (critteron) =>
@@ -278,7 +238,6 @@ public class ServerConnection : MonoBehaviour
                 }
             }));
         }
-
         callback(i_critteronList);
     }
 
@@ -293,20 +252,19 @@ public class ServerConnection : MonoBehaviour
         if (furnitureIDs.Contains(id))
         {
             string url = $"http://localhost:8080/api/v1/furniture/{id}";
-            I_Furniture i_furniture = null;
 
-            using (UnityWebRequest request = UnityWebRequest.Get(url))
-            {
-                yield return request.SendWebRequest();
-
-                if (request.result == UnityWebRequest.Result.Success)
+            yield return StartCoroutine(SendRequest(url, "GET", null,
+                (response) =>
                 {
-                    string json = request.downloadHandler.text;
-                    i_furniture = JsonUtility.FromJson<I_Furniture>(json);
+                    I_Furniture i_furniture = JsonUtility.FromJson<I_Furniture>(response);
+                    callback(i_furniture);
+                },
+                (error) =>
+                {
+                    UnityEngine.Debug.LogError($"Error fetching furniture by ID {id}: {error}");
+                    callback(null);
                 }
-            }
-
-            callback(i_furniture);
+            ));
         }
         else
         {
@@ -338,31 +296,31 @@ public class ServerConnection : MonoBehaviour
         callback(i_furnitureList);
     }
 
-
     /// <summary>
     /// Obtenemos a un usuario a traves de su id
     /// </summary>
     /// <param name="id"></param>
     /// <param name="callback"></param>
     /// <returns></returns>
-    public IEnumerator GetUserByID(string id, System.Action<I_User> callback)
+    public IEnumerator GetUserByID(string id, Action<I_User> callback)
     {
         if (userIDs.Contains(id))
         {
             string url = $"http://localhost:8080/api/v1/user/{id}";
-            I_User i_user = null;
-          
-            using (UnityWebRequest request = UnityWebRequest.Get(url))
-            {
-                request.SetRequestHeader("Authorization", $"Bearer {PlayerPrefs.GetString("token")}");
-                yield return request.SendWebRequest();
-                if (request.result == UnityWebRequest.Result.Success)
+            string token = PlayerPrefs.GetString("token");
+
+            yield return StartCoroutine(SendRequest(url, "GET", null,
+                (response) =>
                 {
-                    string json = request.downloadHandler.text;
-                    i_user = JsonUtility.FromJson<I_User>(json);
+                    I_User i_user = JsonUtility.FromJson<I_User>(response);
                     callback(i_user);
+                },
+                (error) =>
+                {
+                    UnityEngine.Debug.LogError($"Error fetching user by ID {id}: {error}");
+                    callback(null);
                 }
-            }
+            ));
         }
         else
         {
@@ -375,7 +333,7 @@ public class ServerConnection : MonoBehaviour
     /// Lista con todos los users de la base de datos
     /// </summary>
     /// <returns></returns>
-    public IEnumerator GetAllUsersAsync(Action<List<I_User>> callback)
+    public IEnumerator GetAllUsers(Action<List<I_User>> callback)
     {
         List<I_User> i_userList = new List<I_User>();
 
@@ -393,9 +351,8 @@ public class ServerConnection : MonoBehaviour
         callback(i_userList);
     }
 
-
     /// <summary>
-    /// Modificamos una varible del usuario
+    /// Modificamos una variable del usuario
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="userId"></param>
@@ -416,89 +373,15 @@ public class ServerConnection : MonoBehaviour
         else
             json["newValue"] = JSON.Parse(JsonUtility.ToJson(newValue));
 
-        string jsonPayload = json.ToString();
-        string token = PlayerPrefs.GetString("token");
-
-        using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
-        {
-            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonPayload);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Authorization", $"Bearer {token}");
-
-            yield return request.SendWebRequest();
-        }
-    }
-
-    /// <summary>
-    /// Creacion de un nuevo usuario
-    /// </summary>
-    /// <param name="nickname"></param>
-    /// <param name="password"></param>
-    /// <returns></returns>
-    public IEnumerator CreateNewUser(string nickname, string password)
-    {
-        string url = $"http://localhost:8080/api/v1/newUser";
-
-        var json = new JSONObject();
-        json["password"] = password;
-
-        var userData = new JSONObject();
-        userData["name"] = nickname;
-        json["userData"] = userData;
-
-        string jsonSend = json.ToString();
-
-
-        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
-        {
-            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonSend);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-
-            request.SetRequestHeader("Content-Type", "application/json");
-            yield return request.SendWebRequest();
-        }
-    }
-
-    public IEnumerator LoginToken(string mail, string password, System.Action<string> callback)
-    {
-        string url = "http://localhost:8080/api/v1/login";
-
-        // Crear JSON del cuerpo
-        var json = new JSONObject();
-        json["password"] = password;
-        json["mail"] = mail;
-        string jsonSend = json.ToString();
-
-        using (UnityWebRequest request = UnityWebRequest.Get(url))
-        {
-            // Configurar el cuerpo de la solicitud
-            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonSend);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-
-            // Enviar la solicitud
-            yield return request.SendWebRequest();
-
-            // Manejo de la respuesta
-            if (request.result == UnityWebRequest.Result.Success)
+        yield return StartCoroutine(SendRequest(url, "PATCH", json,
+            (response) =>
             {
-                // Respuesta exitosa
-                string responseText = request.downloadHandler.text;
-                callback(responseText);
-            }
-            else
+                UnityEngine.Debug.Log("User field modified successfully");
+            },
+            (error) =>
             {
-                
-
-                callback(""); // Llamar al callback con un valor vacío en caso de error
+                UnityEngine.Debug.LogError($"Error modifying user field: {error}");
             }
-        }
+        ));
     }
 }
-
-
-

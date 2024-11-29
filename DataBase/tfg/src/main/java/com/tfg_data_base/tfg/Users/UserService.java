@@ -36,6 +36,11 @@ public class UserService {
      * @param user
      */
     public void save(User user) {
+
+        if (userRepository.findByMail(user.getMail()).isPresent()) {
+            throw new IllegalArgumentException("Mail in use");
+        }
+
         if (user.getUserData() == null) {
             user.setUserData(new User.UserData());
         }
@@ -55,6 +60,9 @@ public class UserService {
         if (user.getFurnitureOwned() == null) {
             user.setFurnitureOwned(new ArrayList<>());
         }
+
+        if (user.getMail() == null) user.setMail("");
+        if (user.getPassword() == null) user.setPassword("");
     
         User.UserData userData = user.getUserData();
         if (userData.getName() == null) userData.setName("");

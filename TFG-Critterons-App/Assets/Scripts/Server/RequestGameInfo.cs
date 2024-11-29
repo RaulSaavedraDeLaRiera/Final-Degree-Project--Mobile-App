@@ -24,6 +24,7 @@ public class RequestGameInfo : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+            ServerConnection.Instance.GameInfoInit();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -45,7 +46,7 @@ public class RequestGameInfo : MonoBehaviour
     /// </summary>
     public void GetAllCritteron(Action<List<I_Critteron>> callback)
     {
-        StartCoroutine(ServerConnection.Instance.GetAllCritteronAsync(callback));
+        StartCoroutine(ServerConnection.Instance.GetAllCritteron(callback));
     }
 
     /// <summary>
