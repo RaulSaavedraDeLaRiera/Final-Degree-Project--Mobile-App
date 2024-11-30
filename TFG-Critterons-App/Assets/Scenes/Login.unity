@@ -128,12 +128,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7971073630168085974}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &13937151 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2525033347182879105, guid: 3d9f26c5d13062044a5eb36d9c95d38f,
-    type: 3}
-  m_PrefabInstance: {fileID: 7971073630168085974}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &19962353
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,8 +1466,6 @@ GameObject:
   - component: {fileID: 446304119}
   - component: {fileID: 446304118}
   - component: {fileID: 446304117}
-  - component: {fileID: 446304121}
-  - component: {fileID: 446304122}
   m_Layer: 5
   m_Name: BaseCanvas
   m_TagString: Untagged
@@ -1556,7 +1548,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 13937151}
   - {fileID: 135946777}
   - {fileID: 1024460976}
   - {fileID: 2066382256}
@@ -1568,38 +1559,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &446304121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 446304116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d83ff4483142104f8f5c9d3230eca1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mail: {fileID: 135946778}
-  password: {fileID: 1024460977}
-  mailC: {fileID: 19962355}
-  passwordC: {fileID: 219098232}
-  nameC: {fileID: 1145246311}
-  loadingSpinner: {fileID: 13937148}
-  canvasBaseGroup: {fileID: 446304122}
-  canvasNewUserGroup: {fileID: 2102103087}
---- !u!225 &446304122
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 446304116}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &549157648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1735,7 +1694,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 446304121}
+      - m_Target: {fileID: 645424875}
         m_TargetAssemblyTypeName: Login, Assembly-CSharp
         m_MethodName: CreateNewUserChangeMenu
         m_Mode: 1
@@ -1785,6 +1744,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 555315809}
   m_CullTransparentMesh: 1
+--- !u!1 &645424874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 645424876}
+  - component: {fileID: 645424875}
+  m_Layer: 0
+  m_Name: Login
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &645424875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645424874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d83ff4483142104f8f5c9d3230eca1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mail: {fileID: 135946778}
+  password: {fileID: 1024460977}
+  mailC: {fileID: 19962355}
+  passwordC: {fileID: 219098232}
+  nameC: {fileID: 1145246311}
+  loadingSpinner: {fileID: 13937148}
+  canvasBaseGroup: {fileID: 446304119}
+  canvasNewUserGroup: {fileID: 2102103085}
+--- !u!4 &645424876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645424874}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 321.04205, y: 982.1536, z: -1.2148726}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &691093303
 GameObject:
   m_ObjectHideFlags: 0
@@ -3840,7 +3851,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 446304121}
+      - m_Target: {fileID: 645424875}
         m_TargetAssemblyTypeName: Login, Assembly-CSharp
         m_MethodName: TryLogin
         m_Mode: 1
@@ -3902,7 +3913,6 @@ GameObject:
   - component: {fileID: 2102103085}
   - component: {fileID: 2102103084}
   - component: {fileID: 2102103083}
-  - component: {fileID: 2102103087}
   m_Layer: 5
   m_Name: NewUserCanvas
   m_TagString: Untagged
@@ -3996,18 +4006,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!225 &2102103087
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2102103082}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &2139820395
 GameObject:
   m_ObjectHideFlags: 0
@@ -4091,7 +4089,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 446304121}
+      - m_Target: {fileID: 645424875}
         m_TargetAssemblyTypeName: Login, Assembly-CSharp
         m_MethodName: CreateNewUser
         m_Mode: 1
@@ -4147,7 +4145,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 446304120}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1326960506048909601, guid: 3d9f26c5d13062044a5eb36d9c95d38f,
         type: 3}
@@ -4162,12 +4160,12 @@ PrefabInstance:
     - target: {fileID: 2525033347182879105, guid: 3d9f26c5d13062044a5eb36d9c95d38f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -540
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2525033347182879105, guid: 3d9f26c5d13062044a5eb36d9c95d38f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1078.835
+      value: 1.1650391
       objectReference: {fileID: 0}
     - target: {fileID: 2525033347182879105, guid: 3d9f26c5d13062044a5eb36d9c95d38f,
         type: 3}
@@ -4220,8 +4218,10 @@ SceneRoots:
   m_Roots:
   - {fileID: 783117410}
   - {fileID: 1284923520}
+  - {fileID: 7971073630168085974}
   - {fileID: 446304120}
   - {fileID: 283004356}
   - {fileID: 1826606621}
   - {fileID: 1792244558}
   - {fileID: 2102103086}
+  - {fileID: 645424876}

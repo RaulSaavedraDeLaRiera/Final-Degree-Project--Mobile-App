@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RequestUserInfo : MonoBehaviour
 {
@@ -31,6 +32,42 @@ public class RequestUserInfo : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void Login(string mail, string password, Action<bool> onLoginComplete)
+    {
+        StartCoroutine(ServerConnection.Instance.LoginToken(mail, password, (token) =>
+        {
+            if (token != "")
+            {
+                StartCoroutine(ServerConnection.Instance.GameInfoInit());
+                StartCoroutine(ServerConnection.Instance.UserInfoInit());
+                PlayerPrefs.SetString("token", token);
+                PlayerPrefs.Save();
+                Debug.Log($"Token received: {token}");
+
+                StartCoroutine(ServerConnection.Instance.GetIDUser(mail, password, (id) =>
+                {
+                    if (!string.IsNullOrEmpty(id))
+                    {
+                        PlayerPrefs.SetString("UserID", id);
+                        PlayerPrefs.Save();
+                        Debug.Log($"ID USER: {id}");
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to retrieve User ID.");
+                    }
+                }));
+
+                onLoginComplete?.Invoke(true);
+            }
+            else
+            {
+                Debug.Log("Server error: Unable to login");
+                onLoginComplete?.Invoke(false);
+            }
+        }));
     }
 
     public void GetUserByID(string id, System.Action<I_User> callback)
@@ -111,7 +148,7 @@ public class RequestUserInfo : MonoBehaviour
     /// <param name="password">Contraseña</param>
     public void CreateNewUser(string nickname, string password, string mail)
     {
-        StartCoroutine(ServerConnection.Instance.CreateNewUser(nickname, password, mail,(success) =>
+        StartCoroutine(ServerConnection.Instance.CreateNewUser(nickname, password, mail, (success) =>
         {
             if (success)
                 Debug.Log("User created successfully!");

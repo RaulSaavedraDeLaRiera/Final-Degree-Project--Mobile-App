@@ -70,6 +70,28 @@ public class ServerConnection : MonoBehaviour
         ));
     }
 
+    public IEnumerator GetIDUser(string mail, string password, Action<string> callback)
+    {
+        string url = $"http://localhost:8080/api/v1/id";
+
+        var jsonPayload = new JSONObject();
+        jsonPayload["mail"] = mail;
+        jsonPayload["password"] = password;
+
+        yield return StartCoroutine(SendRequest(url, "GET", jsonPayload,
+            (response) =>
+            {
+                UnityEngine.Debug.Log("Getting id successfully");
+                callback(response);
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"ID error: {error}");
+                callback("");
+            }
+        ));
+    }
+
     public IEnumerator CreateNewUser(string nickname, string password, string mail, Action<bool> callback)
     {
         string url = $"http://localhost:8080/api/v1/newUser";

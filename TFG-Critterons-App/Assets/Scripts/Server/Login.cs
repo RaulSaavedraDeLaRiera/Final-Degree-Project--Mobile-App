@@ -10,9 +10,9 @@ public class Login : MonoBehaviour
     [SerializeField]
     private GameObject loadingSpinner;
     [SerializeField]
-    private CanvasGroup canvasBaseGroup;
+    private Canvas canvasBaseGroup;
     [SerializeField]
-    private CanvasGroup canvasNewUserGroup;
+    private Canvas canvasNewUserGroup;
 
     private void Awake()
     {
@@ -26,41 +26,33 @@ public class Login : MonoBehaviour
         SetCanvasActive(canvasBaseGroup, false);
         loadingSpinner.SetActive(true);
 
-        StartCoroutine(ServerConnection.Instance.LoginToken(mailString, passwordString, (token) =>
+        RequestUserInfo.Instance.Login(mailString, passwordString, (success) =>
         {
             loadingSpinner.SetActive(false);
-
-            if (token != "")
+            if (success)
             {
-                StartCoroutine(ServerConnection.Instance.GameInfoInit());
-                StartCoroutine(ServerConnection.Instance.UserInfoInit());
-                PlayerPrefs.SetString("token", token);
-                PlayerPrefs.Save();
-                Debug.Log($"Token received: {token}");
+
                 SceneManager.LoadScene("Hotel");
             }
             else
             {
-                Debug.Log("Server error: Unable to login");
                 SetCanvasActive(canvasBaseGroup, true);
             }
-        }));
+        });
     }
 
-    private void SetCanvasActive(CanvasGroup canvas, bool active)
+    private void SetCanvasActive(Canvas canvas, bool active)
     {
         if (canvas != null)
         {
-            canvas.interactable = active;
-            canvas.blocksRaycasts = active;
-            canvas.alpha = active ? 1 : 0;
+            canvas.gameObject.SetActive(active);
         }
     }
 
     public void CreateNewUserChangeMenu()
     {
         SetCanvasActive(canvasBaseGroup, false);
-        SetCanvasActive(canvasNewUserGroup, true);  
+        SetCanvasActive(canvasNewUserGroup, true);
     }
 
     public void CreateNewUser()
@@ -77,25 +69,19 @@ public class Login : MonoBehaviour
                 if (resolution)
                 {
                     Debug.Log("User create");
-                    loadingSpinner.SetActive(false);
-                    SetCanvasActive(canvasNewUserGroup, false);
-                    SetCanvasActive(canvasBaseGroup, true);
                 }
                 else
                 {
                     Debug.Log("Server error: Unable to create user");
-                    loadingSpinner.SetActive(false);
-                    SetCanvasActive(canvasNewUserGroup, false);
-                    SetCanvasActive(canvasBaseGroup, true);
+
                 }
             }));
         }
-        else
-        {
-            loadingSpinner.SetActive(false);
-            SetCanvasActive (canvasNewUserGroup, false);
-            SetCanvasActive(canvasBaseGroup, true);
-        }
+
+        loadingSpinner.SetActive(false);
+        SetCanvasActive(canvasNewUserGroup, false);
+        SetCanvasActive(canvasBaseGroup, true);
+
     }
 
     public void Test()
