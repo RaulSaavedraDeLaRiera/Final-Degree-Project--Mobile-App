@@ -12,6 +12,9 @@ public class TEST : MonoBehaviour
 
     public void Test()
     {
-        RequestUserInfo.Instance.ModifyUserData("67491414df78db7b7141401e", money: 100);
+       // RequestUserInfoSocial.Instance.ModifySocialStat(PlayerPrefs.GetString("UserID"), "werer");
+        RequestUserInfoSocial.Instance.RemoveFriend(PlayerPrefs.GetString("UserID"), "werer");
+
+        //RequestUserInfo.Instance.ModifyUserForniture("674c6f93635e8758d228cd48", "mesa");
     }
 }

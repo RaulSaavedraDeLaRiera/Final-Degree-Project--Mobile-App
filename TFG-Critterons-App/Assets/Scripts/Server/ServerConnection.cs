@@ -406,4 +406,20 @@ public class ServerConnection : MonoBehaviour
             }
         ));
     }
+
+    public IEnumerator RemoveUserFriend(string userId, JSONObject friendID)
+    {
+        string url = $"http://localhost:8080/api/v1/user/removeFriend/{userId}";
+        yield return StartCoroutine(SendRequest(url, "DELETE", friendID,
+            (response) =>
+            {
+                UnityEngine.Debug.Log("User friend deleted successfully");
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error deleting user friend: {error}");
+            }
+        ));
+    }
+
 }

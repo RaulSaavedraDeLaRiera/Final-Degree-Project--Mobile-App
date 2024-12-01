@@ -3,6 +3,9 @@ package com.tfg_data_base.tfg.Users;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tfg_data_base.tfg.Users.Bodys.UserFriend;
+import com.tfg_data_base.tfg.Users.Bodys.UserUpdateRequest;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -36,6 +39,11 @@ public class UserController {
         return userService.login(user.getMail(), user.getPassword()); 
     }
 
+    @GetMapping("/id")
+    public String getId(@RequestBody User user) {
+        return userService.getUserIdByCredentials(user.getMail(), user.getPassword()); 
+    }
+
     @GetMapping("/user")
     public List<User> findAll() {
         return userService.findAll();
@@ -61,5 +69,10 @@ public class UserController {
     @PatchMapping("/user/{id}")
     public void updateUserField(@PathVariable String id, @RequestBody UserUpdateRequest userUpdateRequest) {
         userService.updateUserField(id, userUpdateRequest.getFieldName(), userUpdateRequest.getNewValue());
+    }
+
+    @DeleteMapping("/user/removeFriend/{id}")
+    public void removeFriend(@PathVariable String id, @RequestBody UserFriend friendID) {
+        userService.removeFriend(id, friendID.getFriendID());
     }
 }

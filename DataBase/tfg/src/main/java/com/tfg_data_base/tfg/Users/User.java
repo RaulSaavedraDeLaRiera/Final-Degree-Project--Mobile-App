@@ -32,8 +32,11 @@ public class User {
     @Data
     public static class SocialStat {
         private String friendID;
+        public SocialStat(String friendID) {
+            this.friendID = friendID;
+        }
     }
-
+    
     @Data
     public static class PersonalStats {
         private Integer globalSteps;

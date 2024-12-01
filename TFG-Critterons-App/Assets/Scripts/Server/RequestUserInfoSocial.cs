@@ -1,3 +1,4 @@
+using SimpleJSON;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -82,6 +83,28 @@ public class RequestUserInfoSocial : MonoBehaviour
                 ["percentHotel"] = percentHotel ?? currentData.percentHotel,
             };
             StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "personalStats", newValue));
+        });
+    }
+
+    public void RemoveFriend(string userId, string friendID)
+    {
+        GetUserSocialStat(userId, (socialStats) =>
+        {
+            if (socialStats == null)
+            {
+                Debug.LogError("User or SocialStats not found");
+                return;
+            }
+
+            if (!socialStats.Exists(stat => stat.friendID == friendID))
+            {
+                Debug.LogWarning("Friend not found in the list");
+                return;
+            }
+
+            var removeFriendJson = new JSONObject();
+            removeFriendJson.Add("friendID", new JSONString(friendID));
+            StartCoroutine(ServerConnection.Instance.RemoveUserFriend(userId, removeFriendJson));
         });
     }
 

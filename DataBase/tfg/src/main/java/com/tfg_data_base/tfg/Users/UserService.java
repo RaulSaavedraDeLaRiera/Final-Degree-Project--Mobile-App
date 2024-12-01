@@ -17,6 +17,7 @@ import com.tfg_data_base.tfg.Security.JwtUtils;
 import com.tfg_data_base.tfg.UserInfo.UserInfoService;
 import com.tfg_data_base.tfg.Users.User.CritteronUser;
 import com.tfg_data_base.tfg.Users.User.FurnitureOwned;
+import com.tfg_data_base.tfg.Users.User.SocialStat;
 
 import lombok.RequiredArgsConstructor;
 
@@ -87,7 +88,7 @@ public class UserService {
     {
         Query query = new Query();
         query.addCriteria(Criteria.where("mail").is(mail));
-        query.fields().include("password").include("mail"); // Solo incluye los campos necesarios
+        query.fields().include("password").include("mail"); 
 
         // Encuentra al usuario
         Map<String, Object> user = mongoTemplate.findOne(query, Map.class, "User");
@@ -98,6 +99,16 @@ public class UserService {
         }
 
       return "";
+    }
+
+    public String getUserIdByCredentials(String mail, String password) {
+        User user = userRepository.findByMailAndPassword(mail, password);
+
+        if (user != null) {
+            return user.getId();
+        }
+
+        return "";
     }
    
     public List<User> findAll() {
@@ -119,39 +130,48 @@ public class UserService {
      * @param fieldName
      * @param newValue
      */
-public void updateUserField(String userId, String fieldName, Object newValue) {
-    Query query = new Query(Criteria.where("id").is(userId));
+    public void updateUserField(String userId, String fieldName, Object newValue) {
+        Query query = new Query(Criteria.where("id").is(userId));
 
-    // Modificar / añadir critteron
-    if ("critterons".equals(fieldName)) {
-        CritteronUser newCritteron = new ObjectMapper().convertValue(newValue, CritteronUser.class);
-        Query critteronQuery = new Query(Criteria.where("id").is(userId)
-            .and("critterons.critteronID").is(newCritteron.getCritteronID()));
-        
-        if (mongoTemplate.exists(critteronQuery, User.class)) {
-            Update update = new Update()
-                .set("critterons.$.level", newCritteron.getLevel())
-                .set("critterons.$.currentLife", newCritteron.getCurrentLife())
-                .set("critterons.$.startInfo", newCritteron.getStartInfo());
+        // Modificar / añadir critteron
+        if ("critterons".equals(fieldName)) {
+            CritteronUser newCritteron = new ObjectMapper().convertValue(newValue, CritteronUser.class);
+            Query critteronQuery = new Query(Criteria.where("id").is(userId)
+                .and("critterons.critteronID").is(newCritteron.getCritteronID()));
             
-            mongoTemplate.updateFirst(critteronQuery, update, User.class);
-        } else {
-            mongoTemplate.updateFirst(query, new Update().addToSet("critterons", newCritteron), User.class);
-        }
-    // Añadir mueble comprado
-    } else if ("furnitureOwned".equals(fieldName)) {
-        String newFurnitureID = (String) newValue; 
-        Query furnitureQuery = new Query(Criteria.where("furnitureOwned.furnitureID").is(newFurnitureID));
-        
-        if (!mongoTemplate.exists(furnitureQuery, User.class)) {
+            if (mongoTemplate.exists(critteronQuery, User.class)) {
+                Update update = new Update()
+                    .set("critterons.$.level", newCritteron.getLevel())
+                    .set("critterons.$.currentLife", newCritteron.getCurrentLife())
+                    .set("critterons.$.startInfo", newCritteron.getStartInfo());
+                
+                mongoTemplate.updateFirst(critteronQuery, update, User.class);
+            } else {
+                mongoTemplate.updateFirst(query, new Update().addToSet("critterons", newCritteron), User.class);
+            }
+        // Añadir mueble comprado
+        } else if ("furnitureOwned".equals(fieldName)) {
+            String newFurnitureID = (String) newValue; 
             Update update = new Update().addToSet("furnitureOwned", new FurnitureOwned(newFurnitureID));
             mongoTemplate.updateFirst(query, update, User.class);
+        } else if ("socialStats".equals(fieldName)) {
+            String newSocialStatID = (String) newValue; 
+            Update update = new Update().addToSet("socialStats", new User.SocialStat(newSocialStatID));
+            mongoTemplate.updateFirst(query, update, User.class);
         }
-    } else {
-        Update update = new Update().set(fieldName, newValue);
+        else {
+            Update update = new Update().set(fieldName, newValue);
+            mongoTemplate.updateFirst(query, update, User.class);
+        }
+    }   
+    
+    public void removeFriend(String userId, String friendID) {
+        Query query = new Query(Criteria.where("id").is(userId));
+        Update update = new Update().pull("socialStats", new User.SocialStat(friendID));
         mongoTemplate.updateFirst(query, update, User.class);
     }
 }
-    
-}
+        
+
+
 
