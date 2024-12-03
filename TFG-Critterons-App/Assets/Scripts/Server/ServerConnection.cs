@@ -218,28 +218,22 @@ public class ServerConnection : MonoBehaviour
     /// <returns></returns>
     public IEnumerator GetCritteronByID(string id, Action<I_Critteron> callback)
     {
-        if (critteronIDs.Contains(id))
-        {
-            string url = $"http://localhost:8080/api/v1/critteron/{id}";
 
-            yield return StartCoroutine(SendRequest(url, "GET", null,
-                (response) =>
-                {
-                    I_Critteron i_critteron = JsonUtility.FromJson<I_Critteron>(response);
-                    callback(i_critteron);
-                },
-                (error) =>
-                {
-                    UnityEngine.Debug.LogError($"Error fetching critteron by ID {id}: {error}");
-                    callback(null);
-                }
-            ));
-        }
-        else
-        {
-            UnityEngine.Debug.LogError("Critteron not found");
-            callback(null);
-        }
+        string url = $"http://localhost:8080/api/v1/critteron/{id}";
+
+        yield return StartCoroutine(SendRequest(url, "GET", null,
+            (response) =>
+            {
+                I_Critteron i_critteron = JsonUtility.FromJson<I_Critteron>(response);
+                callback(i_critteron);
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error fetching critteron by ID {id}: {error}");
+                callback(null);
+            }
+        ));
+
     }
 
     /// <summary>
@@ -271,28 +265,22 @@ public class ServerConnection : MonoBehaviour
     /// <returns></returns>
     public IEnumerator GetFurnitureByID(string id, Action<I_Furniture> callback)
     {
-        if (furnitureIDs.Contains(id))
-        {
-            string url = $"http://localhost:8080/api/v1/furniture/{id}";
 
-            yield return StartCoroutine(SendRequest(url, "GET", null,
-                (response) =>
-                {
-                    I_Furniture i_furniture = JsonUtility.FromJson<I_Furniture>(response);
-                    callback(i_furniture);
-                },
-                (error) =>
-                {
-                    UnityEngine.Debug.LogError($"Error fetching furniture by ID {id}: {error}");
-                    callback(null);
-                }
-            ));
-        }
-        else
-        {
-            UnityEngine.Debug.LogError("Furniture not found");
-            callback(null);
-        }
+        string url = $"http://localhost:8080/api/v1/furniture/{id}";
+
+        yield return StartCoroutine(SendRequest(url, "GET", null,
+            (response) =>
+            {
+                I_Furniture i_furniture = JsonUtility.FromJson<I_Furniture>(response);
+                callback(i_furniture);
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error fetching furniture by ID {id}: {error}");
+                callback(null);
+            }
+        ));
+
     }
 
     /// <summary>
@@ -326,29 +314,22 @@ public class ServerConnection : MonoBehaviour
     /// <returns></returns>
     public IEnumerator GetUserByID(string id, Action<I_User> callback)
     {
-        if (userIDs.Contains(id))
-        {
-            string url = $"http://localhost:8080/api/v1/user/{id}";
-            string token = PlayerPrefs.GetString("token");
+        string url = $"http://localhost:8080/api/v1/user/{id}";
+        string token = PlayerPrefs.GetString("token");
 
-            yield return StartCoroutine(SendRequest(url, "GET", null,
-                (response) =>
-                {
-                    I_User i_user = JsonUtility.FromJson<I_User>(response);
-                    callback(i_user);
-                },
-                (error) =>
-                {
-                    UnityEngine.Debug.LogError($"Error fetching user by ID {id}: {error}");
-                    callback(null);
-                }
-            ));
-        }
-        else
-        {
-            UnityEngine.Debug.LogError("User not found");
-            callback(null);
-        }
+        yield return StartCoroutine(SendRequest(url, "GET", null,
+            (response) =>
+            {
+                I_User i_user = JsonUtility.FromJson<I_User>(response);
+                callback(i_user);
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error fetching user by ID {id}: {error}");
+                callback(null);
+            }
+        ));
+
     }
 
     /// <summary>

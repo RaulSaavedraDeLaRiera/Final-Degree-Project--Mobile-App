@@ -12,8 +12,9 @@ public class TEST : MonoBehaviour
 
     public void Test()
     {
-       // RequestUserInfoSocial.Instance.ModifySocialStat(PlayerPrefs.GetString("UserID"), "werer");
-        RequestUserInfoSocial.Instance.RemoveFriend(PlayerPrefs.GetString("UserID"), "werer");
+        RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "674f75026a95cc2bedfa50a9");
+        //RequestUserInfoSocial.Instance.A(PlayerPrefs.GetString("UserID"), "fasdfasdfsf");
+        // RequestUserInfoSocial.Instance.RemoveFriend(PlayerPrefs.GetString("UserID"), "werer");
 
         //RequestUserInfo.Instance.ModifyUserForniture("674c6f93635e8758d228cd48", "mesa");
     }

@@ -25,7 +25,6 @@ public class RequestUserInfo : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
-            ServerConnection.Instance.UserInfoInit();
             DontDestroyOnLoad(gameObject);
         }
         else

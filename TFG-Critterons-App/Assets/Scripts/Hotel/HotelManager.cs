@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class HotelManager : MonoBehaviour
@@ -86,8 +87,7 @@ public class HotelManager : MonoBehaviour
     }
 
     void InitialiceRooms()
-    {
-
+    { 
         //datos desde servidor
         List<string> data = new List<string>();
         data.Add("1");
@@ -99,19 +99,20 @@ public class HotelManager : MonoBehaviour
         }
     }
 
-    void InitialiceCritterons()
+    async void InitialiceCritterons()
     {
-        //datos del servidor
-        List<I_Critteron> data = new List<I_Critteron>();
-        I_Critteron critteron1 = new I_Critteron("c1", "bird", "birdMesh",
-            1, 10, 3, 2);
-        data.Add(critteron1);
+        var listUserCritterons = await GetUserCritteronsAsync();
 
+        List<I_Critteron> data = new List<I_Critteron>();
+        foreach (var cUser in listUserCritterons)
+        {
+            var critteron = await GetCritteronByIDAsync(cUser.critteronID);
+            data.Add(critteron);
+        }
 
         foreach (var critteron in data)
         {
             RoomInfo room = null;
-            //presuponemos que siempre habra heucos suficiente para los critterons
             do
             {
                 var r = rooms[UnityEngine.Random.Range(0, rooms.Count)];
@@ -120,11 +121,36 @@ public class HotelManager : MonoBehaviour
 
             } while (room == null);
 
-            var hotelCritteron = Instantiate<GameObject>(critteronPrefab,
-                room.EntryPoint.position, room.EntryPoint.rotation, critteronsRoot)
+            var hotelCritteron = Instantiate(critteronPrefab, room.EntryPoint.position, room.EntryPoint.rotation, critteronsRoot)
                 .GetComponent<HotelCritteron>();
 
             hotelCritteron.InitialiceCritteron(critteron, room);
         }
+    }
+
+
+
+    private Task<List<I_User.Critteron>> GetUserCritteronsAsync()
+    {
+        var tcs = new TaskCompletionSource<List<I_User.Critteron>>();
+
+        RequestUserInfo.Instance.GetUserCritterons(PlayerPrefs.GetString("UserID"), userCritteron =>
+        {
+            tcs.SetResult(userCritteron);
+        });
+
+        return tcs.Task;
+    }
+
+    private Task<I_Critteron> GetCritteronByIDAsync(string critteronID)
+    {
+        var tcs = new TaskCompletionSource<I_Critteron>();
+
+        RequestGameInfo.Instance.GetCritteronByID(critteronID, critteron =>
+        {
+            tcs.SetResult(critteron);
+        });
+
+        return tcs.Task;
     }
 }

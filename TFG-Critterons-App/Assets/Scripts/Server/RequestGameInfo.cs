@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class RequestGameInfo : MonoBehaviour
@@ -24,7 +25,6 @@ public class RequestGameInfo : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
-            ServerConnection.Instance.GameInfoInit();
             DontDestroyOnLoad(gameObject);
         }
         else

@@ -31,7 +31,8 @@ public class Login : MonoBehaviour
             loadingSpinner.SetActive(false);
             if (success)
             {
-
+                ServerConnection.Instance.GameInfoInit();
+                ServerConnection.Instance.UserInfoInit();
                 SceneManager.LoadScene("Hotel");
             }
             else
