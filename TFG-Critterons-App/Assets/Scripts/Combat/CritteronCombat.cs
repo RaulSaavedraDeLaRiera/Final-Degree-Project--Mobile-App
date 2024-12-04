@@ -8,6 +8,8 @@ public class CritteronCombat : MonoBehaviour
     int live, damage;
     [SerializeField]
     CombatManager combatManager;
+    [SerializeField]
+    Animator animator;
 
     public void Attack(CritteronCombat target)
     {
@@ -22,29 +24,34 @@ public class CritteronCombat : MonoBehaviour
         {
             case AttackSelected.none:
                 target.GetDamage(damage);
+                animator.Play("NormalAttack");
                 break;
             case AttackSelected.normalAttack:
                 target.GetDamage((int)(damage * extraDamage));
+                animator.Play("NormalAttack");
                 break;
             case AttackSelected.specialAttack1:
                 target.GetDamage(damage);
+                animator.Play("SpecialAttack");
                 break;
             case AttackSelected.specialAttack2:
                 target.GetDamage(damage);
+                animator.Play("SpecialAttack");
                 break;
             default:
                 break;
         }
-      
+
     }
 
     void GetDamage(int dmg)
     {
         live -= dmg;
 
-        if(live <= 0)
+        if (live <= 0)
         {
             live = 0;
+            animator.Play("Die");
             combatManager.CritteronDefeated(this);
         }
     }

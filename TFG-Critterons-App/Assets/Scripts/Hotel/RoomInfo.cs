@@ -13,7 +13,16 @@ public class RoomInfo : MonoBehaviour
     Teleport entryPointToCritterons;
 
     [SerializeField]
-    float xSize, zSize;
+    Vector2 size;
+
+    [SerializeField]
+    GameObject nonBoughtCube;
+
+    //no necesario si es por servidor, vale con que quede registrado por servidor
+    /*[SerializeField]
+    HotelObjectType typeHotelRoom;
+    [SerializeField]
+    float valueRoom;*/
 
     int numCritteronsInRoom = 0;
     public bool AvailableSpace
@@ -25,9 +34,9 @@ public class RoomInfo : MonoBehaviour
     {
         get { return entryPointToCritterons.transform; }
     }
-    public Tuple<float, float> Size
+    public Vector2 Size
     {
-        get { return new Tuple<float, float>(xSize, zSize); }
+        get { return size; }
     }
 
     void Start()
@@ -35,14 +44,18 @@ public class RoomInfo : MonoBehaviour
         entryPointToCritterons.Room = this;
     }
 
-    public void InitialiceRoom(List<string> boughtObjectsID, HotelManager hM)
+    public void InitialiceRoom(List<string> boughtRoomsID, List<string> boughtObjectsID, HotelManager hM)
     {
-        foreach (var item in fornitures)
-        {
-            item.InitialiceObject(boughtObjectsID.Contains(item.name), this, hM);
-        }
 
-       
+        if (boughtRoomsID.Contains(gameObject.name))
+            foreach (var item in fornitures)
+            {
+                item.InitialiceObject(boughtObjectsID.Contains(item.name), this, hM);
+            }
+        else
+            nonBoughtCube.SetActive(true);
+
+
     }
 
     public void AddCritteron(HotelCritteron critteron)

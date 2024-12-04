@@ -11,6 +11,8 @@ public class HotelCritteron : MonoBehaviour
     //metemos todo esto en una clase static config?
     static float updateBehaviourRate = 5f, updateBehaviourRandom = .2f,
         useItemsProbability = 0.1f;
+    //si va a cualquie tipo de objeto
+    static bool randomObjects = true;
 
     [SerializeField]
     I_Critteron infoCritteron;
@@ -126,26 +128,42 @@ public class HotelCritteron : MonoBehaviour
         //si ahora mismo no quiere ir a ningunn objeto o si esta en algun objeto actualmente
         if (target == null)
         {
-
-
-            //aqui seria current live
-            if (infoCritteron.life < infoCritteron.life)
+            //si tiene en cuenta el tipo de objeto
+            if(!randomObjects)
             {
-                //intenta ir a ua zona de curacion acelerada
-                target = NavigationControl.GetTarget(HotelObjectType.cureObject);
+
+                //aqui añadiriamos todos los tipos de objeto necesarios
+
+                //aqui seria current live
+                if (infoCritteron.life < infoCritteron.life)
+                {
+                    //intenta ir a ua zona de curacion acelerada
+                    target = NavigationControl.GetTarget(HotelObjectType.cureObject);
+                }
+
+                else if (target == null)
+                {
+                    //intenta ir a zona de mejora de nivel acelerada
+                    target = NavigationControl.GetTarget(HotelObjectType.levelObject);
+                }
+
+                if (Random.Range(0, 1f) <= useItemsProbability)
+                {
+                    //intenta ir a jugar a algun objeto
+                    target = NavigationControl.GetTarget(HotelObjectType.decorationObject);
+                }
             }
 
-            else if (target == null)
+            //si no lo tiene
+            else
             {
-                //intenta ir a zona de mejora de nivel acelerada
-                target = NavigationControl.GetTarget(HotelObjectType.levelObject);
+                if (Random.Range(0, 1f) <= useItemsProbability)
+                {
+                    //intenta ir a jugar a algun objeto
+                    target = NavigationControl.GetTarget();
+                }
             }
 
-            if (Random.Range(0, 1f) <= useItemsProbability)
-            {
-                //intenta ir a jugar a algun objeto
-                target = NavigationControl.GetTarget(HotelObjectType.decorationObject);
-            }
 
 
             if (target != null)

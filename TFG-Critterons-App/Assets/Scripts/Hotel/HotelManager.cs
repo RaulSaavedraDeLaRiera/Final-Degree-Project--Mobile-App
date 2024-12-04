@@ -17,7 +17,7 @@ public class HotelManager : MonoBehaviour
         levelObjects = new List<HotelObject>(),
         decorationObjects = new List<HotelObject>();
 
-
+    public List<RoomInfo> Rooms => rooms;
 
     void Awake()
     {
@@ -86,16 +86,45 @@ public class HotelManager : MonoBehaviour
         return null;
     }
 
+
+    public HotelObject GetRandomHotelObject()
+    {
+
+        List<HotelObject> objects = new List<HotelObject>();
+        objects.AddRange(healthObjects);
+        objects.AddRange(levelObjects);
+        objects.AddRange(decorationObjects);
+
+
+        int randomStart = UnityEngine.Random.Range(0, objects.Count);
+
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (objects[(randomStart + i) % objects.Count].CurrentUser == null)
+            {
+                return objects[(randomStart + i) % objects.Count];
+            }
+        }
+
+        return null;
+    }
+
     void InitialiceRooms()
-    { 
-        //datos desde servidor
+    {
+
+        //datos desde servidor de habitaciones disponibles
+        List<string> roomData = new List<string>();
+        roomData.Add("exampleRoom");
+        roomData.Add("room2");
+
+        //datos desde servidor de muebles
         List<string> data = new List<string>();
         data.Add("1");
         data.Add("2");
 
         foreach (var room in rooms)
         {
-            room.InitialiceRoom(data, this);
+            room.InitialiceRoom(roomData, data, this);
         }
     }
 

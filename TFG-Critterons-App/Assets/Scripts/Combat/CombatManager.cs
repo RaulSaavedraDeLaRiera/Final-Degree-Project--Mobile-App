@@ -7,14 +7,14 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     CombatType combatType;
     [SerializeField]
-    float turnDuration = 0.5f, attackExtraDamage = 1.25f;
+    float turnDuration = 1.5f, attackExtraDamage = 1.25f, enemy2vs1SizeIncrease = 1.5f;
     [SerializeField]
     bool autoAttack = true;
 
     //1 posicicion critteron 1 en equipo
-    //2 posicion critteron 1, 2 en equipo - 3 posicion critteron 2, 2 en equipo
+    //2 posicion critteron 1, 2 en equipo --- 3 posicion critteron 2, 2 en equipo
     [SerializeField]
-    Transform[] allyCritteronsPos, enemyCritteronsPos;
+    Transform[] allyCritteronsPos, enemyCritteronsPos, cameraPos;
 
     [SerializeField]
     List<CritteronCombat> allyCritterons = new List<CritteronCombat>(),
@@ -35,16 +35,31 @@ public class CombatManager : MonoBehaviour
     {
         //aqui cargaria los datos de critterons de donde esten guardados
 
+
+
+        //se le asignan las posiciones dadas
         switch (combatType)
         {
             case CombatType.combat1vs1:
+                Camera.main.transform.position = cameraPos[0].position;
+                Camera.main.transform.rotation = cameraPos[0].rotation;
+
                 allyCritterons[0].transform.position = allyCritteronsPos[0].position;
+                allyCritterons[0].transform.rotation = allyCritteronsPos[0].rotation;
                 enemyCritterons[0].transform.position = enemyCritteronsPos[0].position;
+                enemyCritterons[0].transform.rotation = enemyCritteronsPos[0].rotation;
                 break;
             case CombatType.combat2vs1:
-                allyCritterons[0].transform.position = allyCritteronsPos[0].position;
-                allyCritterons[1].transform.position = allyCritteronsPos[0].position;
-                enemyCritterons[0].transform.position = enemyCritteronsPos[0].position;
+                Camera.main.transform.position = cameraPos[1].position;
+                Camera.main.transform.rotation = cameraPos[1].rotation;
+
+                allyCritterons[0].transform.position = allyCritteronsPos[1].position;
+                allyCritterons[0].transform.rotation = allyCritteronsPos[1].rotation;
+                allyCritterons[1].transform.position = allyCritteronsPos[2].position;
+                allyCritterons[1].transform.rotation = allyCritteronsPos[2].rotation;
+                enemyCritterons[0].transform.position = enemyCritteronsPos[1].position;
+                enemyCritterons[0].transform.rotation = enemyCritteronsPos[1].rotation;
+                enemyCritterons[0].transform.localScale *= enemy2vs1SizeIncrease;
                 break;
         }
     }

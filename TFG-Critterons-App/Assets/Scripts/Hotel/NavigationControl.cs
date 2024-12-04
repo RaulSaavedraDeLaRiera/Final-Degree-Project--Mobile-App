@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +8,8 @@ public class NavigationControl : MonoBehaviour
     HotelManager hotelManager;
 
     static int maxTriesToGetPosition = 50;
+
+    static bool globalMove = true;
 
     private void Awake()
     {
@@ -30,6 +30,11 @@ public class NavigationControl : MonoBehaviour
         return instance.hotelManager.GetHotelObject(typeObject);
     }
 
+    public static HotelObject GetTarget()
+    {
+        return instance.hotelManager.GetRandomHotelObject();
+    }
+
     public static Transform GetNextRoutePoint(HotelCritteron critteron)
     {
         if(critteron.Target.Room == critteron.CurrentRoom)
@@ -43,15 +48,28 @@ public class NavigationControl : MonoBehaviour
     }
     public static Vector3 GetRandomPoint(HotelCritteron critteron)
     {
-        var roomPos = critteron.CurrentRoom.transform.position;
-        var roomSize = critteron.CurrentRoom.Size;
+        Vector3 roomPos; Vector2 roomSize;
+
+        if(!globalMove)
+        {
+            roomPos = critteron.CurrentRoom.transform.position;
+            roomSize = critteron.CurrentRoom.Size;
+        }
+        else
+        {
+            var room = 
+                instance.hotelManager.Rooms[Random.Range(0, instance.hotelManager.Rooms.Count)];
+            roomPos = room.transform.position;
+            roomSize = room.Size;
+        }
+       
 
         NavMeshHit hit;
 
         for (int i = 0; i < maxTriesToGetPosition; i++)
         {
             if (NavMesh.SamplePosition(
-           new Vector3(roomPos.x + Random.Range(-roomSize.Item1, roomSize.Item1), roomPos.y, roomPos.z + Random.Range(-roomSize.Item2, roomSize.Item2)),
+           new Vector3(roomPos.x + Random.Range(-roomSize.x, roomSize.x), roomPos.y, roomPos.z + Random.Range(-roomSize.y, roomSize.y)),
            out hit, Mathf.Infinity, NavMesh.AllAreas))
             {
                 return hit.position; // Devuelve la posición válida en el NavMesh
