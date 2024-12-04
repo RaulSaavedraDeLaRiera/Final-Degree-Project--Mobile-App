@@ -5,22 +5,32 @@ using UnityEngine;
 public class CritteronCombat : MonoBehaviour
 {
     [SerializeField]
-    int live, damage;
+    int health, damage;
     [SerializeField]
     Transform visualRoot;
 
 
     Animator animator;
     CombatManager combatManager;
-    public void InitializateCritteron(CombatManager manager, 
-        CritteronCombatInfo info)
+    CombatUI ui;
+    int combatID;
+
+    int maxHealth;
+
+    public string InitializateCritteron(CombatManager manager, CombatUI ui,
+        CritteronCombatInfo info, int combatID)
     {
         combatManager = manager;
-        live = info.live;
+        this.ui = ui;
+        this.combatID = combatID;
+
+        maxHealth = health = info.live;
         damage = info.damage;
 
         visualRoot.GetChild(info.creature).gameObject.SetActive(true);
         animator = visualRoot.GetChild(info.creature).GetComponent<Animator>();
+
+        return visualRoot.GetChild(info.creature).gameObject.name;
     }
    
 
@@ -60,11 +70,13 @@ public class CritteronCombat : MonoBehaviour
 
     void GetDamage(int dmg)
     {
-        live -= dmg;
+        health -= dmg;
 
-        if (live <= 0)
+        ui.ChangeHealth(combatID, health, maxHealth);
+
+        if (health <= 0)
         {
-            live = 0;
+            health = 0;
             animator.Play("Die");
             combatManager.CritteronDefeated(this);
         }
@@ -75,12 +87,15 @@ public struct CritteronCombatInfo{
     public int live;
     public int damage;
     public int creature;
+    public int level;
 
-    public CritteronCombatInfo(int live, int damage, int creature)
+
+    public CritteronCombatInfo(int live, int damage, int creature,int level)
     {
         this.live = live;
         this.damage = damage;
         this.creature = creature;
+        this.level = level;
     }
 
 }

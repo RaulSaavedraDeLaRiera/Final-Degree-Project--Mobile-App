@@ -28,6 +28,8 @@ public class CombatManager : MonoBehaviour
 
     AttackSelected attackSelected;
 
+
+    float coldownSpecialAttack = 2.5f, lastSpecialAttack = 0f;
     private void Start()
     {
         SetCombat(); 
@@ -36,40 +38,52 @@ public class CombatManager : MonoBehaviour
     void SetCombat()
     {
 
-        //aqui cargariamos la informacion
-        CritteronCombatInfo[] crittterons = new CritteronCombatInfo[2];
-        crittterons[0] = new CritteronCombatInfo(6, 2, 0);
-        crittterons[1] = new CritteronCombatInfo(6, 1, 1);
+        //aqui cargariamos la informacion de los critterons como parametros extras
+        CritteronCombatInfo[] crittterons = new CritteronCombatInfo[3];
+        crittterons[0] = new CritteronCombatInfo(6, 2, 0, 3);
+        crittterons[1] = new CritteronCombatInfo(6, 1, 1, 2);
+        crittterons[2] = new CritteronCombatInfo(15, 1, 1, 2);
 
+        //podriamos tener un modificador de esto por hotel
+        coldownSpecialAttack *= 1;
 
-        CombatParameters combat = new CombatParameters(CombatType.combat1vs1, crittterons);
+        CombatParameters combat = new CombatParameters(CombatType.combat2vs1, crittterons);
+        //
 
         combatType = combat.combatType;
+
+        string[] names = new string[0];
 
         switch (combatType)
         {
             case CombatType.combat1vs1:
+                names = new string[2];
+
                 allyCritterons[0].gameObject.SetActive(true);
-                allyCritterons[0].InitializateCritteron(this, combat.critterons[0]);
+                names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combat.critterons[0], 0);
 
                 enemyCritterons[0].gameObject.SetActive(true);
-                enemyCritterons[0].InitializateCritteron(this, combat.critterons[1]);
+                names[1] = enemyCritterons[0].InitializateCritteron(this, combatUI, combat.critterons[1], 1);
                 break;
 
             case CombatType.combat2vs1:
+                names = new string[3];
 
                 allyCritterons[0].gameObject.SetActive(true);
-                allyCritterons[0].InitializateCritteron(this, combat.critterons[0]);
+                names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combat.critterons[0], 0);
                 allyCritterons[1].gameObject.SetActive(true);
-                allyCritterons[1].InitializateCritteron(this, combat.critterons[1]);
+                names[1] = allyCritterons[1].InitializateCritteron(this, combatUI, combat.critterons[1], 1);
 
                 enemyCritterons[0].gameObject.SetActive(true);
-                enemyCritterons[0].InitializateCritteron(this, combat.critterons[2]);
+                names[2] = enemyCritterons[0].InitializateCritteron(this, combatUI, combat.critterons[2], 2);
                 break;
         }
 
+        combat.critteronsName = names;
 
         EmplaceCritterons();
+
+        combatUI.SetUI(combat);
 
         InvokeRepeating("Turn", turnDuration, turnDuration);
     }
@@ -151,9 +165,20 @@ public class CombatManager : MonoBehaviour
 
     public void AttackInput(int selected)
     {
+        if ((AttackSelected)selected != AttackSelected.normalAttack)
+        {
+            if (lastSpecialAttack + coldownSpecialAttack >= Time.timeSinceLevelLoad)
+                return;
+            else
+            {
+                lastSpecialAttack = Time.timeSinceLevelLoad;
+            }
+        }
 
         Debug.Log("ataque seleccionado: " + selected + " en turno " + turn);
         attackSelected = (AttackSelected)selected;
+
+        combatUI.SelectAttack(selected-1);
     }
 
     void Turn()
@@ -165,7 +190,13 @@ public class CombatManager : MonoBehaviour
             //comnate 1 vs 1, atacan por momentos
             case CombatType.combat1vs1:
                 if (turn % 2 != 0 && (autoAttack || attackSelected != AttackSelected.none))
+                {
                     allyCritterons[0].Attack(enemyCritterons[0], attackSelected, attackExtraDamage);
+
+                    combatUI.ResetAttacks();
+                    if((int)attackSelected > 1)
+                        combatUI.DisableSpecialAttacks(coldownSpecialAttack);
+                }
                 else
                     enemyCritterons[0].Attack(allyCritterons[0]);
 
@@ -178,7 +209,13 @@ public class CombatManager : MonoBehaviour
                 {
                     // primero el del jugador
                     if (turn % 2 != 0 && (autoAttack || attackSelected != AttackSelected.none))
+                    {
                         allyCritterons[0].Attack(enemyCritterons[0], attackSelected, attackExtraDamage);
+
+                        combatUI.ResetAttacks();
+                        if ((int)attackSelected > 1)
+                            combatUI.DisableSpecialAttacks(coldownSpecialAttack);
+                    }
                     //y luego el del aliado
                     else
                         allyCritterons[1].Attack(enemyCritterons[0]);
@@ -203,6 +240,9 @@ public class CombatManager : MonoBehaviour
 
     void EndCombat(bool win)
     {
+
+        combatUI.ResetAttacks(true);
+
         if(win)
         {
             Debug.Log("derrotado enemigos");
@@ -222,11 +262,13 @@ public struct CombatParameters
 {
     public CombatType combatType;
     public CritteronCombatInfo[] critterons;
+    public string[] critteronsName;
 
     public CombatParameters(CombatType combatType, CritteronCombatInfo[] critterons)
     {
         this.combatType = combatType;
         this.critterons = critterons;
+        critteronsName = new string[0];
     }
 }
 
