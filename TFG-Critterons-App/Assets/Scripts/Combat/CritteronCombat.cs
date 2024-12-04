@@ -14,6 +14,7 @@ public class CritteronCombat : MonoBehaviour
     public void Attack(CritteronCombat target)
     {
         Debug.Log(gameObject.name + " attacks " + target.gameObject.name);
+        animator.Play("NormalAttack");
         target.GetDamage(damage);
     }
     public void Attack(CritteronCombat target, AttackSelected attackSelected, float extraDamage)

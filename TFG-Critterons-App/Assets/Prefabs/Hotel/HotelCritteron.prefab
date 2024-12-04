@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4919490424931320453}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -59,7 +59,6 @@ MonoBehaviour:
     attacks: []
   visualRoot: {fileID: 8605855998228212758}
   agent: {fileID: 1388119834424669847}
-  animator: {fileID: 8663024964856309165}
 --- !u!65 &6663974245048399217
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -174,8 +173,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: b6bb2a71ae1e3fd4da6bd7ff6d5dc6e0,
-        type: 2}
+      objectReference: {fileID: 9100000, guid: 6d255ad52630d1b408d5bee819176ff8, type: 2}
     - target: {fileID: 2361259873805617658, guid: 509cc0139dddd3e4fbe729e27b8f0dc8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -249,12 +247,6 @@ PrefabInstance:
 --- !u!4 &8663024964847209037 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2361259873805617658, guid: 509cc0139dddd3e4fbe729e27b8f0dc8,
-    type: 3}
-  m_PrefabInstance: {fileID: 6412525633982579639}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &8663024964856309165 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2361259873796597274, guid: 509cc0139dddd3e4fbe729e27b8f0dc8,
     type: 3}
   m_PrefabInstance: {fileID: 6412525633982579639}
   m_PrefabAsset: {fileID: 0}
