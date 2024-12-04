@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviour
 {
+
+
     [SerializeField]
-    CombatType combatType;
+    CombatUI combatUI;    
     [SerializeField]
     float turnDuration = 1.5f, attackExtraDamage = 1.25f, enemy2vs1SizeIncrease = 1.5f;
     [SerializeField]
     bool autoAttack = true;
+    [SerializeField]
+    CombatType combatType;
 
     //1 posicicion critteron 1 en equipo
     //2 posicion critteron 1, 2 en equipo --- 3 posicion critteron 2, 2 en equipo
@@ -26,6 +30,45 @@ public class CombatManager : MonoBehaviour
 
     private void Start()
     {
+        SetCombat(); 
+    }
+
+    void SetCombat()
+    {
+
+        //aqui cargariamos la informacion
+        CritteronCombatInfo[] crittterons = new CritteronCombatInfo[2];
+        crittterons[0] = new CritteronCombatInfo(6, 2, 0);
+        crittterons[1] = new CritteronCombatInfo(6, 1, 1);
+
+
+        CombatParameters combat = new CombatParameters(CombatType.combat1vs1, crittterons);
+
+        combatType = combat.combatType;
+
+        switch (combatType)
+        {
+            case CombatType.combat1vs1:
+                allyCritterons[0].gameObject.SetActive(true);
+                allyCritterons[0].InitializateCritteron(this, combat.critterons[0]);
+
+                enemyCritterons[0].gameObject.SetActive(true);
+                enemyCritterons[0].InitializateCritteron(this, combat.critterons[1]);
+                break;
+
+            case CombatType.combat2vs1:
+
+                allyCritterons[0].gameObject.SetActive(true);
+                allyCritterons[0].InitializateCritteron(this, combat.critterons[0]);
+                allyCritterons[1].gameObject.SetActive(true);
+                allyCritterons[1].InitializateCritteron(this, combat.critterons[1]);
+
+                enemyCritterons[0].gameObject.SetActive(true);
+                enemyCritterons[0].InitializateCritteron(this, combat.critterons[2]);
+                break;
+        }
+
+
         EmplaceCritterons();
 
         InvokeRepeating("Turn", turnDuration, turnDuration);
@@ -33,9 +76,6 @@ public class CombatManager : MonoBehaviour
 
     void EmplaceCritterons()
     {
-        //aqui cargaria los datos de critterons de donde esten guardados
-
-
 
         //se le asignan las posiciones dadas
         switch (combatType)
@@ -177,3 +217,16 @@ public class CombatManager : MonoBehaviour
 
 public enum CombatType { combat1vs1, combat2vs1 }
 public enum AttackSelected {none, normalAttack, specialAttack1, specialAttack2 }
+
+public struct CombatParameters
+{
+    public CombatType combatType;
+    public CritteronCombatInfo[] critterons;
+
+    public CombatParameters(CombatType combatType, CritteronCombatInfo[] critterons)
+    {
+        this.combatType = combatType;
+        this.critterons = critterons;
+    }
+}
+

@@ -7,9 +7,22 @@ public class CritteronCombat : MonoBehaviour
     [SerializeField]
     int live, damage;
     [SerializeField]
-    CombatManager combatManager;
-    [SerializeField]
+    Transform visualRoot;
+
+
     Animator animator;
+    CombatManager combatManager;
+    public void InitializateCritteron(CombatManager manager, 
+        CritteronCombatInfo info)
+    {
+        combatManager = manager;
+        live = info.live;
+        damage = info.damage;
+
+        visualRoot.GetChild(info.creature).gameObject.SetActive(true);
+        animator = visualRoot.GetChild(info.creature).GetComponent<Animator>();
+    }
+   
 
     public void Attack(CritteronCombat target)
     {
@@ -56,4 +69,18 @@ public class CritteronCombat : MonoBehaviour
             combatManager.CritteronDefeated(this);
         }
     }
+}
+
+public struct CritteronCombatInfo{
+    public int live;
+    public int damage;
+    public int creature;
+
+    public CritteronCombatInfo(int live, int damage, int creature)
+    {
+        this.live = live;
+        this.damage = damage;
+        this.creature = creature;
+    }
+
 }
