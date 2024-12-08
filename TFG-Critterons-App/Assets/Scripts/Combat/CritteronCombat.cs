@@ -38,6 +38,7 @@ public class CritteronCombat : MonoBehaviour
     {
         Debug.Log(gameObject.name + " attacks " + target.gameObject.name);
         animator.Play("NormalAttack");
+        combatManager.SolicitateEffect(0, 0);
         target.GetDamage(damage);
     }
     public void Attack(CritteronCombat target, AttackSelected attackSelected, float extraDamage)
@@ -49,16 +50,21 @@ public class CritteronCombat : MonoBehaviour
             case AttackSelected.none:
                 target.GetDamage(damage);
                 animator.Play("NormalAttack");
+                combatManager.SolicitateEffect(0, 0);
                 break;
             case AttackSelected.normalAttack:
+                combatManager.SolicitateEffect(0, 0);
                 target.GetDamage((int)(damage * extraDamage));
                 animator.Play("NormalAttack");
                 break;
             case AttackSelected.specialAttack1:
+                //se deberia de dar el index respecto a su ataque especial
+                combatManager.SolicitateEffect(1, 0);
                 target.GetDamage(damage);
                 animator.Play("SpecialAttack");
                 break;
             case AttackSelected.specialAttack2:
+                combatManager.SolicitateEffect(1, 0);
                 target.GetDamage(damage);
                 animator.Play("SpecialAttack");
                 break;

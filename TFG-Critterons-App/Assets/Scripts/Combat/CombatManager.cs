@@ -9,7 +9,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     CombatUI combatUI;    
     [SerializeField]
-    float turnDuration = 1.5f, attackExtraDamage = 1.25f, enemy2vs1SizeIncrease = 1.5f;
+    float turnDuration = 1.5f, attackExtraDamage = 1.25f, enemy2vs1SizeIncrease = 1.5f, effectsDuration = 1f;
     [SerializeField]
     bool autoAttack = true;
     [SerializeField]
@@ -19,6 +19,8 @@ public class CombatManager : MonoBehaviour
     //2 posicion critteron 1, 2 en equipo --- 3 posicion critteron 2, 2 en equipo
     [SerializeField]
     Transform[] allyCritteronsPos, enemyCritteronsPos, cameraPos;
+    [SerializeField]
+    Transform effectsRoot;
 
     [SerializeField]
     List<CritteronCombat> allyCritterons = new List<CritteronCombat>(),
@@ -39,15 +41,15 @@ public class CombatManager : MonoBehaviour
     {
 
         //aqui cargariamos la informacion de los critterons como parametros extras
-        CritteronCombatInfo[] crittterons = new CritteronCombatInfo[3];
-        crittterons[0] = new CritteronCombatInfo(6, 2, 0, 3);
-        crittterons[1] = new CritteronCombatInfo(6, 1, 1, 2);
-        crittterons[2] = new CritteronCombatInfo(15, 1, 1, 2);
+        CritteronCombatInfo[] crittterons = new CritteronCombatInfo[2];
+        crittterons[0] = new CritteronCombatInfo(6, 3, 0, 3);
+       // crittterons[1] = new CritteronCombatInfo(6, 1, 1, 2);
+        crittterons[1] = new CritteronCombatInfo(15, 1, 1, 2);
 
         //podriamos tener un modificador de esto por hotel
         coldownSpecialAttack *= 1;
 
-        CombatParameters combat = new CombatParameters(CombatType.combat2vs1, crittterons);
+        CombatParameters combat = new CombatParameters(CombatType.combat1vs1, crittterons);
         //
 
         combatType = combat.combatType;
@@ -58,6 +60,7 @@ public class CombatManager : MonoBehaviour
         {
             case CombatType.combat1vs1:
                 names = new string[2];
+                effectsRoot = effectsRoot.GetChild(0);
 
                 allyCritterons[0].gameObject.SetActive(true);
                 names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combat.critterons[0], 0);
@@ -68,6 +71,7 @@ public class CombatManager : MonoBehaviour
 
             case CombatType.combat2vs1:
                 names = new string[3];
+                effectsRoot = effectsRoot.GetChild(1);
 
                 allyCritterons[0].gameObject.SetActive(true);
                 names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combat.critterons[0], 0);
@@ -179,6 +183,20 @@ public class CombatManager : MonoBehaviour
         attackSelected = (AttackSelected)selected;
 
         combatUI.SelectAttack(selected-1);
+    }
+
+    int effectType, efffectIndex;
+    public void SolicitateEffect(int type, int index)
+    {
+        effectType = type;
+        efffectIndex = index;
+        effectsRoot.GetChild(type).gameObject.SetActive(true);
+        Invoke("DisableEffect", effectsDuration);
+    }
+
+    void DisableEffect()
+    {
+        effectsRoot.GetChild(effectType).gameObject.SetActive(false);
     }
 
     void Turn()
