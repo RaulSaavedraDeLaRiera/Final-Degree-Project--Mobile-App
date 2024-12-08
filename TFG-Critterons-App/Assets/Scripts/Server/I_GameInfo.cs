@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class I_GameInfo   {
     public string id;
     public List<Critteron> critterons;
-    public List<Forniture> forniture;
+    public List<Room> rooms;
     public WeekRewards weekRewards;
 
     [Serializable]
@@ -14,8 +14,8 @@ public class I_GameInfo   {
     }
 
     [Serializable]
-    public class Forniture  {
-        public string fornitureID;
+    public class Room  {
+        public string roomID;
     }
 
 

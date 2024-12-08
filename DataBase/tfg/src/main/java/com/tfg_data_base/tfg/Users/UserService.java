@@ -11,13 +11,17 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tfg_data_base.tfg.Security.JwtUtils;
 import com.tfg_data_base.tfg.UserInfo.UserInfoService;
 import com.tfg_data_base.tfg.Users.User.CritteronUser;
-import com.tfg_data_base.tfg.Users.User.FurnitureOwned;
-import com.tfg_data_base.tfg.Users.User.SocialStat;
+import com.tfg_data_base.tfg.Users.User.RoomOwned;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +32,7 @@ public class UserService {
     private final UserInfoService userInfoService;
 
     private JwtUtils jwtUtils = new JwtUtils();
+    private String userPasswordCredentials = "Jm7N@q9!Xf2#ZlT6pV";
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -58,8 +63,8 @@ public class UserService {
             user.setCritterons(new ArrayList<>());
         }
     
-        if (user.getFurnitureOwned() == null) {
-            user.setFurnitureOwned(new ArrayList<>());
+        if (user.getRoomOwned() == null) {
+            user.setRoomOwned(new ArrayList<>());
         }
 
         if (user.getMail() == null) user.setMail("");
@@ -79,7 +84,7 @@ public class UserService {
         if (personalStats.getCombatWins() == null) personalStats.setCombatWins(0);
         if (personalStats.getCritteronsOwned() == null) personalStats.setCritteronsOwned(0);
         if (personalStats.getPercentHotel() == null) personalStats.setPercentHotel(0);
-    
+
         userRepository.save(user);
         userInfoService.addUser(user.getId());
     }
@@ -120,6 +125,9 @@ public class UserService {
     }
 
     public void deleteById(String id) {
+        if(!verifyUser(id))
+            throw new SecurityException("Cant modify a different user"); 
+
         userRepository.deleteById(id);
         userInfoService.removeUser(id);
     }
@@ -131,6 +139,11 @@ public class UserService {
      * @param newValue
      */
     public void updateUserField(String userId, String fieldName, Object newValue) {
+      
+        if(!verifyUser(userId))
+            throw new SecurityException("Cant modify a different user");
+
+
         Query query = new Query(Criteria.where("id").is(userId));
 
         // Modificar / añadir critteron
@@ -150,9 +163,10 @@ public class UserService {
                 mongoTemplate.updateFirst(query, new Update().addToSet("critterons", newCritteron), User.class);
             }
         // Añadir mueble comprado
-        } else if ("furnitureOwned".equals(fieldName)) {
-            String newFurnitureID = (String) newValue; 
-            Update update = new Update().addToSet("furnitureOwned", new FurnitureOwned(newFurnitureID));
+        } else if ("roomOwned".equals(fieldName)) {
+            String newRoomID = (String) newValue; 
+            RoomOwned newRoom = new RoomOwned(newRoomID);
+            Update update = new Update().addToSet("roomOwned", newRoom);
             mongoTemplate.updateFirst(query, update, User.class);
         } else if ("socialStats".equals(fieldName)) {
             String newSocialStatID = (String) newValue; 
@@ -166,9 +180,36 @@ public class UserService {
     }   
     
     public void removeFriend(String userId, String friendID) {
+
+        if(!verifyUser(userId))
+            throw new SecurityException("Cant modify a different user");
+
         Query query = new Query(Criteria.where("id").is(userId));
         Update update = new Update().pull("socialStats", new User.SocialStat(friendID));
         mongoTemplate.updateFirst(query, update, User.class);
+    }
+
+    private boolean verifyUser(String userId)
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String authenticatedEmail = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) 
+            authenticatedEmail = ((UserDetails) authentication.getPrincipal()).getUsername();
+        else if (authentication != null && authentication.getPrincipal() instanceof String) 
+            authenticatedEmail = (String) authentication.getPrincipal();
+        
+        if (authenticatedEmail == null) 
+            return false;
+   
+        Query query = new Query(Criteria.where("id").is(userId));
+        User user = mongoTemplate.findOne(query, User.class);
+        if (user == null) 
+            return false;
+
+        if (!authenticatedEmail.equals(user.getMail())) 
+            return false;
+        
+        return true;
     }
 }
         

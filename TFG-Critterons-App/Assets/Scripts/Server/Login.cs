@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,37 +12,62 @@ public class Login : MonoBehaviour
     [SerializeField]
     private GameObject loadingSpinner;
     [SerializeField]
-    private Canvas canvasBaseGroup;
+    private Canvas canvasBase;
     [SerializeField]
-    private Canvas canvasNewUserGroup;
+    private Canvas canvasNewUser;
 
     private void Awake()
     {
-        SetCanvasActive(canvasNewUserGroup, false);
+        SetCanvasActive(canvasNewUser, false);
     }
 
-    public void TryLogin()
+    public async void TryLogin()
     {
         string mailString = mail.text;
         string passwordString = password.text;
-        SetCanvasActive(canvasBaseGroup, false);
-        loadingSpinner.SetActive(true);
 
-        RequestUserInfo.Instance.Login(mailString, passwordString, (success) =>
+        if (mailString != "" && passwordString != "")
         {
+            SetCanvasActive(canvasBase, false);
+            loadingSpinner.SetActive(true);
+
+            bool loginSuccess = await LoginAsync(mailString, passwordString);
             loadingSpinner.SetActive(false);
-            if (success)
+
+            if (loginSuccess)
             {
-                ServerConnection.Instance.GameInfoInit();
-                ServerConnection.Instance.UserInfoInit();
-                SceneManager.LoadScene("Hotel");
+                try
+                {
+                    await ServerConnection.Instance.GameInfoInitAsync();
+                    await ServerConnection.Instance.UserInfoInitAsync();
+
+                    SceneManager.LoadScene("Hotel");
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Error during initialization: {ex.Message}");
+                    SetCanvasActive(canvasBase, true);
+                }
             }
             else
             {
-                SetCanvasActive(canvasBaseGroup, true);
+                SetCanvasActive(canvasBase, true);
             }
-        });
+        }
     }
+
+    private Task<bool> LoginAsync(string mail, string password)
+    {
+        var tcs = new TaskCompletionSource<bool>();
+
+        RequestUserInfo.Instance.Login(mail, password, (success) =>
+        {
+            tcs.SetResult(success);
+        });
+
+        return tcs.Task;
+    }
+
 
     private void SetCanvasActive(Canvas canvas, bool active)
     {
@@ -50,10 +77,10 @@ public class Login : MonoBehaviour
         }
     }
 
-    public void CreateNewUserChangeMenu()
+    public void ChangeCanvas()
     {
-        SetCanvasActive(canvasBaseGroup, false);
-        SetCanvasActive(canvasNewUserGroup, true);
+        SetCanvasActive(canvasBase, !canvasBase.gameObject.activeSelf);
+        SetCanvasActive(canvasNewUser, !canvasNewUser.gameObject.activeSelf);
     }
 
     public void CreateNewUser()
@@ -61,27 +88,31 @@ public class Login : MonoBehaviour
         string nameString = nameC.text;
         string passwordString = passwordC.text;
         string mailString = mailC.text;
-        loadingSpinner.SetActive(true);
+
         if (nameString != "" && passwordString != "" && mailString != "")
         {
-            StartCoroutine(ServerConnection.Instance.CreateNewUser(nameString, passwordString, mailString, (resolution) =>
+            loadingSpinner.SetActive(true);
+
+            if (nameString != "" && passwordString != "" && mailString != "")
             {
-                loadingSpinner.SetActive(false);
-                if (resolution)
+                StartCoroutine(ServerConnection.Instance.CreateNewUser(nameString, passwordString, mailString, (resolution) =>
                 {
-                    Debug.Log("User create");
-                }
-                else
-                {
-                    Debug.Log("Server error: Unable to create user");
+                    loadingSpinner.SetActive(false);
+                    if (resolution)
+                    {
+                        Debug.Log("User create");
+                    }
+                    else
+                    {
+                        Debug.Log("Server error: Unable to create user");
 
-                }
-            }));
+                    }
+                }));
+            }
+
+            loadingSpinner.SetActive(false);
         }
-
-        loadingSpinner.SetActive(false);
-        SetCanvasActive(canvasNewUserGroup, false);
-        SetCanvasActive(canvasBaseGroup, true);
+        ChangeCanvas();
 
     }
 

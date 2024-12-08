@@ -14,7 +14,7 @@ public class GameInfo {
     // El id sera unico ya que solo exitira un json con la informacion
     private String id = "GAME_INFO_ID";
     private List<Critteron> critterons = new ArrayList<>();
-    private List<Furniture> furniture = new ArrayList<>();
+    private List<Room> rooms = new ArrayList<>();
     private WeekRewards weekRewards;
 
     @Data
@@ -23,8 +23,8 @@ public class GameInfo {
     }
 
     @Data
-    public static class Furniture {
-        private String furnitureID;
+    public static class Room {
+        private String roomID;
     }
 
     @Data

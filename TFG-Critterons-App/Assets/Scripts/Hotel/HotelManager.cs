@@ -1,7 +1,9 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class HotelManager : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class HotelManager : MonoBehaviour
     Transform roomsRoot, critteronsRoot;
     [SerializeField]
     GameObject critteronPrefab;
+
+    [SerializeField]
+    Canvas canvas;
 
     List<RoomInfo> rooms = new List<RoomInfo>();
     List<CritteronCombat> userCritterons;
@@ -22,10 +27,8 @@ public class HotelManager : MonoBehaviour
 
     int money;
 
-   
     void Awake()
     {
-
         RoomInfo room;
 
         for (int i = 0; i < roomsRoot.childCount; i++)
@@ -35,15 +38,19 @@ public class HotelManager : MonoBehaviour
             if (room != null)
                 rooms.Add(room);
         }
-
-
     }
 
     void Start()
     {
 
-        //obtener dinero desde servidor
-        money = 50;
+        Transform buttonTransform = canvas.transform.Find("Money");
+        TextMeshProUGUI moneyText = buttonTransform.GetComponentInChildren<TextMeshProUGUI>();
+
+        RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userData =>
+        {
+            money = userData.money;
+            moneyText.text = money.ToString();
+        });
 
         InitialiceRooms();
         // InitialiceCritterons();
@@ -151,23 +158,15 @@ public class HotelManager : MonoBehaviour
 
     }
 
-    void InitialiceRooms()
+    async void InitialiceRooms()
     {
-        //datos de precios desde el servidor
-        foreach (var room in rooms)
+        var roomsFromServer = await RequestGameInfo.Instance.GetAllRoomsAsync();
+        foreach (var room in roomsFromServer)
         {
-            roomPrices.Add(1);
+            roomPrices.Add(room.price);
         }
 
-        //datos desde servidor de habitaciones disponibles
-        List<string> roomData = new List<string>();
-        roomData.Add("exampleRoom");
-        roomData.Add("room2");
-
-        //datos desde servidor de muebles
-        //List<string> data = new List<string>();
-        //data.Add("1");
-        //data.Add("2");
+        List<string> roomData = await RequestUserInfo.Instance.GetUserRoomsOwnedAsync();
 
         foreach (var room in rooms)
         {
@@ -175,14 +174,15 @@ public class HotelManager : MonoBehaviour
         }
     }
 
+
     async void InitialiceCritterons()
     {
-        var listUserCritterons = await GetUserCritteronsAsync();
+        var listUserCritterons = await RequestUserInfo.Instance.GetUserCritteronsAsync();
 
         List<I_Critteron> data = new List<I_Critteron>();
         foreach (var cUser in listUserCritterons)
         {
-            var critteron = await GetCritteronByIDAsync(cUser.critteronID);
+            var critteron = await RequestGameInfo.Instance.GetCritteronByIDAsync(cUser.critteronID);
             data.Add(critteron);
         }
 
@@ -207,27 +207,5 @@ public class HotelManager : MonoBehaviour
 
 
 
-    private Task<List<I_User.Critteron>> GetUserCritteronsAsync()
-    {
-        var tcs = new TaskCompletionSource<List<I_User.Critteron>>();
-
-        RequestUserInfo.Instance.GetUserCritterons(PlayerPrefs.GetString("UserID"), userCritteron =>
-        {
-            tcs.SetResult(userCritteron);
-        });
-
-        return tcs.Task;
-    }
-
-    private Task<I_Critteron> GetCritteronByIDAsync(string critteronID)
-    {
-        var tcs = new TaskCompletionSource<I_Critteron>();
-
-        RequestGameInfo.Instance.GetCritteronByID(critteronID, critteron =>
-        {
-            tcs.SetResult(critteron);
-        });
-
-        return tcs.Task;
-    }
+   
 }

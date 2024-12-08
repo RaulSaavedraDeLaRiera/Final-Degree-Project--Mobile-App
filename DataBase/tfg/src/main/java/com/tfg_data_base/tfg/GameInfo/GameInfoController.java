@@ -69,11 +69,11 @@ public class GameInfoController {
         gameInfoService.removeCritteron(critteronId);
     }
 
-    public void addForniture(@PathVariable String furnitureId) {
-        gameInfoService.addFurniture(furnitureId);
+    public void addRoom(@PathVariable String roomId) {
+        gameInfoService.addRoom(roomId);
     }
   
-    public void removeForniture(@PathVariable String furnitureId) {
-        gameInfoService.removeFurniture(furnitureId);
+    public void removeRoom(@PathVariable String roomId) {
+        gameInfoService.removeRoom(roomId);
     }
 }

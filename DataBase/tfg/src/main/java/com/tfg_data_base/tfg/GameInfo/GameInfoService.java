@@ -60,18 +60,18 @@ public class GameInfoService {
         }
     }
 
-    public void addFurniture(String furnitureID) {
+    public void addRoom(String roomID) {
         GameInfo gameInfo = getGameInfo();
-        boolean exists = gameInfo.getFurniture().stream()
-            .anyMatch(furniture -> furniture.getFurnitureID().equals(furnitureID));
+        boolean exists = gameInfo.getRooms().stream()
+            .anyMatch(furniture -> furniture.getRoomID().equals(roomID));
 
         if (!exists) {
-            GameInfo.Furniture newFurniture = new GameInfo.Furniture();
-            newFurniture.setFurnitureID(furnitureID);
-            gameInfo.getFurniture().add(newFurniture);
+            GameInfo.Room newRoom = new GameInfo.Room();
+            newRoom.setRoomID(roomID);
+            gameInfo.getRooms().add(newRoom);
             gameInfoRepository.save(gameInfo);
         } else {
-            System.out.println("Furniture with ID " + furnitureID + " already exists in the data base");
+            System.out.println("Room with ID " + roomID + " already exists in the data base");
         }
     }
 
@@ -81,9 +81,9 @@ public class GameInfoService {
         gameInfoRepository.save(gameInfo); 
     }
 
-    public void removeFurniture(String furnitureID) {
+    public void removeRoom(String roomId) {
         GameInfo gameInfo = getGameInfo();
-        gameInfo.getFurniture().removeIf(furniture -> furniture.getFurnitureID().equals(furnitureID));
+        gameInfo.getRooms().removeIf(furniture -> furniture.getRoomID().equals(roomId));
         gameInfoRepository.save(gameInfo); 
     }
 

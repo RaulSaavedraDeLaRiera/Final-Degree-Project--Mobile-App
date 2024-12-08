@@ -41,6 +41,18 @@ public class RequestGameInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.GetCritteronByID(id, callback));
     }
 
+    public Task<I_Critteron> GetCritteronByIDAsync(string critteronID)
+    {
+        var tcs = new TaskCompletionSource<I_Critteron>();
+
+        RequestGameInfo.Instance.GetCritteronByID(critteronID, critteron =>
+        {
+            tcs.SetResult(critteron);
+        });
+
+        return tcs.Task;
+    }
+
     /// <summary>
     /// Obtener todos los critterons
     /// </summary>
@@ -50,18 +62,30 @@ public class RequestGameInfo : MonoBehaviour
     }
 
     /// <summary>
-    /// Obtener un furniture por ID
+    /// Obtener un room por ID
     /// </summary>
-    public void GetFurnitureByID(string id, Action<I_Furniture> callback)
+    public void GetRoomByID(string id, Action<I_Room> callback)
     {
-        StartCoroutine(ServerConnection.Instance.GetFurnitureByID(id, callback));
+        StartCoroutine(ServerConnection.Instance.GetRoomByID(id, callback));
     }
 
     /// <summary>
-    /// Obtener todos los furnitures
+    /// Obtener todos los room
     /// </summary>
-    public void GetAllFurniture(Action<List<I_Furniture>> callback)
+    public void GetAllRooms(Action<List<I_Room>> callback)
     {
-        StartCoroutine(ServerConnection.Instance.GetAllFurnitureAsync(callback));
+        StartCoroutine(ServerConnection.Instance.GetAllRooms(callback));
+    }
+
+    public Task<List<I_Room>> GetAllRoomsAsync()
+    {
+        var tcs = new TaskCompletionSource<List<I_Room>>();
+
+        GetAllRooms(roomsResult =>
+        {
+            tcs.SetResult(roomsResult);
+        });
+
+        return tcs.Task;
     }
 }

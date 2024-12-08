@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,8 +40,6 @@ public class RequestUserInfo : MonoBehaviour
         {
             if (token != "")
             {
-                StartCoroutine(ServerConnection.Instance.GameInfoInit());
-                StartCoroutine(ServerConnection.Instance.UserInfoInit());
                 PlayerPrefs.SetString("token", token);
                 PlayerPrefs.Save();
                 Debug.Log($"Token received: {token}");
@@ -106,6 +105,19 @@ public class RequestUserInfo : MonoBehaviour
         });
     }
 
+    public Task<List<I_User.Critteron>> GetUserCritteronsAsync()
+    {
+        var tcs = new TaskCompletionSource<List<I_User.Critteron>>();
+
+        RequestUserInfo.Instance.GetUserCritterons(PlayerPrefs.GetString("UserID"), userCritteron =>
+        {
+            tcs.SetResult(userCritteron);
+        });
+
+        return tcs.Task;
+    }
+
+
     /// <summary>
     /// Obtiene un critteron en especifico del usuario
     /// </summary>
@@ -129,15 +141,33 @@ public class RequestUserInfo : MonoBehaviour
         });
     }
 
-    public void GetUserFurnitureOwned(string id, System.Action<List<I_User.FurnitureOwned>> callback)
+   
+    public void GetUserRoomsOwned(string id, System.Action<List<I_User.RoomOwned>> callback)
     {
         GetUserByID(id, (user) =>
         {
             if (user != null && user.userData != null)
-                callback?.Invoke(user.furnitureOwned);
+                callback?.Invoke(user.roomOwned);
             else
                 callback?.Invoke(null);
         });
+    }
+
+    public Task<List<string>> GetUserRoomsOwnedAsync()
+    {
+        var tcs = new TaskCompletionSource<List<string>>();
+
+        RequestUserInfo.Instance.GetUserRoomsOwned(PlayerPrefs.GetString("UserID"), rooms =>
+        {
+            List<string> roomIDs = new List<string>();
+            foreach (var room in rooms)
+            {
+                roomIDs.Add(room.roomID);
+            }
+            tcs.SetResult(roomIDs);
+        });
+
+        return tcs.Task;
     }
 
     /// <summary>
@@ -157,9 +187,9 @@ public class RequestUserInfo : MonoBehaviour
 
     }
 
-    public void ModifyUserForniture(string id, string newValue)
+    public void ModifyUserRooms(string id, string newValue)
     {
-        StartCoroutine(ServerConnection.Instance.ModifyUserField(id, "furnitureOwned", newValue));
+        StartCoroutine(ServerConnection.Instance.ModifyUserField(id, "roomOwned", newValue));
     }
 
     public void ModifyUserData(string idUser, string? nickname = null, int? level = null,
@@ -266,7 +296,4 @@ public class RequestUserInfo : MonoBehaviour
             StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "critterons", jsonObject));
         });
     }
-
-
-
 }

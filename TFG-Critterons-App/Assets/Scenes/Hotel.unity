@@ -809,7 +809,7 @@ GameObject:
   m_Component:
   - component: {fileID: 39833592}
   m_Layer: 0
-  m_Name: Children_Room_2
+  m_Name: 6755c9dbb8d0a120196ac903
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2216,6 +2216,7 @@ MonoBehaviour:
   critteronsRoot: {fileID: 323980976}
   critteronPrefab: {fileID: 4919490424931320453, guid: e2f7dc6c2df2ee240ab528ff024282ec,
     type: 3}
+  canvas: {fileID: 978468339}
   roomPrices: 
 --- !u!114 &144439822
 MonoBehaviour:
@@ -3523,7 +3524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 263783034}
   m_Layer: 0
-  m_Name: Greenhouse_7
+  m_Name: 6755c9dab8d0a120196ac902
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10329,7 +10330,7 @@ GameObject:
   - component: {fileID: 929253497}
   - component: {fileID: 929253498}
   m_Layer: 0
-  m_Name: exampleRoom
+  m_Name: 6755c9cab8d0a120196ac8fe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11263,6 +11264,12 @@ PrefabInstance:
 --- !u!224 &978468338 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2979332591976049009, guid: dd345f467ab36634385ec9473e7ee884,
+    type: 3}
+  m_PrefabInstance: {fileID: 978468337}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &978468339 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 2474065742094404329, guid: dd345f467ab36634385ec9473e7ee884,
     type: 3}
   m_PrefabInstance: {fileID: 978468337}
   m_PrefabAsset: {fileID: 0}
@@ -14209,7 +14216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1301269609}
   m_Layer: 0
-  m_Name: Office_1
+  m_Name: 6755c9dcb8d0a120196ac904
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15504,7 +15511,7 @@ GameObject:
   - component: {fileID: 1389260491}
   - component: {fileID: 1389260492}
   m_Layer: 0
-  m_Name: exampleRoom2
+  m_Name: 6755c9d6b8d0a120196ac8ff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16793,7 +16800,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1569786159}
   m_Layer: 0
-  m_Name: Bedroom_12
+  m_Name: 6755c9d9b8d0a120196ac901
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

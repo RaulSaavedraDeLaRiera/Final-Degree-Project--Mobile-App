@@ -12,6 +12,7 @@ public class TEST : MonoBehaviour
 
     public void Test()
     {
+        RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9cab8d0a120196ac8fe");
         RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "674f75026a95cc2bedfa50a9");
         //RequestUserInfoSocial.Instance.A(PlayerPrefs.GetString("UserID"), "fasdfasdfsf");
         // RequestUserInfoSocial.Instance.RemoveFriend(PlayerPrefs.GetString("UserID"), "werer");

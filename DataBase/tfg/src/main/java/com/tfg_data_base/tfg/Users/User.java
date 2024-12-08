@@ -13,12 +13,13 @@ public class User {
     @Id
     private String id;
     private String mail;
+    private String giveCredentials;
     private String password;
     private UserData userData;
     private List<SocialStat> socialStats;
     private PersonalStats personalStats;
     private List<CritteronUser> critterons;
-    private List<FurnitureOwned> furnitureOwned;
+    private List<RoomOwned> roomOwned;
 
     @Data
     public static class UserData {
@@ -65,10 +66,10 @@ public class User {
     }
 
     @Data
-    public static class FurnitureOwned {
-        private String furnitureID;
-            public FurnitureOwned(String furnitureID) {
-            this.furnitureID = furnitureID;
+    public static class RoomOwned {
+        private String roomID;
+            public RoomOwned(String roomID) {
+            this.roomID = roomID;
         }
     }
 }

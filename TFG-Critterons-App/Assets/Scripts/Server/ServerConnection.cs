@@ -10,6 +10,7 @@ using System.Text;
 using SimpleJSON;
 using static I_UserInfo;
 using System;
+using System.Threading.Tasks;
 
 public class ServerConnection : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class ServerConnection : MonoBehaviour
 
     private I_GameInfo gameInfo = null;
     private List<string> critteronIDs = new List<string>();
-    private List<string> furnitureIDs = new List<string>();
+    private List<string> roomIDs = new List<string>();
 
     private I_UserInfo userInfo = null;
     private List<string> userIDs = new List<string>();
@@ -155,11 +156,19 @@ public class ServerConnection : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Guardamos todas las variables del juego asi como los id de las entidades
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerator GameInfoInit()
+    public async Task GameInfoInitAsync()
+    {
+        var tcs = new TaskCompletionSource<bool>();
+
+        StartCoroutine(GameInfoInitCoroutine(
+            () => tcs.SetResult(true),
+            (error) => tcs.SetException(new Exception($"Error fetching game info: {error}"))
+        ));
+
+        await tcs.Task;
+    }
+
+    private IEnumerator GameInfoInitCoroutine(Action onSuccess, Action<string> onError)
     {
         string url = "http://localhost:8080/api/v1/gameinfo";
 
@@ -172,23 +181,33 @@ public class ServerConnection : MonoBehaviour
                 foreach (var critteron in gameInfo.critterons)
                     critteronIDs.Add(critteron.critteronID);
 
-                foreach (var forniture in gameInfo.forniture)
-                    furnitureIDs.Add(forniture.fornitureID);
+                foreach (var room in gameInfo.rooms)
+                    roomIDs.Add(room.roomID);
 
                 UnityEngine.Debug.Log("GameInfo init");
+                onSuccess?.Invoke();
             },
             (error) =>
             {
                 UnityEngine.Debug.LogError($"Error fetching game info: {error}");
+                onError?.Invoke(error);
             }
         ));
     }
 
-    /// <summary>
-    /// Guardamos todos los id de usuarios
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerator UserInfoInit()
+    public async Task UserInfoInitAsync()
+    {
+        var tcs = new TaskCompletionSource<bool>();
+
+        StartCoroutine(UserInfoInitCoroutine(
+            () => tcs.SetResult(true),
+            (error) => tcs.SetException(new Exception($"Error fetching user info: {error}"))
+        ));
+
+        await tcs.Task;
+    }
+
+    private IEnumerator UserInfoInitCoroutine(Action onSuccess, Action<string> onError)
     {
         string url = "http://localhost:8080/api/v1/userinfo";
 
@@ -202,13 +221,16 @@ public class ServerConnection : MonoBehaviour
                     userIDs.Add(user.userID);
 
                 UnityEngine.Debug.Log("UserInfo init");
+                onSuccess?.Invoke();
             },
             (error) =>
             {
                 UnityEngine.Debug.LogError($"Error fetching user info: {error}");
+                onError?.Invoke(error);
             }
         ));
     }
+
 
     /// <summary>
     /// Pedimos la información de un critteron a través de su ID
@@ -258,25 +280,25 @@ public class ServerConnection : MonoBehaviour
     }
 
     /// <summary>
-    /// Pedimos la información de un furniture a través de su ID
+    /// Pedimos la información de un room a través de su ID
     /// </summary>
     /// <param name="id"></param>
     /// <param name="callback"></param>
     /// <returns></returns>
-    public IEnumerator GetFurnitureByID(string id, Action<I_Furniture> callback)
+    public IEnumerator GetRoomByID(string id, Action<I_Room> callback)
     {
 
-        string url = $"http://localhost:8080/api/v1/furniture/{id}";
+        string url = $"http://localhost:8080/api/v1/room/{id}";
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
             (response) =>
             {
-                I_Furniture i_furniture = JsonUtility.FromJson<I_Furniture>(response);
-                callback(i_furniture);
+                I_Room i_Room = JsonUtility.FromJson<I_Room>(response);
+                callback(i_Room);
             },
             (error) =>
             {
-                UnityEngine.Debug.LogError($"Error fetching furniture by ID {id}: {error}");
+                UnityEngine.Debug.LogError($"Error fetching room by ID {id}: {error}");
                 callback(null);
             }
         ));
@@ -284,26 +306,26 @@ public class ServerConnection : MonoBehaviour
     }
 
     /// <summary>
-    /// Lista con todos los furnitures de la base de datos
+    /// Lista con todos los room de la base de datos
     /// </summary>
     /// <param name="callback"></param>
     /// <returns></returns>
-    public IEnumerator GetAllFurnitureAsync(Action<List<I_Furniture>> callback)
+    public IEnumerator GetAllRooms(Action<List<I_Room>> callback)
     {
-        List<I_Furniture> i_furnitureList = new List<I_Furniture>();
+        List<I_Room> i_roomsList = new List<I_Room>();
 
-        foreach (string id in furnitureIDs)
+        foreach (string id in roomIDs)
         {
-            yield return StartCoroutine(GetFurnitureByID(id, (furniture) =>
+            yield return StartCoroutine(GetRoomByID(id, (room) =>
             {
-                if (furniture != null)
+                if (room != null)
                 {
-                    i_furnitureList.Add(furniture);
+                    i_roomsList.Add(room);
                 }
             }));
         }
 
-        callback(i_furnitureList);
+        callback(i_roomsList);
     }
 
     /// <summary>

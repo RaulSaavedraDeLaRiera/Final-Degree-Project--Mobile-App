@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class I_Furniture
+public class I_Room
 {
     public string id;
     public string name;
