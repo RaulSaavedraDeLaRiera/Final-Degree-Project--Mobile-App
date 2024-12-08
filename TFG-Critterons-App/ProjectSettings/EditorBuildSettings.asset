@@ -23,6 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DemoScene/hotel-ui.unity
     guid: 529e991d3721c154585eac8b5d0927e0
+  - enabled: 1
+    path: Assets/Scenes/DemoPrincipal.unity
+    guid: 607da31375a794b47b588e8703010f96
+  - enabled: 1
+    path: Assets/Scenes/Combat.unity
+    guid: 40a821eb4702c6a4aa3c185c98389a20
   - enabled: 0
     path: Assets/StepCounter/demo.unity
     guid: ac305cd7a7f1bb3499faeb3c85db3612

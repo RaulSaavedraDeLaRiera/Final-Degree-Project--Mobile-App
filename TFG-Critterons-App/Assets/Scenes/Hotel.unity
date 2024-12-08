@@ -2189,6 +2189,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 144439822}
+    - targetCorrespondingSourceObject: {fileID: 1553370147712389706, guid: 9cf807e4867afa743ad982f89a424896,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 144439823}
   m_SourcePrefab: {fileID: 100100000, guid: 9cf807e4867afa743ad982f89a424896, type: 3}
 --- !u!1 &144439819 stripped
 GameObject:
@@ -2225,6 +2229,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a3d19edd96561489784d59978140bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &144439823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144439819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ff9262922b1d439754ca0318495a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scenesAllowed:
+  - DemoPrincipal
 --- !u!1 &146654707
 GameObject:
   m_ObjectHideFlags: 0
@@ -11162,6 +11180,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7522785607410813728, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 144439823}
+    - target: {fileID: 7522785607410813728, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadSceneSync
       objectReference: {fileID: 0}
     - target: {fileID: 7691154740230689374, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}

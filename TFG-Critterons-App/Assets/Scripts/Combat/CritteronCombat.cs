@@ -16,6 +16,8 @@ public class CritteronCombat : MonoBehaviour
     int combatID;
 
     int maxHealth;
+    public int Health => health;
+
 
     public string InitializateCritteron(CombatManager manager, CombatUI ui,
         CritteronCombatInfo info, int combatID)
