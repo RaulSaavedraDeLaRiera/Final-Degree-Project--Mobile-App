@@ -18,24 +18,35 @@ public class HotelManager : MonoBehaviour
         decorationObjects = new List<HotelObject>();
 
     public List<RoomInfo> Rooms => rooms;
+    public List<int> roomPrices;
 
+    int money;
+
+   
     void Awake()
     {
+
         RoomInfo room;
 
         for (int i = 0; i < roomsRoot.childCount; i++)
         {
             room = roomsRoot.GetChild(i).GetComponent<RoomInfo>();
 
-            if(room != null)
-            rooms.Add(room);
+            if (room != null)
+                rooms.Add(room);
         }
+
+
     }
 
     void Start()
     {
+
+        //obtener dinero desde servidor
+        money = 50;
+
         InitialiceRooms();
-        InitialiceCritterons();
+        // InitialiceCritterons();
     }
 
     public void AddObject(HotelObject hotelObject, HotelObjectType typeObject)
@@ -77,7 +88,7 @@ public class HotelManager : MonoBehaviour
 
         for (int i = 0; i < objects.Count; i++)
         {
-            if (objects[(randomStart+i)%objects.Count].CurrentUser == null)
+            if (objects[(randomStart + i) % objects.Count].CurrentUser == null)
             {
                 return objects[(randomStart + i) % objects.Count];
             }
@@ -109,8 +120,44 @@ public class HotelManager : MonoBehaviour
         return null;
     }
 
+
+    public void TryBuyRoom(RoomInfo targetRoom, ButtonActions button)
+    {
+
+        if (targetRoom.Bought)
+            return;
+
+        int index = -1;
+
+        for (int i = 0; i < rooms.Count; i++)
+            if (rooms[i] == targetRoom)
+            {
+                index = i;
+                break;
+            }
+
+        if (money < roomPrices[index])
+            return;
+
+        money -= roomPrices[index];
+
+        //guardar en servidor
+
+        targetRoom.InitialiceRoom(this);
+
+        //acciones visuales
+        button.OutAnimation();
+        GetComponent<HotelInput>().InputEnable = true;
+
+    }
+
     void InitialiceRooms()
     {
+        //datos de precios desde el servidor
+        foreach (var room in rooms)
+        {
+            roomPrices.Add(1);
+        }
 
         //datos desde servidor de habitaciones disponibles
         List<string> roomData = new List<string>();
@@ -118,13 +165,13 @@ public class HotelManager : MonoBehaviour
         roomData.Add("room2");
 
         //datos desde servidor de muebles
-        List<string> data = new List<string>();
-        data.Add("1");
-        data.Add("2");
+        //List<string> data = new List<string>();
+        //data.Add("1");
+        //data.Add("2");
 
         foreach (var room in rooms)
         {
-            room.InitialiceRoom(roomData, data, this);
+            room.InitialiceRoom(roomData, this);
         }
     }
 
@@ -145,7 +192,7 @@ public class HotelManager : MonoBehaviour
             do
             {
                 var r = rooms[UnityEngine.Random.Range(0, rooms.Count)];
-                if (r.AvailableSpace)
+                if (r.Bought)// && r.AvailableSpace)
                     room = r;
 
             } while (room == null);
@@ -154,6 +201,7 @@ public class HotelManager : MonoBehaviour
                 .GetComponent<HotelCritteron>();
 
             hotelCritteron.InitialiceCritteron(critteron, room);
+            room.AddCritteron(hotelCritteron);
         }
     }
 

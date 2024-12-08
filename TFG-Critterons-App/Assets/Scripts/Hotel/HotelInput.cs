@@ -9,6 +9,10 @@ public class HotelInput : MonoBehaviour
     ButtonActions critteronPopUp, ownedObjectPopUp, objectToBuyPopUp;
     [SerializeField]
     CritteronInfoPopUp infoCritteronPopUp;
+    [SerializeField]
+    ObjectInfoPopUp ownedPopUp, toBuyPopUp;
+    [SerializeField]
+    LayerMask interactuableLayer;
 
     bool inputEnable = true;
 
@@ -32,7 +36,7 @@ public class HotelInput : MonoBehaviour
         RaycastHit hit;
 
         // Realiza el raycast y verifica si impacta algún objeto con Collider
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, interactuableLayer))
         {
             GameObject target = hit.collider.gameObject;
 
@@ -57,12 +61,18 @@ public class HotelInput : MonoBehaviour
                 //    break;
                 case "HotelObject":
 
-                    var hObject = target.GetComponent<HotelObject>();
+                    var hObject = target.transform.parent.GetComponentInParent<RoomInfo>();
 
                     if(hObject.Bought)
+                    {
                         ownedObjectPopUp.EnterAnimation();
+                        ownedPopUp.SetInfoPopUp(hObject);
+                    }
                     else
+                    { 
                         objectToBuyPopUp.EnterAnimation();
+                        toBuyPopUp.SetInfoPopUp(hObject);
+                    }
 
                     inputEnable = false;
                     break;

@@ -5,10 +5,23 @@ using UnityEngine;
 
 public class RoomInfo : MonoBehaviour
 {
+
+    //no necesario si es por servidor, vale con que quede registrado por servidor
+    [SerializeField]
+    string nameRoom, description;
+    [SerializeField]
+    HotelObjectType typeHotelRoom;
+    [SerializeField]
+    float valueRoom;
+
+    [SerializeField]
+    bool bought = false;
+
+
     [SerializeField]
     List<HotelObject> fornitures;
     [SerializeField]
-    HotelCritteron[] critteronsInRoom;
+    List<HotelCritteron> critteronsInRoom;
     [SerializeField]
     Teleport entryPointToCritterons;
 
@@ -18,17 +31,13 @@ public class RoomInfo : MonoBehaviour
     [SerializeField]
     GameObject nonBoughtCube;
 
-    //no necesario si es por servidor, vale con que quede registrado por servidor
-    /*[SerializeField]
-    HotelObjectType typeHotelRoom;
-    [SerializeField]
-    float valueRoom;*/
+
 
     int numCritteronsInRoom = 0;
-    public bool AvailableSpace
-    {
-        get { return numCritteronsInRoom < critteronsInRoom.Length; }
-    }
+    //public bool AvailableSpace
+    //{
+    //    get { return numCritteronsInRoom < critteronsInRoom.Length; }
+    //}
 
     public Transform EntryPoint
     {
@@ -39,22 +48,50 @@ public class RoomInfo : MonoBehaviour
         get { return size; }
     }
 
+    public string Description => description;
+    public string NameRoom => nameRoom;
+
+    public HotelObjectType TypeHotelRoom => typeHotelRoom;
+
+    public float ValueRoom => valueRoom;
+
+    public List<HotelCritteron> CritteronsInRoom => critteronsInRoom;
+    public bool Bought => bought;
+
     void Start()
     {
         entryPointToCritterons.Room = this;
     }
-
-    public void InitialiceRoom(List<string> boughtRoomsID, List<string> boughtObjectsID, HotelManager hM)
+    //List<string> boughtRoomsID, List<string> boughtObjectsID, HotelManager hM
+    public void InitialiceRoom(List<string> boughtRoomsID, HotelManager hM)
     {
 
         if (boughtRoomsID.Contains(gameObject.name))
+        {
+            bought = true;
             foreach (var item in fornitures)
             {
-                item.InitialiceObject(boughtObjectsID.Contains(item.name), this, hM);
+                item.InitialiceObject(true, this, hM);
             }
+            nonBoughtCube.SetActive(false);
+        }
+
         else
             nonBoughtCube.SetActive(true);
 
+
+    }
+
+    public void InitialiceRoom(HotelManager hM)
+    {
+
+        bought = true;
+        foreach (var item in fornitures)
+        {
+            item.InitialiceObject(true, this, hM);
+        }
+
+        nonBoughtCube.SetActive(false);
 
     }
 
@@ -64,21 +101,25 @@ public class RoomInfo : MonoBehaviour
 
         numCritteronsInRoom++;
 
-        for (int i = 0; i < critteronsInRoom.Length; i++)
-        {
-            if (critteronsInRoom[i] == null)
-                critteronsInRoom[i] = critteron;
-        }
+        critteronsInRoom.Add(critteron);
+
+        //for (int i = 0; i < critteronsInRoom.Length; i++)
+        //{
+        //    if (critteronsInRoom[i] == null)
+        //        critteronsInRoom[i] = critteron;
+        //}
     }
 
     public void RemoveCritteron(HotelCritteron critteron)
     {
         numCritteronsInRoom--;
 
-        for (int i = 0; i < critteronsInRoom.Length; i++)
-        {
-            if (critteronsInRoom[i] == critteron)
-                critteronsInRoom[i] = null;
-        }
+        critteronsInRoom.Remove(critteron);
+
+        //for (int i = 0; i < critteronsInRoom.Length; i++)
+        //{
+        //    if (critteronsInRoom[i] == critteron)
+        //        critteronsInRoom[i] = null;
+        //}
     }
 }

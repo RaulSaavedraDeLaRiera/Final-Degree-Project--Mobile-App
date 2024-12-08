@@ -982,6 +982,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7556982802152033523}
   - component: {fileID: 8417217257537656058}
+  - component: {fileID: 781176889166585783}
   m_Layer: 5
   m_Name: BuyObject
   m_TagString: Untagged
@@ -1033,3 +1034,19 @@ MonoBehaviour:
   timeOutAnimation: 1
   objectsAffected: []
   startsEnable: 0
+--- !u!114 &781176889166585783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8833046506099106761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d6a849832450e445bfd91d251bfda2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameT: {fileID: 6521730316046726109}
+  descriptionT: {fileID: 940482981851960907}
+  bonusT: {fileID: 7565388385030832397}
+  users: {fileID: 0}
