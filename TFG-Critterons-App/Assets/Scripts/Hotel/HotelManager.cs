@@ -149,6 +149,8 @@ public class HotelManager : MonoBehaviour
         money -= roomPrices[index];
 
         //guardar en servidor
+        RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), money: money);
+        RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), targetRoom.gameObject.name);
 
         targetRoom.InitialiceRoom(this);
 

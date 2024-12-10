@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class RoomInfo : MonoBehaviour
@@ -19,7 +20,7 @@ public class RoomInfo : MonoBehaviour
 
 
     [SerializeField]
-    List<HotelObject> fornitures;
+    List<HotelObject> rooms;
     [SerializeField]
     List<HotelCritteron> critteronsInRoom;
     [SerializeField]
@@ -63,13 +64,17 @@ public class RoomInfo : MonoBehaviour
         entryPointToCritterons.Room = this;
     }
     //List<string> boughtRoomsID, List<string> boughtObjectsID, HotelManager hM
-    public void InitialiceRoom(List<string> boughtRoomsID, HotelManager hM)
+    async public void InitialiceRoom(List<string> boughtRoomsID, HotelManager hM)
     {
+        // Obtengo la room con la info
+        var room = await RequestGameInfo.Instance.GetRoomByIDAsync(gameObject.name);
+        nameRoom = room.name;
+        valueRoom = room.price;
 
         if (boughtRoomsID.Contains(gameObject.name))
         {
             bought = true;
-            foreach (var item in fornitures)
+            foreach (var item in rooms)
             {
                 item.InitialiceObject(true, this, hM);
             }
@@ -78,15 +83,13 @@ public class RoomInfo : MonoBehaviour
 
         else
             nonBoughtCube.SetActive(true);
-
-
     }
 
     public void InitialiceRoom(HotelManager hM)
     {
 
         bought = true;
-        foreach (var item in fornitures)
+        foreach (var item in rooms)
         {
             item.InitialiceObject(true, this, hM);
         }

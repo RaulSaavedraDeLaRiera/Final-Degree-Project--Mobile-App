@@ -69,6 +69,18 @@ public class RequestGameInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.GetRoomByID(id, callback));
     }
 
+    public Task<I_Room> GetRoomByIDAsync(string roomID)
+    {
+        var tcs = new TaskCompletionSource<I_Room>();
+
+        RequestGameInfo.Instance.GetRoomByID(roomID, room =>
+        {
+            tcs.SetResult(room);
+        });
+
+        return tcs.Task;
+    }
+
     /// <summary>
     /// Obtener todos los room
     /// </summary>
