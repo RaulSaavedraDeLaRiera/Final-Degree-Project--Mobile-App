@@ -10,6 +10,7 @@ public class I_User
     public PersonalStats personalStats;
     public List<Critteron> critterons;
     public List<RoomOwned> roomOwned;
+    public long lastClosedTime;
 
     [Serializable]
     public class UserData

@@ -19,7 +19,7 @@ public class CritteronService {
         critteronRepository.save(critteron);
         gameInfoService.addCritteron(critteron.getId());
     }
-    
+
     public List<Critteron> findAll() {
         return critteronRepository.findAll();
     }

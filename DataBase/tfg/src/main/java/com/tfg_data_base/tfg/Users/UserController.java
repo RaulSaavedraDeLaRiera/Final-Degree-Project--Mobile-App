@@ -27,24 +27,24 @@ public class UserController {
 
     @PostMapping("/newUser")
     public void save(@RequestBody User user) {
-        userService.save(user); 
+        userService.save(user);
     }
 
     @GetMapping("/login")
     public String login(@RequestBody User user) {
-        return userService.login(user.getMail(), user.getPassword()); 
+        return userService.login(user.getMail(), user.getPassword());
     }
 
     @GetMapping("/id")
     public String getId(@RequestBody User user) {
-        return userService.getUserIdByCredentials(user.getMail(), user.getPassword()); 
+        return userService.getUserIdByCredentials(user.getMail(), user.getPassword());
     }
 
     @GetMapping("/user")
     public List<User> findAll() {
         return userService.findAll();
     }
-    
+
     @GetMapping("/user/{id}")
     public User findById(@PathVariable String id) {
         return userService.findById(id).orElse(null);

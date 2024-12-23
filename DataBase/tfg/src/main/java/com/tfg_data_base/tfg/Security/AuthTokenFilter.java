@@ -24,27 +24,29 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
-
     /*
-    acceder al autentificador para comprobaciones posteriores
-     * Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null) {
-            // Obtener el username
-            String username = (String) authentication.getPrincipal();
+     * acceder al autentificador para comprobaciones posteriores
+     * Authentication authentication =
+     * SecurityContextHolder.getContext().getAuthentication();
+     * 
+     * if (authentication != null) {
+     * // Obtener el username
+     * String username = (String) authentication.getPrincipal();
      */
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);                                                            
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, null);
+                String username = jwtUtils.getUserNameFromJwtToken(jwt);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username,
+                        null, null);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext()
-                    .setAuthentication(authentication);
+                        .setAuthentication(authentication);
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);

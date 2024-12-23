@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
-
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -21,6 +20,7 @@ public class GameInfoController {
 
     /**
      * Obtengo el gameInfo
+     * 
      * @return
      */
     @GetMapping("/gameinfo")
@@ -30,6 +30,7 @@ public class GameInfoController {
 
     /**
      * Crea en la base de datos un gameinfo inicial
+     * 
      * @return
      */
     @PostMapping("/gameinfo/initialize")
@@ -40,6 +41,7 @@ public class GameInfoController {
 
     /**
      * Modificar las recompensas semanales en conjunto
+     * 
      * @param weekRewards
      */
     @PostMapping("/gameinfo/weekRewards")
@@ -49,6 +51,7 @@ public class GameInfoController {
 
     /**
      * Modificar las recompensas semanales de un dia en especifico
+     * 
      * @param day
      * @param reward1
      * @param reward2
@@ -59,7 +62,6 @@ public class GameInfoController {
         Integer reward2 = rewards.get("reward2");
         gameInfoService.updateDayReward(day, reward1, reward2);
     }
-
 
     public void addCritteron(@PathVariable String critteronId) {
         gameInfoService.addCritteron(critteronId);
@@ -72,7 +74,7 @@ public class GameInfoController {
     public void addRoom(@PathVariable String roomId) {
         gameInfoService.addRoom(roomId);
     }
-  
+
     public void removeRoom(@PathVariable String roomId) {
         gameInfoService.removeRoom(roomId);
     }

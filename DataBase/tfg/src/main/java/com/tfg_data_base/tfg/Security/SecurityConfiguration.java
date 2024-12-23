@@ -29,7 +29,8 @@ public class SecurityConfiguration {
     @Autowired
     private AuthEntryPoint unauthorizedHandler;
 
-    private static final String[] WHITE_LIST_URL = { "/api/v1/login", "/connected", "api/v1/gameinfo", "api/v1/userinfo", "api/v1/newUser" };
+    private static final String[] WHITE_LIST_URL = { "/api/v1/login", "/connected", "api/v1/gameinfo",
+            "api/v1/userinfo", "api/v1/newUser" };
 
     @Bean
     public AuthTokenFilter authenticationTokenFilter() {
@@ -57,17 +58,18 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector)
+            throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-            .cors(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL)
-                .permitAll()
-                .anyRequest()
-                .authenticated())
-            .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
-            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL)
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

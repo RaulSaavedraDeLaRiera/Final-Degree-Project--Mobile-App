@@ -28,16 +28,18 @@ public class User {
         private Integer experience;
         private Integer money;
         private String currentCritteron;
+        private long lastClosedTime;
     }
 
     @Data
     public static class SocialStat {
         private String friendID;
+
         public SocialStat(String friendID) {
             this.friendID = friendID;
         }
     }
-    
+
     @Data
     public static class PersonalStats {
         private Integer globalSteps;
@@ -68,7 +70,8 @@ public class User {
     @Data
     public static class RoomOwned {
         private String roomID;
-            public RoomOwned(String roomID) {
+
+        public RoomOwned(String roomID) {
             this.roomID = roomID;
         }
     }

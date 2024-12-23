@@ -1,6 +1,5 @@
 package com.tfg_data_base.tfg.Security;
 
-
 import com.tfg_data_base.tfg.Users.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;

@@ -192,6 +192,7 @@ public class RequestUserInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.ModifyUserField(id, "roomOwned", newValue));
     }
 
+
     public void ModifyUserData(string idUser, string? nickname = null, int? level = null,
     int? experience = null, int? money = null, string? currentCritteron = null)
     {
@@ -211,8 +212,9 @@ public class RequestUserInfo : MonoBehaviour
                 ["level"] = level ?? currentData.level,
                 ["experience"] = experience ?? currentData.experience,
                 ["money"] = money ?? currentData.money,
-                ["currentCritteron"] = currentCritteron ?? currentData.currentCritteron
-            };
+                ["currentCritteron"] = currentCritteron ?? currentData.currentCritteron,
+                ["lastClosedTime"] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+        };
 
 
             StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "userData", newValue));

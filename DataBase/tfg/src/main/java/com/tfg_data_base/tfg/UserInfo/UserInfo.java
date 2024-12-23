@@ -18,4 +18,3 @@ public class UserInfo {
         private String userID;
     }
 }
-

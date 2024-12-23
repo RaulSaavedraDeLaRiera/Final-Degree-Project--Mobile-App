@@ -53,7 +53,7 @@ public class HotelManager : MonoBehaviour
         });
 
         InitialiceRooms();
-        // InitialiceCritterons();
+        InitialiceCritterons();
     }
 
     public void AddObject(HotelObject hotelObject, HotelObjectType typeObject)
@@ -209,5 +209,5 @@ public class HotelManager : MonoBehaviour
 
 
 
-   
+
 }

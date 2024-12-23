@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -14,20 +13,20 @@ public class UserInfoService {
 
     public UserInfo getUserInfo() {
         return userInfoRepository.findById("USER_INFO_ID")
-            .orElseGet(() -> {
-                UserInfo newUserInfo = new UserInfo();
-                newUserInfo.setId("USER_INFO_ID");
-                newUserInfo.setUsers(new ArrayList<>());
-                userInfoRepository.save(newUserInfo);
-                return newUserInfo;
-            });
+                .orElseGet(() -> {
+                    UserInfo newUserInfo = new UserInfo();
+                    newUserInfo.setId("USER_INFO_ID");
+                    newUserInfo.setUsers(new ArrayList<>());
+                    userInfoRepository.save(newUserInfo);
+                    return newUserInfo;
+                });
     }
 
     public void addUser(String userID) {
         UserInfo userInfo = getUserInfo();
-        
+
         boolean exists = userInfo.getUsers().stream()
-            .anyMatch(user -> user.getUserID().equals(userID));
+                .anyMatch(user -> user.getUserID().equals(userID));
 
         if (!exists) {
             UserInfo.User newUser = new UserInfo.User();
@@ -42,18 +41,18 @@ public class UserInfoService {
     public void removeUser(String userID) {
         UserInfo userInfo = getUserInfo();
         userInfo.getUsers().removeIf(user -> user.getUserID().equals(userID));
-        userInfoRepository.save(userInfo); 
+        userInfoRepository.save(userInfo);
     }
 
     public void initializeEmptyUserInfo() {
         UserInfo userInfo = userInfoRepository.findById("USER_INFO_ID")
-            .orElse(null); 
+                .orElse(null);
 
-        if (userInfo == null) { 
+        if (userInfo == null) {
             UserInfo emptyUserInfo = new UserInfo();
-            emptyUserInfo.setId("USER_INFO_ID"); 
-            emptyUserInfo.setUsers(new ArrayList<>()); 
-            userInfoRepository.save(emptyUserInfo); 
+            emptyUserInfo.setId("USER_INFO_ID");
+            emptyUserInfo.setUsers(new ArrayList<>());
+            userInfoRepository.save(emptyUserInfo);
         }
     }
 }

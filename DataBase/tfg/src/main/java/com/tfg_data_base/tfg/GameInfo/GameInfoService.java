@@ -14,12 +14,12 @@ public class GameInfoService {
 
     public GameInfo getGameInfo() {
         return gameInfoRepository.findById("GAME_INFO_ID")
-            .orElseGet(() -> {
-                GameInfo newGameInfo = new GameInfo();
-                newGameInfo.setId("GAME_INFO_ID");
-                gameInfoRepository.save(newGameInfo);
-                return newGameInfo;
-            });
+                .orElseGet(() -> {
+                    GameInfo newGameInfo = new GameInfo();
+                    newGameInfo.setId("GAME_INFO_ID");
+                    gameInfoRepository.save(newGameInfo);
+                    return newGameInfo;
+                });
     }
 
     public void updateWeekRewards(GameInfo.WeekRewards newWeekRewards) {
@@ -45,16 +45,16 @@ public class GameInfoService {
     }
 
     public void addCritteron(String critteronID) {
-        GameInfo gameInfo = getGameInfo(); 
-    
+        GameInfo gameInfo = getGameInfo();
+
         boolean exists = gameInfo.getCritterons().stream()
-            .anyMatch(critteron -> critteron.getCritteronID().equals(critteronID));
-    
+                .anyMatch(critteron -> critteron.getCritteronID().equals(critteronID));
+
         if (!exists) {
             GameInfo.Critteron newCritteron = new GameInfo.Critteron();
             newCritteron.setCritteronID(critteronID);
             gameInfo.getCritterons().add(newCritteron);
-            gameInfoRepository.save(gameInfo); 
+            gameInfoRepository.save(gameInfo);
         } else {
             System.out.println("Critteron with ID " + critteronID + " already exists in the data base");
         }
@@ -63,7 +63,7 @@ public class GameInfoService {
     public void addRoom(String roomID) {
         GameInfo gameInfo = getGameInfo();
         boolean exists = gameInfo.getRooms().stream()
-            .anyMatch(furniture -> furniture.getRoomID().equals(roomID));
+                .anyMatch(furniture -> furniture.getRoomID().equals(roomID));
 
         if (!exists) {
             GameInfo.Room newRoom = new GameInfo.Room();
@@ -78,13 +78,13 @@ public class GameInfoService {
     public void removeCritteron(String critteronID) {
         GameInfo gameInfo = getGameInfo();
         gameInfo.getCritterons().removeIf(critteron -> critteron.getCritteronID().equals(critteronID));
-        gameInfoRepository.save(gameInfo); 
+        gameInfoRepository.save(gameInfo);
     }
 
     public void removeRoom(String roomId) {
         GameInfo gameInfo = getGameInfo();
         gameInfo.getRooms().removeIf(furniture -> furniture.getRoomID().equals(roomId));
-        gameInfoRepository.save(gameInfo); 
+        gameInfoRepository.save(gameInfo);
     }
 
     /**
@@ -92,11 +92,11 @@ public class GameInfoService {
      */
     public void initializeEmptyGameInfo() {
         GameInfo gameInfo = gameInfoRepository.findById("GAME_INFO_ID")
-                .orElse(null); 
+                .orElse(null);
 
-        if (gameInfo == null) { 
+        if (gameInfo == null) {
             GameInfo emptyGameInfo = new GameInfo();
-            emptyGameInfo.setId("GAME_INFO_ID"); 
+            emptyGameInfo.setId("GAME_INFO_ID");
             GameInfo.WeekRewards weekRewards = new GameInfo.WeekRewards();
             Map<String, GameInfo.WeekRewards.DayReward> days = new HashMap<>();
             for (int i = 1; i <= 7; i++) {
@@ -104,7 +104,7 @@ public class GameInfoService {
             }
             weekRewards.setDays(days);
             emptyGameInfo.setWeekRewards(weekRewards);
-            gameInfoRepository.save(emptyGameInfo); 
+            gameInfoRepository.save(emptyGameInfo);
         }
     }
 }

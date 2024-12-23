@@ -8,7 +8,7 @@ import lombok.Data;
 @Document(value = "Critteron")
 @Data
 public class Critteron {
-@Id
+    @Id
     private String id;
     private String name;
     private String mesh;
@@ -17,6 +17,7 @@ public class Critteron {
     private Integer basicDamage;
     private Integer defense;
     private List<Attack> attacks;
+    private Integer idZone;
 
     @Data
     public static class Attack {

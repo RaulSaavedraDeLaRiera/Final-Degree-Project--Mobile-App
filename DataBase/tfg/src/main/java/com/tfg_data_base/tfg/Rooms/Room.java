@@ -8,7 +8,7 @@ import lombok.Data;
 @Document(value = "Room")
 @Data
 public class Room {
-@Id
+    @Id
     private String id;
     private String name;
     private String mesh;

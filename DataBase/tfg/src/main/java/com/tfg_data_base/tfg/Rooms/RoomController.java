@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -23,27 +22,27 @@ public class RoomController {
     private final RoomService furnitureService;
 
     @PostMapping("/room")
-    public void save(@RequestBody Room furniture){
+    public void save(@RequestBody Room furniture) {
         furnitureService.save(furniture);
     }
 
     @GetMapping("/room")
-    public List<Room> findAll(){
+    public List<Room> findAll() {
         return furnitureService.findAll();
     }
-    
+
     @GetMapping("/room/{id}")
-    public Room findById(@PathVariable String id){
+    public Room findById(@PathVariable String id) {
         return furnitureService.findById(id).get();
     }
 
     @DeleteMapping("/room/{id}")
-    public void deleteById(@PathVariable String id){
+    public void deleteById(@PathVariable String id) {
         furnitureService.deleteById(id);
     }
 
     @PutMapping("/room")
-    public void update(@RequestBody Room furniture){
+    public void update(@RequestBody Room furniture) {
         furnitureService.save(furniture);
     }
 }

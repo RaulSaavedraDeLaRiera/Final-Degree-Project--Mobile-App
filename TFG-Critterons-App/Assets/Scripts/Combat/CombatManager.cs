@@ -273,6 +273,8 @@ public class CombatManager : MonoBehaviour
             var exp = GetExpPoints(5, 10);
             var life = GetLifeCritterons();
             //guardar datos
+
+           // RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("userID"), );
             Debug.Log("derrotado enemigos");
         }
         else

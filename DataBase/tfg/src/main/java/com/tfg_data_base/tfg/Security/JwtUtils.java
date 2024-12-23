@@ -23,20 +23,18 @@ import java.util.Date;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    
     private String jwtSecret = "Ladie5de5g3ntlem3nD3dicadoatodo5lo5vividore5folladore5yborderline5AmadorRiva5";
 
-   
-    private int jwtExpirationMs = Integer.MAX_VALUE; //1 semana
+    private int jwtExpirationMs = Integer.MAX_VALUE; // 1 semana
 
     public String generateJwtToken(String mail) {
 
         return Jwts.builder()
-            .subject(mail)
-            .issuedAt(new Date())
-            .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
-            .signWith(getSigningKey())
-            .compact();
+                .subject(mail)
+                .issuedAt(new Date())
+                .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(getSigningKey())
+                .compact();
 
     }
 
@@ -47,20 +45,20 @@ public class JwtUtils {
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser()
-            .verifyWith(getSigningKey())
-            .build()
-            .parseSignedClaims(token)
-            .getPayload()
-            .getSubject();
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
 
     }
 
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(authToken);
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(authToken);
             return true;
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());
