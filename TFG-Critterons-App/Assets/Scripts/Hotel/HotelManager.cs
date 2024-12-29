@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class HotelManager : MonoBehaviour
@@ -46,10 +47,16 @@ public class HotelManager : MonoBehaviour
         Transform buttonTransform = canvas.transform.Find("Money");
         TextMeshProUGUI moneyText = buttonTransform.GetComponentInChildren<TextMeshProUGUI>();
 
+        Transform nameBar = canvas.transform.Find("UserInfo");
+        Transform nameText = nameBar.transform.Find("NameText");
+        TextMeshProUGUI name = nameText.GetComponentInChildren<TextMeshProUGUI>();
+
         RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userData =>
         {
             money = userData.money;
             moneyText.text = money.ToString();
+
+            name.text = userData.name;
         });
 
         InitialiceRooms();
@@ -207,7 +214,10 @@ public class HotelManager : MonoBehaviour
         }
     }
 
-
+    public void changeToPersonalStats()
+    {
+        SceneManager.LoadScene("UserInfo");
+    }
 
 
 }
