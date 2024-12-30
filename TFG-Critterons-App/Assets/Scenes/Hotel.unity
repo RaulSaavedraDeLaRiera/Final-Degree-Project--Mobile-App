@@ -934,6 +934,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1386165889}
   - {fileID: 159226188}
   - {fileID: 1939828420}
   - {fileID: 1192085821}
@@ -1141,7 +1142,7 @@ GameObject:
   - component: {fileID: 58487989}
   - component: {fileID: 58487988}
   - component: {fileID: 58487987}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -2995,6 +2996,111 @@ Transform:
   - {fileID: 1071015813}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &177126463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 177126464}
+  - component: {fileID: 177126467}
+  - component: {fileID: 177126466}
+  - component: {fileID: 177126465}
+  m_Layer: 6
+  m_Name: Sphere
+  m_TagString: HotelObject
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &177126464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177126463}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.11800146, y: -0.67398924, z: 0.110328704, w: 0.7208618}
+  m_LocalPosition: {x: -0.089999974, y: 0.3499999, z: 3.6999998}
+  m_LocalScale: {x: 1, y: 0.98254, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 263783034}
+  m_LocalEulerAnglesHint: {x: -1.226, y: -86.351, z: 18.554}
+--- !u!135 &177126465
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177126463}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &177126466
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177126463}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 68a49be7f409b454db40e472f2fc1c7e, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &177126467
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177126463}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &206353847
 GameObject:
   m_ObjectHideFlags: 0
@@ -3707,6 +3813,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 177126464}
   - {fileID: 1705080504}
   - {fileID: 404625795}
   - {fileID: 654644908}
@@ -5005,7 +5112,7 @@ GameObject:
   - component: {fileID: 338323441}
   - component: {fileID: 338323440}
   - component: {fileID: 338323439}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -5361,7 +5468,7 @@ GameObject:
   - component: {fileID: 364068677}
   - component: {fileID: 364068676}
   - component: {fileID: 364068675}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -5704,6 +5811,111 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377431013}
   m_Mesh: {fileID: -6681719245927877697, guid: 49fec3a4d4a6fbb4996489f9dabd90d7, type: 3}
+--- !u!1 &390204939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 390204940}
+  - component: {fileID: 390204943}
+  - component: {fileID: 390204942}
+  - component: {fileID: 390204941}
+  m_Layer: 6
+  m_Name: 'Sphere '
+  m_TagString: HotelObject
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &390204940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390204939}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: -0.11, y: 0.26, z: 3.62}
+  m_LocalScale: {x: 1, y: 0.98254, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1569786159}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &390204941
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390204939}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &390204942
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390204939}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &390204943
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390204939}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &392506532
 GameObject:
   m_ObjectHideFlags: 0
@@ -5716,7 +5928,7 @@ GameObject:
   - component: {fileID: 392506536}
   - component: {fileID: 392506535}
   - component: {fileID: 392506534}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -5972,7 +6184,7 @@ GameObject:
   - component: {fileID: 426403168}
   - component: {fileID: 426403167}
   - component: {fileID: 426403166}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -7028,7 +7240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &543663036
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7518,9 +7730,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 569410172}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: roomColliders
-  m_TagString: HotelObject
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8607,9 +8819,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 654644908}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: 'roomColliders '
-  m_TagString: HotelObject
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9018,7 +9230,7 @@ GameObject:
   - component: {fileID: 714381657}
   - component: {fileID: 714381656}
   - component: {fileID: 714381655}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -11396,6 +11608,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1548055258}
   - {fileID: 1642949800}
   - {fileID: 2103501430}
   - {fileID: 1918058051}
@@ -12711,6 +12924,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 7138797568340600091, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138797568340600091, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.9559748
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138797568340600091, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.6763972
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138797568340600091, guid: 6614e4ba135496c48b3fe83c08a1cd6d,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.8483896
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13535,7 +13768,7 @@ GameObject:
   - component: {fileID: 1121417343}
   - component: {fileID: 1121417342}
   - component: {fileID: 1121417341}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -14309,6 +14542,111 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1166520015}
   m_Mesh: {fileID: 2593096637065175646, guid: 49fec3a4d4a6fbb4996489f9dabd90d7, type: 3}
+--- !u!1 &1188615231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1188615232}
+  - component: {fileID: 1188615235}
+  - component: {fileID: 1188615234}
+  - component: {fileID: 1188615233}
+  m_Layer: 6
+  m_Name: Sphere
+  m_TagString: HotelObject
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1188615232
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188615231}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 0.03, y: 0.26, z: 4.09}
+  m_LocalScale: {x: 1, y: 0.98254, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1301269609}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1188615233
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188615231}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1188615234
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188615231}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1188615235
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188615231}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1192085820
 GameObject:
   m_ObjectHideFlags: 0
@@ -14318,9 +14656,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192085821}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: roomColliders
-  m_TagString: HotelObject
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15270,7 +15608,7 @@ GameObject:
   - component: {fileID: 1245118092}
   - component: {fileID: 1245118091}
   - component: {fileID: 1245118090}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -15643,6 +15981,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1188615232}
   - {fileID: 1803178909}
   - {fileID: 569410172}
   - {fileID: 1163816893}
@@ -16899,6 +17238,111 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383800286}
   m_Mesh: {fileID: 2685204009168812025, guid: 49fec3a4d4a6fbb4996489f9dabd90d7, type: 3}
+--- !u!1 &1386165888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1386165889}
+  - component: {fileID: 1386165892}
+  - component: {fileID: 1386165891}
+  - component: {fileID: 1386165890}
+  m_Layer: 6
+  m_Name: Sphere
+  m_TagString: HotelObject
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1386165889
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386165888}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 0.04, y: 0.03, z: 3.99}
+  m_LocalScale: {x: 1, y: 0.98254, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 39833592}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1386165890
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386165888}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1386165891
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386165888}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1386165892
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386165888}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1389260490
 GameObject:
   m_ObjectHideFlags: 0
@@ -16929,6 +17373,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1547451470}
   - {fileID: 1510164848}
   - {fileID: 1928877029}
   - {fileID: 1516075168}
@@ -17698,9 +18143,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1510164848}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: roomColliders
-  m_TagString: HotelObject
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17973,7 +18418,7 @@ GameObject:
   - component: {fileID: 1536434574}
   - component: {fileID: 1536434573}
   - component: {fileID: 1536434572}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -18149,6 +18594,216 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542921320}
   m_Mesh: {fileID: -5222326278217354715, guid: 49fec3a4d4a6fbb4996489f9dabd90d7, type: 3}
+--- !u!1 &1547451469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1547451470}
+  - component: {fileID: 1547451473}
+  - component: {fileID: 1547451472}
+  - component: {fileID: 1547451471}
+  m_Layer: 6
+  m_Name: 'Sphere '
+  m_TagString: HotelObject
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1547451470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547451469}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: -0.14, y: 0.36, z: 3.75}
+  m_LocalScale: {x: 1, y: 0.98254, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1389260491}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1547451471
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547451469}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1547451472
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547451469}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1547451473
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547451469}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1548055257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1548055258}
+  - component: {fileID: 1548055261}
+  - component: {fileID: 1548055260}
+  - component: {fileID: 1548055259}
+  m_Layer: 6
+  m_Name: Sphere
+  m_TagString: HotelObject
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1548055258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548055257}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: -0.11, y: 0.3499999, z: 3.6974459}
+  m_LocalScale: {x: 1, y: 0.98254, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 929253497}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1548055259
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548055257}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1548055260
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548055257}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1548055261
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548055257}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1554284079
 GameObject:
   m_ObjectHideFlags: 0
@@ -18428,6 +19083,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 390204940}
   - {fileID: 1704425833}
   - {fileID: 334705573}
   - {fileID: 483188441}
@@ -18809,9 +19465,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1642949800}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: roomColliders
-  m_TagString: HotelObject
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19262,7 +19918,7 @@ GameObject:
   - component: {fileID: 1666945018}
   - component: {fileID: 1666945017}
   - component: {fileID: 1666945016}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -19613,9 +20269,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1704425833}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: roomColliders
-  m_TagString: HotelObject
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19716,7 +20372,7 @@ GameObject:
   - component: {fileID: 1705652635}
   - component: {fileID: 1705652634}
   - component: {fileID: 1705652633}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -21166,7 +21822,7 @@ GameObject:
   - component: {fileID: 1860316797}
   - component: {fileID: 1860316796}
   - component: {fileID: 1860316795}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -21437,7 +22093,7 @@ GameObject:
   - component: {fileID: 1869809973}
   - component: {fileID: 1869809972}
   - component: {fileID: 1869809971}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -22637,7 +23293,7 @@ GameObject:
   - component: {fileID: 1999693685}
   - component: {fileID: 1999693684}
   - component: {fileID: 1999693683}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -22955,7 +23611,7 @@ GameObject:
   - component: {fileID: 2018970373}
   - component: {fileID: 2018970372}
   - component: {fileID: 2018970371}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -23143,7 +23799,7 @@ GameObject:
   - component: {fileID: 2024192110}
   - component: {fileID: 2024192109}
   - component: {fileID: 2024192108}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -23830,7 +24486,7 @@ GameObject:
   - component: {fileID: 2068441685}
   - component: {fileID: 2068441684}
   - component: {fileID: 2068441683}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: HotelObject
   m_Icon: {fileID: 0}
@@ -24912,7 +25568,7 @@ GameObject:
   - component: {fileID: 2119336925}
   - component: {fileID: 2119336924}
   - component: {fileID: 2119336923}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: HotelObject
   m_Icon: {fileID: 0}

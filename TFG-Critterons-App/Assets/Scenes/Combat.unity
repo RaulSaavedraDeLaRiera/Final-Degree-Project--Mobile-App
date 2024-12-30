@@ -362,6 +362,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'CritteronCombat '
       objectReference: {fileID: 0}
+    - target: {fileID: 6247489467048294004, guid: 753860117ac380444ac7702de9673cfb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9151921779487916407, guid: 753860117ac380444ac7702de9673cfb,
         type: 3}
       propertyPath: m_LocalPosition.x

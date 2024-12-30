@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UserInfo : MonoBehaviour
 {
@@ -40,20 +41,43 @@ public class UserInfo : MonoBehaviour
 
             RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), userData.currentCritteron.ToString(), critteron =>
             {
-                healthCText.text = critteron.currentLife.ToString();
+
                 levelCText.text = critteron.level.ToString();
+            });
+            RequestGameInfo.Instance.GetCritteronByID(userData.currentCritteron.ToString(), critteron2 =>
+            {
+                healthCText.text = critteron2.name;
             });
         });
 
-        // Obtener todos los critterons y generarlos en CritteronsRoot
         RequestUserInfo.Instance.GetUserCritterons(PlayerPrefs.GetString("UserID"), critteronsList =>
         {
             foreach (var critteronInfo in critteronsList)
             {
                 GameObject newCritteron = Instantiate(critteron, critteronsRoot.transform);
-              
+
+                ButtonSocial b = newCritteron.GetComponent<ButtonSocial>();
+                b.SetidCritteron(critteronInfo.critteronID);
+
+                Transform healthDataTransform = newCritteron.transform.Find("Health");
+                TextMeshProUGUI healthText = healthDataTransform.GetComponentInChildren<TextMeshProUGUI>();
+                healthText.text = critteronInfo.currentLife.ToString();
+
+                RequestGameInfo.Instance.GetCritteronByID(critteronInfo.critteronID, critteron =>
+                {
+                    Transform data = newCritteron.transform.Find("Data");
+                    TextMeshProUGUI dataText = data.GetComponentInChildren<TextMeshProUGUI>();
+                    dataText.text = critteron.name;
+                });
+
             }
+
         });
     }
 
+
+    public void LoadHotel()
+    {
+        SceneManager.LoadScene("Hotel");
+    }
 }

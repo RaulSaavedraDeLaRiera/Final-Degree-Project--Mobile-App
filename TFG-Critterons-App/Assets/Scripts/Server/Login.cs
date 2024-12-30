@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -32,7 +33,6 @@ public class Login : MonoBehaviour
             loadingSpinner.SetActive(true);
 
             bool loginSuccess = await LoginAsync(mailString, passwordString);
-            loadingSpinner.SetActive(false);
 
             if (loginSuccess)
             {
@@ -41,7 +41,25 @@ public class Login : MonoBehaviour
                     await ServerConnection.Instance.GameInfoInitAsync();
                     await ServerConnection.Instance.UserInfoInitAsync();
 
-                    SceneManager.LoadScene("Hotel");
+
+                    RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userdata =>
+                    {
+                        if (userdata.currentCritteron == "")
+                        {
+                            RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "677123cbf8e9b02d66239c82");
+                            RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: "677123cbf8e9b02d66239c82");
+                            RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
+
+                            StartCoroutine("changeScene");
+                        }
+                        else
+                        {
+                            loadingSpinner.SetActive(false);
+                            SceneManager.LoadScene("Hotel");
+                        }
+                    });
+
+                
                 }
                 catch (Exception ex)
                 {
@@ -54,6 +72,13 @@ public class Login : MonoBehaviour
                 SetCanvasActive(canvasBase, true);
             }
         }
+    }
+
+    private IEnumerator changeScene()
+    {
+        yield return new WaitForSeconds(4);
+        loadingSpinner.SetActive(false);
+        SceneManager.LoadScene("Hotel");
     }
 
     private Task<bool> LoginAsync(string mail, string password)
@@ -115,6 +140,8 @@ public class Login : MonoBehaviour
         ChangeCanvas();
 
     }
+
+ 
 
     public void Test()
     {

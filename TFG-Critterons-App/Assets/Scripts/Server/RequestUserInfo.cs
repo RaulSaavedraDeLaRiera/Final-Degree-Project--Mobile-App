@@ -141,7 +141,7 @@ public class RequestUserInfo : MonoBehaviour
         });
     }
 
-   
+
     public void GetUserRoomsOwned(string id, System.Action<List<I_User.RoomOwned>> callback)
     {
         GetUserByID(id, (user) =>
@@ -214,7 +214,7 @@ public class RequestUserInfo : MonoBehaviour
                 ["money"] = money ?? currentData.money,
                 ["currentCritteron"] = currentCritteron ?? currentData.currentCritteron,
                 ["lastClosedTime"] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-        };
+            };
 
 
             StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "userData", newValue));
@@ -298,4 +298,5 @@ public class RequestUserInfo : MonoBehaviour
             StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "critterons", jsonObject));
         });
     }
+
 }
