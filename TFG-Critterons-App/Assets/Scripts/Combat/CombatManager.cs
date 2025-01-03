@@ -9,13 +9,16 @@ public class CombatManager : MonoBehaviour
 
 
     [SerializeField]
-    CombatUI combatUI;    
+    CombatUI combatUI;
     [SerializeField]
     float turnDuration = 1.5f, attackExtraDamage = 1.25f, enemy2vs1SizeIncrease = 1.5f, effectsDuration = 1f;
     [SerializeField]
     bool autoAttack = true;
     [SerializeField]
     CombatType combatType;
+
+    string idCritteronCurrent;
+    I_User.UserData user;
 
     //1 posicicion critteron 1 en equipo
     //2 posicion critteron 1, 2 en equipo --- 3 posicion critteron 2, 2 en equipo
@@ -37,7 +40,7 @@ public class CombatManager : MonoBehaviour
     float experiencePerCombat = 10;
     private void Start()
     {
-        SetCombat(); 
+        SetCombat();
     }
 
     void SetCombat()
@@ -45,58 +48,70 @@ public class CombatManager : MonoBehaviour
 
         //aqui cargariamos la informacion de los critterons como parametros extras
         CritteronCombatInfo[] crittteronsInfo = new CritteronCombatInfo[2];
-        crittteronsInfo[0] = new CritteronCombatInfo(6, 3, 0, 3);
-        // crittteronsInfo[1] = new CritteronCombatInfo(6, 1, 1, 2);
-        crittteronsInfo[1] = new CritteronCombatInfo(15, 1, 1, 2);
 
-        //podriamos tener un modificador de esto por hotel
-        coldownSpecialAttack *= 1;
-        //modificador externo de experienca por hotel
-        experiencePerCombat = 1;
-        //
 
-        combatInfo = new CombatParameters(CombatType.combat1vs1, crittteronsInfo);
-
-      
-        combatType = combatInfo.combatType;
-
-        string[] names = new string[0];
-
-        switch (combatType)
+        RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userdata =>
         {
-            case CombatType.combat1vs1:
-                names = new string[2];
-                effectsRoot = effectsRoot.GetChild(0);
+            user = userdata;
+            idCritteronCurrent = userdata.currentCritteron;
 
-                allyCritterons[0].gameObject.SetActive(true);
-                names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[0], 0);
+            RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), idCritteronCurrent, critteron =>
+            {
+                RequestGameInfo.Instance.GetCritteronByID(idCritteronCurrent, critteronGame =>
+                {
+                    crittteronsInfo[0] = new CritteronCombatInfo((int)critteronGame.life, critteronGame.basicDamage, critteronGame.name, critteron.level, (int)critteron.currentLife, critteronGame);
 
-                enemyCritterons[0].gameObject.SetActive(true);
-                names[1] = enemyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[1], 1);
-                break;
+                    crittteronsInfo[1] = new CritteronCombatInfo(40, 10, "Rabbit", 2, 40, null);
 
-            case CombatType.combat2vs1:
-                names = new string[3];
-                effectsRoot = effectsRoot.GetChild(1);
+                    //podriamos tener un modificador de esto por hotel
+                    coldownSpecialAttack *= 1;
+                    //modificador externo de experienca por hotel
+                    experiencePerCombat = 1;
 
-                allyCritterons[0].gameObject.SetActive(true);
-                names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[0], 0);
-                allyCritterons[1].gameObject.SetActive(true);
-                names[1] = allyCritterons[1].InitializateCritteron(this, combatUI, combatInfo.critterons[1], 1);
+                    combatInfo = new CombatParameters(CombatType.combat1vs1, crittteronsInfo);
+                    combatType = combatInfo.combatType;
 
-                enemyCritterons[0].gameObject.SetActive(true);
-                names[2] = enemyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[2], 2);
-                break;
-        }
+                    string[] names = new string[0];
 
-        combatInfo.critteronsName = names;
+                    switch (combatType)
+                    {
+                        case CombatType.combat1vs1:
+                            names = new string[2];
+                            effectsRoot = effectsRoot.GetChild(0);
+                            allyCritterons[0].gameObject.SetActive(true);
+                            names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[0], 0);
 
-        EmplaceCritterons();
+                            enemyCritterons[0].gameObject.SetActive(true);
+                            names[1] = enemyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[1], 1);
+                            break;
 
-        combatUI.SetUI(combatInfo);
+                        case CombatType.combat2vs1:
+                            names = new string[3];
+                            effectsRoot = effectsRoot.GetChild(1);
 
-        InvokeRepeating("Turn", turnDuration, turnDuration);
+                            allyCritterons[0].gameObject.SetActive(true);
+                            names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[0], 0);
+                            allyCritterons[1].gameObject.SetActive(true);
+                            names[1] = allyCritterons[1].InitializateCritteron(this, combatUI, combatInfo.critterons[1], 1);
+
+                            enemyCritterons[0].gameObject.SetActive(true);
+                            names[2] = enemyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[2], 2);
+                            break;
+                    }
+
+                    combatInfo.critteronsName = names;
+
+                    EmplaceCritterons();
+
+                    combatUI.SetUI(combatInfo);
+
+                    InvokeRepeating("Turn", turnDuration, turnDuration);
+                });
+            });
+        });
     }
+
+
 
     void EmplaceCritterons()
     {
@@ -150,7 +165,7 @@ public class CombatManager : MonoBehaviour
                 break;
 
             case CombatType.combat2vs1:
-                if(enemyCritterons.Contains(critteron))
+                if (enemyCritterons.Contains(critteron))
                 {
                     //fin del combate, critteron enemigo derrotado
                     CancelInvoke();
@@ -160,7 +175,7 @@ public class CombatManager : MonoBehaviour
                 else
                 {
                     allyCritterons.Remove(critteron);
-                    if(allyCritterons.Count == 0)
+                    if (allyCritterons.Count == 0)
                     {
                         //fin del combate
                         CancelInvoke();
@@ -188,7 +203,7 @@ public class CombatManager : MonoBehaviour
         Debug.Log("ataque seleccionado: " + selected + " en turno " + turn);
         attackSelected = (AttackSelected)selected;
 
-        combatUI.SelectAttack(selected-1);
+        combatUI.SelectAttack(selected - 1);
     }
 
     int effectType, efffectIndex;
@@ -208,7 +223,7 @@ public class CombatManager : MonoBehaviour
     void Turn()
     {
 
-       
+
         switch (combatType)
         {
             //comnate 1 vs 1, atacan por momentos
@@ -218,7 +233,7 @@ public class CombatManager : MonoBehaviour
                     allyCritterons[0].Attack(enemyCritterons[0], attackSelected, attackExtraDamage);
 
                     combatUI.ResetAttacks();
-                    if((int)attackSelected > 1)
+                    if ((int)attackSelected > 1)
                         combatUI.DisableSpecialAttacks(coldownSpecialAttack);
                 }
                 else
@@ -267,25 +282,43 @@ public class CombatManager : MonoBehaviour
 
         combatUI.ResetAttacks(true);
 
-        if(win)
+        if (win)
         {
-            //cargar experiencia maxima y minima segun combate
-            var exp = GetExpPoints(5, 10);
-            var life = GetLifeCritterons();
-            //guardar datos
 
-           // RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("userID"), );
+            Debug.Log("WIIN");
+            //cargar experiencia maxima y minima segun combate
+            var newExp = GetExpPoints(5, 10);
+            var life = GetLifeCritterons();
+
+            RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), idCritteronCurrent, currentLife: life[0], exp: newExp[0]);
             Debug.Log("derrotado enemigos");
+
+            // Dar experiencia al usuario o subir de nivel
+            if (user.experience + 10 >= 50)
+            {
+                RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), level: user.level + 1, experience: 0);
+                SceneManager.LoadScene("NewLevel");
+            }
+            else
+            {
+                RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), experience: user.experience + 10);
+                SceneManager.LoadScene("DemoPrincipal");
+
+            }
+
         }
         else
         {
-            //vida 0
+            Debug.Log("LOSEEE");
+
             var life = GetLifeCritterons();
-            //guardar datos
+            RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), idCritteronCurrent, currentLife: life[0]);
+
             Debug.Log("derrotado aliados");
+            SceneManager.LoadScene("DemoPrincipal");
+
         }
 
-        SceneManager.LoadScene("DemoPrincipal");
 
     }
 
@@ -310,7 +343,7 @@ public class CombatManager : MonoBehaviour
 
         return life;
     }
-    int [] GetExpPoints(int minPerCombat, int maxPerCombat)
+    int[] GetExpPoints(int minPerCombat, int maxPerCombat)
     {
         int[] exp;
         switch (combatType)
@@ -335,7 +368,7 @@ public class CombatManager : MonoBehaviour
 }
 
 public enum CombatType { combat1vs1, combat2vs1 }
-public enum AttackSelected {none, normalAttack, specialAttack1, specialAttack2 }
+public enum AttackSelected { none, normalAttack, specialAttack1, specialAttack2 }
 
 public struct CombatParameters
 {

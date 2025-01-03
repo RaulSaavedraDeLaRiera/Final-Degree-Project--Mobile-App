@@ -50,9 +50,12 @@ public class CombatUI : MonoBehaviour
                 break;
         }
 
-
-        //cargaria ataques especiales del critteron en cuestion
-        string specialAttack1 = "LLAMARADA", specialAttack2 = "MONDONGO";
+         string specialAttack1 = "LLAMARADA", specialAttack2 = "MONDONGO";
+        if (info.critterons[0].critteron != null)
+        {
+            specialAttack1 = info.critterons[0].critteron.attacks[0].name;
+            specialAttack2 = info.critterons[0].critteron.attacks[1].name;
+        }
 
 
 

@@ -44,6 +44,7 @@ public class I_User
     {
         public string critteronID;
         public int level;
+        public int exp;
         public float currentLife;
         public StartInfo startInfo;
 

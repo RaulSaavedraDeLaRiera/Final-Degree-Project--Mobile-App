@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class CritteronCombat : MonoBehaviour
@@ -26,13 +27,14 @@ public class CritteronCombat : MonoBehaviour
         this.ui = ui;
         this.combatID = combatID;
 
-        maxHealth = health = info.live;
+        maxHealth = info.live;
+        health = info.currentLife;
         damage = info.damage;
 
-        visualRoot.GetChild(info.creature).gameObject.SetActive(true);
-        animator = visualRoot.GetChild(info.creature).GetComponent<Animator>();
+        visualRoot.Find(info.creature).gameObject.SetActive(true);
+        animator = visualRoot.Find(info.creature).GetComponent<Animator>();
 
-        return visualRoot.GetChild(info.creature).gameObject.name;
+        return visualRoot.Find(info.creature).gameObject.name;
     }
    
 
@@ -93,17 +95,20 @@ public class CritteronCombat : MonoBehaviour
 
 public struct CritteronCombatInfo{
     public int live;
+    public int currentLife;
     public int damage;
-    public int creature;
+    public string creature;
     public int level;
+    public I_Critteron critteron;
 
-
-    public CritteronCombatInfo(int live, int damage, int creature,int level)
+    public CritteronCombatInfo(int live, int damage, string creature,int level, int currentLife, I_Critteron critteron)
     {
+        this.currentLife = currentLife;
         this.live = live;
         this.damage = damage;
         this.creature = creature;
         this.level = level;
+        this.critteron = critteron;
     }
 
 }

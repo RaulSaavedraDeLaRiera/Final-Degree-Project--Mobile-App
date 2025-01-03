@@ -234,7 +234,7 @@ public class RequestUserInfo : MonoBehaviour
     /// <param name="timeAnaerobic"></param>
     /// <param name="stepsDoingParade"></param>
     public void ModifyUserCritteron(string idUser, string idCritteron, int? level = null,
-    float? currentLife = null, int? stepAsPartner = null, int? usedAttacks = null,
+    float? currentLife = null, int? exp = null, int? stepAsPartner = null, int? usedAttacks = null,
     int? combatWins = null, int? timeAnaerobic = null, int? stepsDoingParade = null)
     {
         GetUserByID(idUser, (auxUser) =>
@@ -255,6 +255,7 @@ public class RequestUserInfo : MonoBehaviour
                     critteronID = idCritteron,
                     level = level ?? 0,
                     currentLife = currentLife ?? 0,
+                    exp = exp ?? 0,
                     startInfo = new I_User.Critteron.StartInfo
                     {
                         stepAsPartner = stepAsPartner ?? 0,
@@ -285,6 +286,7 @@ public class RequestUserInfo : MonoBehaviour
             jsonObject["critteronID"] = critteron.critteronID;
             jsonObject["level"] = critteron.level;
             jsonObject["currentLife"] = critteron.currentLife;
+            jsonObject["exp"] = critteron.exp;
 
             var startInfo = new SimpleJSON.JSONObject();
             startInfo["stepAsPartner"] = critteron.startInfo.stepAsPartner;

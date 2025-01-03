@@ -8,6 +8,7 @@ TagManager:
   - OwnedObject
   - ObjectToBuy
   - HotelObject
+  - SmallSphere
   layers:
   - Default
   - TransparentFX

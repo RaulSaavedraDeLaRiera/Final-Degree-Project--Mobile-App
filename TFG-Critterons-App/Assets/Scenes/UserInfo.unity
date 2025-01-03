@@ -389,7 +389,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: social-ui
+          m_StringArgument: Social
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &91380038
@@ -2376,16 +2376,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 601098623}
-        m_TargetAssemblyTypeName: UserInfo, Assembly-CSharp
-        m_MethodName: LoadHotel
-        m_Mode: 1
+      - m_Target: {fileID: 1109989420}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Hotel
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1102500046
@@ -2494,6 +2494,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f700cdb68758ad4fb6bb33aebf21079, type: 3}
+--- !u!114 &1109989420 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2662470245022535438, guid: 3f700cdb68758ad4fb6bb33aebf21079,
+    type: 3}
+  m_PrefabInstance: {fileID: 1109989419}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 591b722472378f94489eda6f00138b8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1227505317
 GameObject:
   m_ObjectHideFlags: 0
