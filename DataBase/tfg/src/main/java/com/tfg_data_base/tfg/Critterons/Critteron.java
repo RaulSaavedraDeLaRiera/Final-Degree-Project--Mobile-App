@@ -16,8 +16,8 @@ public class Critteron {
     private Integer life;
     private Integer basicDamage;
     private Integer defense;
-    private List<Attack> attacks;
     private Integer idZone;
+    private List<Attack> attacks;
 
     @Data
     public static class Attack {

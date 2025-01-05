@@ -35,7 +35,7 @@ public class CombatUI : MonoBehaviour
                 {
                     combat1vs1Names[i].text = info.critteronsName[i] + " LVL " + info.critterons[i].level;
                     combat1vs1Health[i].text =
-                        info.critterons[i].live.ToString() + "/" + info.critterons[i].live.ToString();
+                        info.critterons[i].currentLife.ToString() + "/" + info.critterons[i].live.ToString();
                 }
                 break;
             case CombatType.combat2vs1:
@@ -50,18 +50,15 @@ public class CombatUI : MonoBehaviour
                 break;
         }
 
-         string specialAttack1 = "LLAMARADA", specialAttack2 = "MONDONGO";
+         string specialAttack1 = "ATCK1", specialAttack2 = "ATCK2";
         if (info.critterons[0].critteron != null)
         {
             specialAttack1 = info.critterons[0].critteron.attacks[0].name;
             specialAttack2 = info.critterons[0].critteron.attacks[1].name;
         }
 
-
-
         this.specialAttack1.text = specialAttack1;
         this.specialAttack2.text = specialAttack2;
-
     }
 
 

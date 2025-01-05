@@ -63,6 +63,14 @@ public class UserService {
             user.setSocialStats(new ArrayList<>());
         }
 
+        if (user.getPendingSocialStats() == null) {
+            user.setPendingSocialStats(new ArrayList<>());
+        }
+
+        if (user.getSentSocialStats() == null) {
+            user.setSentSocialStats(new ArrayList<>());
+        }
+
         if (user.getPersonalStats() == null) {
             user.setPersonalStats(new User.PersonalStats());
         }
@@ -191,7 +199,8 @@ public class UserService {
             String newSocialStatID = (String) newValue;
             Update update = new Update().addToSet("socialStats", new User.SocialStat(newSocialStatID));
             mongoTemplate.updateFirst(query, update, User.class);
-        } else {
+        }
+        else {
             Update update = new Update().set(fieldName, newValue);
             mongoTemplate.updateFirst(query, update, User.class);
         }
@@ -205,6 +214,37 @@ public class UserService {
         Query query = new Query(Criteria.where("id").is(userId));
         Update update = new Update().pull("socialStats", new User.SocialStat(friendID));
         mongoTemplate.updateFirst(query, update, User.class);
+    }
+
+    public void removeFriendPending(String userId, String friendID) {
+        Query query = new Query(Criteria.where("id").is(userId));
+        Update update = new Update().pull("pendingSocialStats", new User.PendingSocialStat(friendID));
+        mongoTemplate.updateFirst(query, update, User.class);
+    }
+
+    public void removeFriendSent(String userId, String friendID) {
+        Query query = new Query(Criteria.where("id").is(userId));
+        Update update = new Update().pull("sentSocialStats", new User.SentSocialStat(friendID));
+        mongoTemplate.updateFirst(query, update, User.class);
+    }
+
+    public void updateUserSentFriend(String userId, String fieldName, Object newValue) {
+        Query query = new Query(Criteria.where("id").is(userId));
+        if ("sentSocialStats".equals(fieldName)) {
+            String newsentSocialStatID = (String) newValue;
+            Update update = new Update().addToSet("sentSocialStats", new User.SentSocialStat(newsentSocialStatID));
+            mongoTemplate.updateFirst(query, update, User.class);
+        }
+    }
+
+    public void updateUserPendingFriend(String userId, String fieldName, Object newValue) {
+        Query query = new Query(Criteria.where("id").is(userId));
+
+        if ("pendingSocialStats".equals(fieldName)) {
+            String newPendingSocialStatID = (String) newValue;
+            Update update = new Update().addToSet("pendingSocialStats", new User.PendingSocialStat(newPendingSocialStatID));
+            mongoTemplate.updateFirst(query, update, User.class);
+        }
     }
 
     private boolean verifyUser(String userId) {

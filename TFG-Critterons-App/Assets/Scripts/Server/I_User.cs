@@ -7,6 +7,8 @@ public class I_User
     public string id;
     public UserData userData;
     public List<SocialStat> socialStats;
+    public List<PendingSocialStat> pendingSocialStats;
+    public List<SentSocialStat> sentSocialStats;
     public PersonalStats personalStats;
     public List<Critteron> critterons;
     public List<RoomOwned> roomOwned;
@@ -27,6 +29,19 @@ public class I_User
     {
         public string friendID;
     }
+
+    [Serializable]
+    public class PendingSocialStat
+    {
+        public string friendID;
+    }
+
+    [Serializable]
+    public class SentSocialStat
+    {
+        public string friendID;
+    }
+
 
     [Serializable]
     public class PersonalStats

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SocialInfoSetter : MonoBehaviour
 {
@@ -11,4 +12,10 @@ public class SocialInfoSetter : MonoBehaviour
     {
 
     }
+
+    void AddNewFriend()
+    {
+        SceneManager.LoadScene("AddFriend");
+    }
+
 }

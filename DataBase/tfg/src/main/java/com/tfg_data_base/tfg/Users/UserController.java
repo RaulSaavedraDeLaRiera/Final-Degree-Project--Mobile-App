@@ -65,8 +65,28 @@ public class UserController {
         userService.updateUserField(id, userUpdateRequest.getFieldName(), userUpdateRequest.getNewValue());
     }
 
+    @PatchMapping("/userPending/{id}")
+    public void updateFriendPending(@PathVariable String id, @RequestBody UserUpdateRequest userUpdateRequest) {
+        userService.updateUserPendingFriend(id, userUpdateRequest.getFieldName(), userUpdateRequest.getNewValue());
+    }
+
     @DeleteMapping("/user/removeFriend/{id}")
     public void removeFriend(@PathVariable String id, @RequestBody UserFriend friendID) {
         userService.removeFriend(id, friendID.getFriendID());
+    }
+
+    @DeleteMapping("/user/removeFriendPending/{id}")
+    public void removeFriendPending(@PathVariable String id, @RequestBody UserFriend friendID) {
+        userService.removeFriendPending(id, friendID.getFriendID());
+    }
+
+    @PatchMapping("/userSent/{id}")
+    public void updateFriendSent(@PathVariable String id, @RequestBody UserUpdateRequest userUpdateRequest) {
+        userService.updateUserSentFriend(id, userUpdateRequest.getFieldName(), userUpdateRequest.getNewValue());
+    }
+
+    @DeleteMapping("/user/removeFriendSent/{id}")
+    public void removeFriendSent(@PathVariable String id, @RequestBody UserFriend friendID) {
+        userService.removeFriendSent(id, friendID.getFriendID());
     }
 }

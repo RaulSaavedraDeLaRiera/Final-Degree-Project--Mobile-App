@@ -41,25 +41,60 @@ public class Login : MonoBehaviour
                     await ServerConnection.Instance.GameInfoInitAsync();
                     await ServerConnection.Instance.UserInfoInitAsync();
 
-
                     RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userdata =>
                     {
+
+
                         if (userdata.currentCritteron == "")
                         {
-                            RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "677123cbf8e9b02d66239c82");
-                            RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: "677123cbf8e9b02d66239c82");
-                            RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
+                            RequestGameInfo.Instance.GetCritteronByID("677123cbf8e9b02d66239c82", critteron =>
+                            {
+                                RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "677123cbf8e9b02d66239c82", currentLife: critteron.life, level: 1);
+                                RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: "677123cbf8e9b02d66239c82", level: 1);
+                                RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
 
-                            StartCoroutine("changeScene");
+                                StartCoroutine("changeScene");
+                            });
+
                         }
                         else
                         {
-                            loadingSpinner.SetActive(false);
-                            SceneManager.LoadScene("Hotel");
+                            RequestUserInfo.Instance.GetUserSentFriend(PlayerPrefs.GetString("UserID"), sentList =>
+                            {
+                                RequestUserInfo.Instance.GetUserPendingFriend(PlayerPrefs.GetString("UserID"), pendingList =>
+                                {
+
+                                    if (sentList.Count != 0 && pendingList.Count != 0)
+                                    {
+                                        foreach (var item in sentList)
+                                        {
+                                            foreach (var item2 in pendingList)
+                                            {
+                                                if (item.friendID == item2.friendID)
+                                                {
+                                                    RequestUserInfo.Instance.ModifySocialStat(PlayerPrefs.GetString("UserID"), item.friendID);
+                                                    RequestUserInfo.Instance.RemovePendingFriend(PlayerPrefs.GetString("UserID"), item.friendID);
+                                                    RequestUserInfo.Instance.RemoveSentFriend(PlayerPrefs.GetString("UserID"), item.friendID);
+                                                }
+                                            }
+                                        }
+
+                                        loadingSpinner.SetActive(false);
+                                        SceneManager.LoadScene("Hotel");
+                                    }
+                                    else
+                                    {
+                                        loadingSpinner.SetActive(false);
+                                        SceneManager.LoadScene("Hotel");
+                                    }
+                                });
+                            });
+
+
                         }
                     });
 
-                
+
                 }
                 catch (Exception ex)
                 {
@@ -71,6 +106,8 @@ public class Login : MonoBehaviour
             {
                 SetCanvasActive(canvasBase, true);
             }
+
+            loadingSpinner.SetActive(false);
         }
     }
 

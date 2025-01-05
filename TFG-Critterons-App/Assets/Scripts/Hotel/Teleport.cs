@@ -32,8 +32,10 @@ public class Teleport : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var critteron = other.GetComponent<HotelCritteron>();
 
+
+        var critteron = other.GetComponent<HotelCritteron>();
+        Debug.Log("TELEPORT");
         if(critteron != null && 
             critteron.Target != null && critteron.CurrentRoom != critteron.Target.Room)
         {

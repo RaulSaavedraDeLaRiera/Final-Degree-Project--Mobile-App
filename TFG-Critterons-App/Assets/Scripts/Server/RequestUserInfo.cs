@@ -1,7 +1,10 @@
+using SimpleJSON;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -89,6 +92,17 @@ public class RequestUserInfo : MonoBehaviour
         });
     }
 
+    public void GetUserPersonalStat(string id, System.Action<I_User.PersonalStats> callback)
+    {
+        GetUserByID(id, (user) =>
+        {
+            if (user != null && user.personalStats != null)
+                callback?.Invoke(user.personalStats);
+            else
+                callback?.Invoke(null);
+        });
+    }
+
     /// <summary>
     /// Obtiene la lista de Critterons del usuario
     /// </summary>
@@ -153,6 +167,32 @@ public class RequestUserInfo : MonoBehaviour
         });
     }
 
+
+    public void GetUserPendingFriend(string id, System.Action<List<I_User.PendingSocialStat>> callback)
+    {
+        GetUserByID(id, (user) =>
+        {
+            if (user != null && user.pendingSocialStats != null)
+                callback?.Invoke(user.pendingSocialStats);
+            else
+                callback?.Invoke(null);
+        });
+    }
+
+
+    public void GetUserSentFriend(string id, System.Action<List<I_User.SentSocialStat>> callback)
+    {
+        GetUserByID(id, (user) =>
+        {
+            if (user != null && user.sentSocialStats != null)
+                callback?.Invoke(user.sentSocialStats);
+            else
+                callback?.Invoke(null);
+        });
+    }
+
+
+
     public Task<List<string>> GetUserRoomsOwnedAsync()
     {
         var tcs = new TaskCompletionSource<List<string>>();
@@ -192,6 +232,44 @@ public class RequestUserInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.ModifyUserField(id, "roomOwned", newValue));
     }
 
+    public void ModifyPendingFriend(string id, string newValue)
+    {
+        StartCoroutine(ServerConnection.Instance.AddPendingFriend(id, "pendingSocialStats", newValue));
+    }
+
+    public void ModifySentFriend(string id, string newValue)
+    {
+        StartCoroutine(ServerConnection.Instance.AddSentFriend(id, "sentSocialStats", newValue));
+    }
+
+    public void ModifySocialStat(string id, string newValue)
+    {
+        StartCoroutine(ServerConnection.Instance.ModifyUserField(id, "socialStats", newValue));
+    }
+
+    public void RemoveFriend(string id, string idFriend)
+    {
+        var friendIDJson = new JSONObject();
+        friendIDJson["friendID"] = idFriend;
+        StartCoroutine(ServerConnection.Instance.RemoveUserFriend(id, friendIDJson));
+    }
+
+    public void RemovePendingFriend(string id, string idFriend)
+    {
+        var friendIDJson = new JSONObject();
+        friendIDJson["friendID"] = idFriend;
+
+        StartCoroutine(ServerConnection.Instance.RemoveUserFriendPending(id, friendIDJson));
+    }
+
+
+    public void RemoveSentFriend(string id, string idFriend)
+    {
+        var friendIDJson = new JSONObject();
+        friendIDJson["friendID"] = idFriend;
+
+        StartCoroutine(ServerConnection.Instance.RemoveUserFriendSent(id, friendIDJson));
+    }
 
     public void ModifyUserData(string idUser, string? nickname = null, int? level = null,
     int? experience = null, int? money = null, string? currentCritteron = null)

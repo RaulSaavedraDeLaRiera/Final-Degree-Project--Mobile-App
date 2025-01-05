@@ -251,7 +251,7 @@ public class ServerConnection : MonoBehaviour
             },
             (error) =>
             {
-                UnityEngine.Debug.LogError($"Error fetching critteron by ID {id}: {error}");
+
                 callback(null);
             }
         ));
@@ -421,6 +421,88 @@ public class ServerConnection : MonoBehaviour
             (error) =>
             {
                 UnityEngine.Debug.LogError($"Error deleting user friend: {error}");
+            }
+        ));
+    }
+
+    public IEnumerator AddPendingFriend<T>(string userId, string fieldName, T newValue)
+    {
+        string url = $"http://localhost:8080/api/v1/userPending/{userId}";
+
+        var json = new JSONObject();
+        json["fieldName"] = fieldName;
+
+        if (newValue is string || newValue is int || newValue is float)
+            json["newValue"] = new JSONString(newValue.ToString());
+        else if (newValue is JSONObject jsonValue)
+            json["newValue"] = jsonValue;
+        else
+            json["newValue"] = JSON.Parse(JsonUtility.ToJson(newValue));
+
+        yield return StartCoroutine(SendRequest(url, "PATCH", json,
+            (response) =>
+            {
+                UnityEngine.Debug.Log("User pending friend field modified successfully");
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error modifying user pending friend field: {error}");
+            }
+        ));
+    }
+
+    public IEnumerator RemoveUserFriendPending(string userId, JSONObject friendID)
+    {
+        string url = $"http://localhost:8080/api/v1/user/removeFriendPending/{userId}";
+        yield return StartCoroutine(SendRequest(url, "DELETE", friendID,
+            (response) =>
+            {
+                UnityEngine.Debug.Log("User pending friend deleted successfully");
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error deleting pending user friend: {error}");
+            }
+        ));
+    }
+
+    public IEnumerator AddSentFriend<T>(string userId, string fieldName, T newValue)
+    {
+        string url = $"http://localhost:8080/api/v1/userSent/{userId}";
+
+        var json = new JSONObject();
+        json["fieldName"] = fieldName;
+
+        if (newValue is string || newValue is int || newValue is float)
+            json["newValue"] = new JSONString(newValue.ToString());
+        else if (newValue is JSONObject jsonValue)
+            json["newValue"] = jsonValue;
+        else
+            json["newValue"] = JSON.Parse(JsonUtility.ToJson(newValue));
+
+        yield return StartCoroutine(SendRequest(url, "PATCH", json,
+            (response) =>
+            {
+                UnityEngine.Debug.Log("User sent friend field modified successfully");
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error modifying user sent friend field: {error}");
+            }
+        ));
+    }
+
+    public IEnumerator RemoveUserFriendSent(string userId, JSONObject friendID)
+    {
+        string url = $"http://localhost:8080/api/v1/user/removeFriendSent/{userId}";
+        yield return StartCoroutine(SendRequest(url, "DELETE", friendID,
+            (response) =>
+            {
+                UnityEngine.Debug.Log("User sent friend deleted successfully");
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error deleting sent user friend: {error}");
             }
         ));
     }

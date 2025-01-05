@@ -17,6 +17,8 @@ public class User {
     private String password;
     private UserData userData;
     private List<SocialStat> socialStats;
+    private List<PendingSocialStat> pendingSocialStats;
+    private List<SentSocialStat> sentSocialStats;
     private PersonalStats personalStats;
     private List<CritteronUser> critterons;
     private List<RoomOwned> roomOwned;
@@ -41,6 +43,24 @@ public class User {
     }
 
     @Data
+    public static class PendingSocialStat {
+        private String friendID;
+
+        public PendingSocialStat(String friendID) {
+            this.friendID = friendID;
+        }
+    }
+
+    @Data
+    public static class SentSocialStat {
+        private String friendID;
+
+        public SentSocialStat(String friendID) {
+            this.friendID = friendID;
+        }
+    }
+
+    @Data
     public static class PersonalStats {
         private Integer globalSteps;
         private Integer daysStreak;
@@ -54,6 +74,7 @@ public class User {
     public static class CritteronUser {
         private String critteronID;
         private Integer level;
+        private Integer exp;
         private Float currentLife;
         private StartInfo startInfo;
 
