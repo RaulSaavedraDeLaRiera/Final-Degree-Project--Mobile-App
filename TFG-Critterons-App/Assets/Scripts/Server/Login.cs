@@ -79,11 +79,13 @@ public class Login : MonoBehaviour
                                             }
                                         }
 
+
                                         loadingSpinner.SetActive(false);
                                         SceneManager.LoadScene("Hotel");
                                     }
                                     else
                                     {
+                                        RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
                                         loadingSpinner.SetActive(false);
                                         SceneManager.LoadScene("Hotel");
                                     }

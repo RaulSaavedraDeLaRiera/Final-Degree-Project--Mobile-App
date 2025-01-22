@@ -12,7 +12,6 @@ public class I_User
     public PersonalStats personalStats;
     public List<Critteron> critterons;
     public List<RoomOwned> roomOwned;
-    public long lastClosedTime;
 
     [Serializable]
     public class UserData
@@ -22,6 +21,7 @@ public class I_User
         public int experience;
         public int money;
         public string currentCritteron;
+        public long lastClosedTime;
     }
 
     [Serializable]

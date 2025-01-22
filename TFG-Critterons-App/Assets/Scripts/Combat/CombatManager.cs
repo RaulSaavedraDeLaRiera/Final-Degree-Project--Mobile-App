@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class CombatManager : MonoBehaviour
 {
-
-
     [SerializeField]
     CombatUI combatUI;
     [SerializeField]
@@ -59,71 +57,78 @@ public class CombatManager : MonoBehaviour
             {
                 RequestGameInfo.Instance.GetCritteronByID(idCritteronCurrent, critteronGame =>
                 {
-                    crittteronsInfo[0] = new CritteronCombatInfo((int)critteronGame.life + critteron.level, critteronGame.basicDamage + critteron.level/2, critteronGame.name, critteron.level, (int)critteron.currentLife + critteron.level, critteronGame.defense,critteronGame);
 
-                    RequestGameInfo.Instance.GetAllCritteron(critterons =>
+                    RequestUserInfo.Instance.GetExtraRoomType(PlayerPrefs.GetString("UserID"), 2, extra =>
                     {
-
-                        List<I_Critteron> list = new List<I_Critteron>();
-                        for (int i = 0; i < critterons.Count; i++)
+                        RequestUserInfo.Instance.GetExtraRoomType(PlayerPrefs.GetString("UserID"), 3, experiencieExtra =>
                         {
-                            if (critterons[i].levelUnlock <= userdata.level)
+
+                            crittteronsInfo[0] = new CritteronCombatInfo((int)critteronGame.life + critteron.level, (int)extra + critteronGame.basicDamage + critteron.level / 2, critteronGame.name, critteron.level, (int)critteron.currentLife + critteron.level, critteronGame.defense + (int)extra, critteronGame);
+
+                            RequestGameInfo.Instance.GetAllCritteron(critterons =>
                             {
-                                list.Add(critterons[i]);
-                            }
-                        }
-                        int randomIndex = UnityEngine.Random.Range(0, list.Count);
 
-                        int randomLevel = UnityEngine.Random.Range(0, userdata.level + 3);
-                        crittteronsInfo[1] = new CritteronCombatInfo(list[randomIndex].life + randomLevel, list[randomIndex].basicDamage + randomLevel/2, list[randomIndex].name, randomLevel, list[randomIndex].life + randomLevel, list[randomIndex].defense, null);
+                                List<I_Critteron> list = new List<I_Critteron>();
+                                for (int i = 0; i < critterons.Count; i++)
+                                {
+                                    if (critterons[i].levelUnlock <= userdata.level)
+                                    {
+                                        list.Add(critterons[i]);
+                                    }
+                                }
+                                int randomIndex = UnityEngine.Random.Range(0, list.Count);
 
-                        //podriamos tener un modificador de esto por hotel
-                        coldownSpecialAttack *= 1;
-                        //modificador externo de experienca por hotel
-                        experiencePerCombat = 1;
+                                int randomLevel = UnityEngine.Random.Range(0, userdata.level + 3);
+                                crittteronsInfo[1] = new CritteronCombatInfo(list[randomIndex].life + randomLevel, list[randomIndex].basicDamage + randomLevel / 2, list[randomIndex].name, randomLevel, list[randomIndex].life + randomLevel, list[randomIndex].defense, null);
 
-                        combatInfo = new CombatParameters(CombatType.combat1vs1, crittteronsInfo);
-                        combatType = combatInfo.combatType;
+                                coldownSpecialAttack *= 1;
+                                experiencePerCombat = 1 + experiencieExtra;
 
-                        string[] names = new string[0];
+                                combatInfo = new CombatParameters(CombatType.combat1vs1, crittteronsInfo);
+                                combatType = combatInfo.combatType;
 
-                        switch (combatType)
-                        {
-                            case CombatType.combat1vs1:
-                                names = new string[2];
-                                effectsRoot = effectsRoot.GetChild(0);
-                                allyCritterons[0].gameObject.SetActive(true);
-                                names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[0], 0);
+                                string[] names = new string[0];
 
-                                enemyCritterons[0].gameObject.SetActive(true);
-                                names[1] = enemyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[1], 1);
-                                break;
+                                switch (combatType)
+                                {
+                                    case CombatType.combat1vs1:
+                                        names = new string[2];
+                                        effectsRoot = effectsRoot.GetChild(0);
+                                        allyCritterons[0].gameObject.SetActive(true);
+                                        names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[0], 0);
 
-                            case CombatType.combat2vs1:
-                                names = new string[3];
-                                effectsRoot = effectsRoot.GetChild(1);
+                                        enemyCritterons[0].gameObject.SetActive(true);
+                                        names[1] = enemyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[1], 1);
+                                        break;
 
-                                allyCritterons[0].gameObject.SetActive(true);
-                                names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[0], 0);
-                                allyCritterons[1].gameObject.SetActive(true);
-                                names[1] = allyCritterons[1].InitializateCritteron(this, combatUI, combatInfo.critterons[1], 1);
+                                    case CombatType.combat2vs1:
+                                        names = new string[3];
+                                        effectsRoot = effectsRoot.GetChild(1);
 
-                                enemyCritterons[0].gameObject.SetActive(true);
-                                names[2] = enemyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[2], 2);
-                                break;
-                        }
+                                        allyCritterons[0].gameObject.SetActive(true);
+                                        names[0] = allyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[0], 0);
+                                        allyCritterons[1].gameObject.SetActive(true);
+                                        names[1] = allyCritterons[1].InitializateCritteron(this, combatUI, combatInfo.critterons[1], 1);
 
-                        combatInfo.critteronsName = names;
+                                        enemyCritterons[0].gameObject.SetActive(true);
+                                        names[2] = enemyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[2], 2);
+                                        break;
+                                }
 
-                        EmplaceCritterons();
+                                combatInfo.critteronsName = names;
 
-                        combatUI.SetUI(combatInfo);
+                                EmplaceCritterons();
 
-                        InvokeRepeating("Turn", turnDuration, turnDuration);
+                                combatUI.SetUI(combatInfo);
 
+                                InvokeRepeating("Turn", turnDuration, turnDuration);
+                            });
+                        });
                     });
 
-                  
+
+
+
                 });
             });
         });
@@ -315,6 +320,21 @@ public class CombatManager : MonoBehaviour
             if (user.experience + 10 >= 50)
             {
                 RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), level: user.level + 1, experience: 0, money: user.money + 20);
+
+                RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), user.currentCritteron, c =>
+                {
+                    int exp = c.exp + 20;
+                    int lvl = c.level;
+                    if (exp >= 100)
+                    {
+                        exp = 0;
+                        lvl++;
+                    }
+
+                    RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), user.currentCritteron, exp: exp, level: lvl);
+
+                });
+               
                 SceneManager.LoadScene("NewLevel");
             }
             else

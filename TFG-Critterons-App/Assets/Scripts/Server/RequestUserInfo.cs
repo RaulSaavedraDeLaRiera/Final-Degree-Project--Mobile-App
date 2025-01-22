@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
 
 public class RequestUserInfo : MonoBehaviour
@@ -92,6 +93,22 @@ public class RequestUserInfo : MonoBehaviour
         });
     }
 
+
+    public async Task<I_User.UserData> GetUserDataAsync(string id)
+    {
+        var tcs = new TaskCompletionSource<I_User.UserData>();
+
+        GetUserByID(id, (user) =>
+        {
+            if (user != null && user.userData != null)
+                tcs.SetResult(user.userData);
+            else
+                tcs.SetResult(null);
+        });
+
+        return await tcs.Task;
+    }
+
     public void GetUserPersonalStat(string id, System.Action<I_User.PersonalStats> callback)
     {
         GetUserByID(id, (user) =>
@@ -153,6 +170,25 @@ public class RequestUserInfo : MonoBehaviour
             }
             callback?.Invoke(null);
         });
+    }
+
+    public async Task<I_User.Critteron> GetUserCritteronsByIDAsync(string userId, string critteronId)
+    {
+        var tcs = new TaskCompletionSource<I_User.Critteron>();
+
+        GetUserByID(userId, (user) =>
+        {
+            if (user != null && user.critterons != null)
+            {
+                var critteron = user.critterons.Find(c => c.critteronID == critteronId);
+                tcs.SetResult(critteron);
+                return;
+            }
+
+            tcs.SetResult(null);
+        });
+
+        return await tcs.Task;
     }
 
 
@@ -271,8 +307,8 @@ public class RequestUserInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.RemoveUserFriendSent(id, friendIDJson));
     }
 
-    public void ModifyUserData(string idUser, string? nickname = null, int? level = null,
-    int? experience = null, int? money = null, string? currentCritteron = null)
+    public void ModifyUserData(string idUser, string nickname = null, int? level = null,
+    int? experience = null, int? money = null, string currentCritteron = null)
     {
         GetUserByID(idUser, (auxUser) =>
         {
@@ -377,6 +413,68 @@ public class RequestUserInfo : MonoBehaviour
 
             StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "critterons", jsonObject));
         });
+
     }
 
+
+    public async Task ModifyUserCritteronLifeTime(string idUser)
+    {
+        float addLife = 0;
+
+        var listRoom = await GetUserRoomsOwnedAsync();
+
+        foreach (var room in listRoom)
+        {
+            var roomData = await RequestGameInfo.Instance.GetRoomByIDAsync(room);
+            if (roomData.type == 1)
+            {
+                addLife += roomData.percent;
+            }
+        }
+        var userData = await GetUserDataAsync(idUser);
+        long dif = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - userData.lastClosedTime;
+        float lifeHealth = (dif / 5000) * addLife;
+
+        var critteronList = await GetUserCritteronsAsync();
+
+        for (int i = 0; i < critteronList.Count; i++)
+        {
+            var critteron = await RequestGameInfo.Instance.GetCritteronByIDAsync(critteronList[i].critteronID);
+            var critteronUser = await GetUserCritteronsByIDAsync(idUser, critteronList[i].critteronID);
+
+            if (critteronUser.currentLife != critteron.life)
+            {
+                int newLife = (int)critteronUser.currentLife + critteronUser.level + (int)addLife;
+                if (newLife > critteron.life + critteronUser.level)
+                    newLife = critteron.life + critteronUser.level;
+
+
+                Debug.Log("VIDA ACTUAL CURADA: " + newLife);
+                ModifyUserCritteron(idUser, critteronList[i].critteronID, currentLife: newLife);
+            }
+        }
+    }
+
+    public void GetExtraRoomType(string idUser, int type, Action<float> callback)
+    {
+        float extra = 0;
+
+        GetUserRoomsOwned(idUser, list =>
+        {
+            foreach (var room in list)
+            {
+                RequestGameInfo.Instance.GetRoomByID(room.roomID, r =>
+                {
+                    if (r.type == type)
+                    {
+                        extra += r.percent;
+                    }
+
+                    callback?.Invoke(extra);
+                    return;
+
+                });
+            }
+        });
+    }
 }
