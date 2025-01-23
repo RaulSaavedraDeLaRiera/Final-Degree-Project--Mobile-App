@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AddFriend : MonoBehaviour
 {
@@ -12,11 +13,14 @@ public class AddFriend : MonoBehaviour
     Transform contentTransform;
     [SerializeField]
     GameObject friend;
+    [SerializeField]
+    Scrollbar scrollBar;
 
 
     private void Start()
     {
-        ScrollBarCreator();
+        ScrollBarCreatorDemo();
+        scrollBar.value = 0;
     }
 
     public void SendFriendRequest()
@@ -45,7 +49,25 @@ public class AddFriend : MonoBehaviour
         });
     }
 
+    void ScrollBarCreatorDemo()
+    {
+        string[] userList = { "0aaa", "1bbb", "2ccc", "0aaa", "1bbb", "2ccc", "0aaa", "1bbb", "2ccc" };
+        foreach (var user in userList)
+        {
+         
+                GameObject newElement = Instantiate(friend, contentTransform);
+                newElement.transform.localScale = Vector3.one;
+                var aux = newElement.GetComponent<AcceptFriend>();
+            aux.SetID(user[0].ToString());
 
+                var textComponent = newElement.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+
+                if (textComponent != null)
+                {
+                    textComponent.text = user;
+                };
+        }
+    }
     private void ScrollBarCreator()
     {
         RequestUserInfo.Instance.GetUserPendingFriend(PlayerPrefs.GetString("UserID"), pending =>

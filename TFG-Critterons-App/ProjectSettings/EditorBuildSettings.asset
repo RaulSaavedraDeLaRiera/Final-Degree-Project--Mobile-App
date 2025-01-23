@@ -29,9 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Combat.unity
     guid: 40a821eb4702c6a4aa3c185c98389a20
-  - enabled: 0
-    path: Assets/StepCounter/demo.unity
-    guid: ac305cd7a7f1bb3499faeb3c85db3612
   - enabled: 1
     path: Assets/Scenes/UserInfo.unity
     guid: 9ea8ea3b9b44ccc448632f0bae8c39ce
@@ -41,6 +38,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AddFriend.unity
     guid: aa044220e963b514cac7929d1fb82bab
+  - enabled: 0
+    path: Assets/StepCounter/demo.unity
+    guid: ac305cd7a7f1bb3499faeb3c85db3612
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
       guid: da81dad269a7f904c8153f586ec167e5, type: 2}
