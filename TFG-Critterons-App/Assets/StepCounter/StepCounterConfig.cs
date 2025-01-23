@@ -12,4 +12,13 @@ public class StepCounterConfig : ScriptableObject
     [Header("Detection Settings")]
     [Tooltip("Acceleration threshold for detecting steps.")]
     public float threshold = 1f;
+
+    [Tooltip("Maxima aceleración para evitar falsos pasos.")]
+    public float limitAcceleration = 2f;
+
+    [Tooltip("Minimum time interval between steps in seconds.")]
+    public float minStepInterval = 0.5f;
+
+    [Tooltip("Factor de suavizado para evita ruido en los pasos. De 0 a 1.")]
+    public float smoothingFactor = 0.1f;
 }

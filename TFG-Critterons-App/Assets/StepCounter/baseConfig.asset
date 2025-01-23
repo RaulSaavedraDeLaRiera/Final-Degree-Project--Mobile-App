@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: baseConfig
   m_EditorClassIdentifier: 
   stepLength: 0.75
-  threshold: 1
+  threshold: 0.3
+  limitAcceleration: 0.6
+  minStepInterval: 0.5
+  smoothingFactor: 0.2

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class StepCounter : MonoBehaviour
 {
@@ -23,11 +24,16 @@ public class StepCounter : MonoBehaviour
 
     [Header("Configuration")]
     public StepCounterConfig config;
+
     [Header("Runtime Variables")]
     [SerializeField] private float distanceWalked = 0f;
     [SerializeField] private int stepCount = 0;
+
     private Vector3 acceleration;
     private Vector3 prevAcceleration;
+    private Vector3 smoothedAcceleration;
+    private float lastStepTime = 0f;
+
     private void Start()
     {
         if (config == null)
@@ -36,8 +42,10 @@ public class StepCounter : MonoBehaviour
             return;
         }
         prevAcceleration = Input.acceleration;
+        smoothedAcceleration = Input.acceleration;
         StepDataHandler.Instance.CheckForNewDay();
     }
+
     private void Update()
     {
         if (config == null) return;
@@ -45,21 +53,43 @@ public class StepCounter : MonoBehaviour
         CalculateDistance();
         StepDataHandler.Instance.SaveDailySteps(stepCount);
     }
+
     private void DetectSteps()
     {
         acceleration = Input.acceleration;
-        float delta = (acceleration - prevAcceleration).magnitude;
-        if (delta > config.threshold)
+
+        // Apply low-pass filter to smooth the acceleration data
+        smoothedAcceleration = Vector3.Lerp(smoothedAcceleration, acceleration, config.smoothingFactor);
+
+        // Calculate the delta (change) in acceleration
+        float delta = (smoothedAcceleration - prevAcceleration).magnitude;
+
+
+        // Check if the delta exceeds the threshold and enforce time between steps
+        if (Time.time - lastStepTime >= config.minStepInterval && delta > config.threshold && delta < config.limitAcceleration)
         {
             stepCount++;
-            Debug.Log($"Step detected! Count: {stepCount}");
+            lastStepTime = Time.time; // Update the time of the last detected step
+            Debug.Log($"Step detected! Acceleration: {delta}");
+
+        
         }
-        prevAcceleration = acceleration;
+        else
+        {
+            Debug.Log($"Step not valid! Acceleration: {Math.Round(delta, 2)}");
+            if (delta >= config.limitAcceleration)
+                lastStepTime = Time.time;
+        }
+    
+
+            prevAcceleration = smoothedAcceleration;
     }
+
     private void CalculateDistance()
     {
         distanceWalked = stepCount * config.stepLength;
     }
+
     public void CalibrateStepLength(float newStepLength)
     {
         if (newStepLength > 0)
@@ -72,14 +102,17 @@ public class StepCounter : MonoBehaviour
             Debug.LogWarning("Whoops! That's not a valid step length.");
         }
     }
+
     // Getter methods and data management
     public float GetDistanceWalked() => distanceWalked;
     public int GetStepCount() => stepCount;
+
     public void ResetStepData()
     {
         stepCount = 0;
         distanceWalked = 0f;
     }
+
     public void LoadStepData(int loadedStepCount)
     {
         stepCount = loadedStepCount;
