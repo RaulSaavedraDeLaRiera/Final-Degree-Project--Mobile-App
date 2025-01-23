@@ -19,7 +19,7 @@ public class AddFriend : MonoBehaviour
 
     private void Start()
     {
-        ScrollBarCreatorDemo();
+        ScrollBarCreator();
         scrollBar.value = 0;
     }
 
@@ -43,8 +43,8 @@ public class AddFriend : MonoBehaviour
                 Debug.Log("NO ID FRIEND FOUND");
             else
             {
-                RequestUserInfo.Instance.ModifyPendingFriend(id.text, PlayerPrefs.GetString("UserID"));
-                RequestUserInfo.Instance.ModifySentFriend(PlayerPrefs.GetString("UserID"), id.text);
+                RequestUserInfoSocial.Instance.ModifyPendingFriend(id.text, PlayerPrefs.GetString("UserID"));
+                RequestUserInfoSocial.Instance.ModifySentFriend(PlayerPrefs.GetString("UserID"), id.text);
             }
         });
     }

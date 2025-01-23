@@ -38,6 +38,35 @@ public class RequestUserInfo : MonoBehaviour
         }
     }
 
+    private void OnApplicationQuit()
+    {
+        if (PlayerPrefs.GetString("UserID") != null)
+        {
+            ModifyUserData(PlayerPrefs.GetString("UserID"));
+        }
+
+    }
+
+    // Se llama cuando el juego entra o sale de pausa (segundo plano)
+    private void OnApplicationPause(bool pauseStatus)
+    {
+
+        if (PlayerPrefs.GetString("UserID") != null)
+        {
+            ModifyUserData(PlayerPrefs.GetString("UserID"));
+        }
+    }
+
+    // Se llama cuando el juego gana o pierde el foco de la ventana
+    private void OnApplicationFocus(bool hasFocus)
+    {
+
+        if (PlayerPrefs.GetString("UserID") != null)
+        {
+            ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
+        }
+    }
+
     public void Login(string mail, string password, Action<bool> onLoginComplete)
     {
         StartCoroutine(ServerConnection.Instance.LoginToken(mail, password, (token) =>
@@ -268,44 +297,6 @@ public class RequestUserInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.ModifyUserField(id, "roomOwned", newValue));
     }
 
-    public void ModifyPendingFriend(string id, string newValue)
-    {
-        StartCoroutine(ServerConnection.Instance.AddPendingFriend(id, "pendingSocialStats", newValue));
-    }
-
-    public void ModifySentFriend(string id, string newValue)
-    {
-        StartCoroutine(ServerConnection.Instance.AddSentFriend(id, "sentSocialStats", newValue));
-    }
-
-    public void ModifySocialStat(string id, string newValue)
-    {
-        StartCoroutine(ServerConnection.Instance.ModifyUserField(id, "socialStats", newValue));
-    }
-
-    public void RemoveFriend(string id, string idFriend)
-    {
-        var friendIDJson = new JSONObject();
-        friendIDJson["friendID"] = idFriend;
-        StartCoroutine(ServerConnection.Instance.RemoveUserFriend(id, friendIDJson));
-    }
-
-    public void RemovePendingFriend(string id, string idFriend)
-    {
-        var friendIDJson = new JSONObject();
-        friendIDJson["friendID"] = idFriend;
-
-        StartCoroutine(ServerConnection.Instance.RemoveUserFriendPending(id, friendIDJson));
-    }
-
-
-    public void RemoveSentFriend(string id, string idFriend)
-    {
-        var friendIDJson = new JSONObject();
-        friendIDJson["friendID"] = idFriend;
-
-        StartCoroutine(ServerConnection.Instance.RemoveUserFriendSent(id, friendIDJson));
-    }
 
     public void ModifyUserData(string idUser, string nickname = null, int? level = null,
     int? experience = null, int? money = null, string currentCritteron = null)

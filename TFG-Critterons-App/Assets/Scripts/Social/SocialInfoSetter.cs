@@ -8,7 +8,7 @@ public class SocialInfoSetter : MonoBehaviour
     [SerializeField]
     GameObject friend;
     [SerializeField]
-    GameObject friendList;
+    Transform friendList;
     [SerializeField]
     GameObject friendRanking;
     [SerializeField]
@@ -17,29 +17,25 @@ public class SocialInfoSetter : MonoBehaviour
     void Start()
     {
 
-        //RequestUserInfo.Instance.(listUser =>
-        //{
-        //    int i = 0;
-        //    bool findID = false;
-        //    while (i < listUser.Count && !findID)
-        //    {
-        //        if (listUser[i].id == id.text)
-        //        {
-        //            findID = true;
-        //        }
+        RequestUserInfoSocial.Instance.GetUserSocialStat(PlayerPrefs.GetString("UserID"), friends =>
+        {
+            foreach (var p in friends)
+            {
+                RequestUserInfo.Instance.GetUserByID(p.friendID, user =>
+                {
+                    GameObject newElement = Instantiate(friend, friendList);
+                    newElement.transform.localScale = Vector3.one;
+                  
+                    var textComponent = newElement.GetComponentInChildren<TMPro.TextMeshProUGUI>();
 
-        //        i++;
-        //    }
+                    if (textComponent != null)
+                    {
+                        textComponent.text = user.userData.name;
+                    }
+                });
+            }
 
-        //    if (!findID)
-        //        Debug.Log("NO ID FRIEND FOUND");
-        //    else
-        //    {
-        //        RequestUserInfo.Instance.ModifyPendingFriend(id.text, PlayerPrefs.GetString("UserID"));
-        //        RequestUserInfo.Instance.ModifySentFriend(PlayerPrefs.GetString("UserID"), id.text);
-        //    }
-        //});
-
+        });
     }
 
     void AddNewFriend()

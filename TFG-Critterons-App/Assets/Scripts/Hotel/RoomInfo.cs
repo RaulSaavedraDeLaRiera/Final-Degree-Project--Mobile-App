@@ -14,6 +14,9 @@ public class RoomInfo : MonoBehaviour
     HotelObjectType typeHotelRoom;
     [SerializeField]
     float valueRoom;
+    
+    [SerializeField]
+    float percentRoom;
 
     [SerializeField]
     bool bought = false;
@@ -31,8 +34,6 @@ public class RoomInfo : MonoBehaviour
 
     [SerializeField]
     GameObject nonBoughtCube;
-
-
 
     int numCritteronsInRoom = 0;
     //public bool AvailableSpace
@@ -55,6 +56,7 @@ public class RoomInfo : MonoBehaviour
     public HotelObjectType TypeHotelRoom => typeHotelRoom;
 
     public float ValueRoom => valueRoom;
+    public float PercentRoom => percentRoom;
 
     public List<HotelCritteron> CritteronsInRoom => critteronsInRoom;
     public bool Bought => bought;
@@ -70,6 +72,7 @@ public class RoomInfo : MonoBehaviour
         var room = await RequestGameInfo.Instance.GetRoomByIDAsync(gameObject.name);
         nameRoom = room.name;
         valueRoom = room.price;
+        percentRoom = room.percent;
 
         if (boughtRoomsID.Contains(gameObject.name))
         {

@@ -66,7 +66,7 @@ public class HotelInput : MonoBehaviour
                     if(hObject.Bought)
                     {
                         ownedObjectPopUp.EnterAnimation();
-                        ownedPopUp.SetInfoPopUp(hObject);
+                        ownedPopUp.SetInfoPopUpBought(hObject);
                     }
                     else
                     { 

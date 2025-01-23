@@ -44,13 +44,13 @@ public class Login : MonoBehaviour
                     RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userdata =>
                     {
 
-
+                        //Nuevo usuario
                         if (userdata.currentCritteron == "")
                         {
                             RequestGameInfo.Instance.GetCritteronByID("677123cbf8e9b02d66239c82", critteron =>
                             {
                                 RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "677123cbf8e9b02d66239c82", currentLife: critteron.life, level: 1);
-                                RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: "677123cbf8e9b02d66239c82", level: 1);
+                                RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: "677123cbf8e9b02d66239c82", level: 1, money: 100);
                                 RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
 
                                 StartCoroutine("changeScene");
@@ -72,9 +72,9 @@ public class Login : MonoBehaviour
                                             {
                                                 if (item.friendID == item2.friendID)
                                                 {
-                                                    RequestUserInfo.Instance.ModifySocialStat(PlayerPrefs.GetString("UserID"), item.friendID);
-                                                    RequestUserInfo.Instance.RemovePendingFriend(PlayerPrefs.GetString("UserID"), item.friendID);
-                                                    RequestUserInfo.Instance.RemoveSentFriend(PlayerPrefs.GetString("UserID"), item.friendID);
+                                                    RequestUserInfoSocial.Instance.ModifySocialStat(PlayerPrefs.GetString("UserID"), item.friendID);
+                                                    RequestUserInfoSocial.Instance.RemovePendingFriend(PlayerPrefs.GetString("UserID"), item.friendID);
+                                                    RequestUserInfoSocial.Instance.RemoveSentFriend(PlayerPrefs.GetString("UserID"), item.friendID);
                                                 }
                                             }
                                         }

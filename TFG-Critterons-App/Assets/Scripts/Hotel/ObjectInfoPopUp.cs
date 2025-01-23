@@ -24,21 +24,43 @@ public class ObjectInfoPopUp : MonoBehaviour
     {
         nameT.text = room.NameRoom;
         descriptionT.text = room.Description;
-        bonusT.text = room.TypeHotelRoom.ToString() + ": " + room.ValueRoom;
-        if(users != null)
+        bonusT.text = room.TypeHotelRoom.ToString() + ": " + room.ValueRoom + "$";
+        if (users != null)
         {
             //hay que implementar que carguen foto critteron etc
             for (int i = 0; i < users.childCount; i++)
             {
-                if(i < room.CritteronsInRoom.Count)
-                users.GetChild(i).gameObject.SetActive(true);
+                if (i < room.CritteronsInRoom.Count)
+                    users.GetChild(i).gameObject.SetActive(true);
                 else
-                users.GetChild(i).gameObject.SetActive(false);
+                    users.GetChild(i).gameObject.SetActive(false);
             }
         }
 
         targetRoom = room;
     }
+
+    public void SetInfoPopUpBought(RoomInfo room)
+    {
+        nameT.text = room.NameRoom;
+        descriptionT.text = room.Description;
+        bonusT.text = room.TypeHotelRoom.ToString() + ": " + room.PercentRoom;
+        if (users != null)
+        {
+            //hay que implementar que carguen foto critteron etc
+            for (int i = 0; i < users.childCount; i++)
+            {
+                if (i < room.CritteronsInRoom.Count)
+                    users.GetChild(i).gameObject.SetActive(true);
+                else
+                    users.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+
+        targetRoom = room;
+    }
+
+
 
     public void TryBuy()
     {

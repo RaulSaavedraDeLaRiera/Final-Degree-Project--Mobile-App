@@ -14,16 +14,16 @@ public class AcceptFriend : MonoBehaviour
 
     public void AddFriend()
     {
-        RequestUserInfo.Instance.RemovePendingFriend(PlayerPrefs.GetString("UserID"), id);
-        RequestUserInfo.Instance.ModifySocialStat(PlayerPrefs.GetString("UserID"), id);
-        RequestUserInfo.Instance.ModifyPendingFriend(id, PlayerPrefs.GetString("UserID"));
+        RequestUserInfoSocial.Instance.RemovePendingFriend(PlayerPrefs.GetString("UserID"), id);
+        RequestUserInfoSocial.Instance.ModifySocialStat(PlayerPrefs.GetString("UserID"), id);
+        RequestUserInfoSocial.Instance.ModifyPendingFriend(id, PlayerPrefs.GetString("UserID"));
 
         Destroy(transform.gameObject);
     }
 
     public void DenyFriend()
     {
-        RequestUserInfo.Instance.RemovePendingFriend(PlayerPrefs.GetString("UserID"), id);
+        RequestUserInfoSocial.Instance.RemovePendingFriend(PlayerPrefs.GetString("UserID"), id);
         Destroy(transform.gameObject);
 
     }

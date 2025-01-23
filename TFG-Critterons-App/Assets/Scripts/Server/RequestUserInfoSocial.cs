@@ -86,26 +86,15 @@ public class RequestUserInfoSocial : MonoBehaviour
         });
     }
 
-    public void RemoveFriend(string userId, string friendID)
+
+    public void ModifyPendingFriend(string id, string newValue)
     {
-        GetUserSocialStat(userId, (socialStats) =>
-        {
-            if (socialStats == null)
-            {
-                Debug.LogError("User or SocialStats not found");
-                return;
-            }
+        StartCoroutine(ServerConnection.Instance.AddPendingFriend(id, "pendingSocialStats", newValue));
+    }
 
-            if (!socialStats.Exists(stat => stat.friendID == friendID))
-            {
-                Debug.LogWarning("Friend not found in the list");
-                return;
-            }
-
-            var removeFriendJson = new JSONObject();
-            removeFriendJson.Add("friendID", new JSONString(friendID));
-            StartCoroutine(ServerConnection.Instance.RemoveUserFriend(userId, removeFriendJson));
-        });
+    public void ModifySentFriend(string id, string newValue)
+    {
+        StartCoroutine(ServerConnection.Instance.AddSentFriend(id, "sentSocialStats", newValue));
     }
 
     public void ModifySocialStat(string id, string newValue)
@@ -113,4 +102,27 @@ public class RequestUserInfoSocial : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.ModifyUserField(id, "socialStats", newValue));
     }
 
+    public void RemoveFriend(string id, string idFriend)
+    {
+        var friendIDJson = new JSONObject();
+        friendIDJson["friendID"] = idFriend;
+        StartCoroutine(ServerConnection.Instance.RemoveUserFriend(id, friendIDJson));
+    }
+
+    public void RemovePendingFriend(string id, string idFriend)
+    {
+        var friendIDJson = new JSONObject();
+        friendIDJson["friendID"] = idFriend;
+
+        StartCoroutine(ServerConnection.Instance.RemoveUserFriendPending(id, friendIDJson));
+    }
+
+
+    public void RemoveSentFriend(string id, string idFriend)
+    {
+        var friendIDJson = new JSONObject();
+        friendIDJson["friendID"] = idFriend;
+
+        StartCoroutine(ServerConnection.Instance.RemoveUserFriendSent(id, friendIDJson));
+    }
 }

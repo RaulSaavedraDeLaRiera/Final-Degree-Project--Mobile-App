@@ -12,26 +12,31 @@ public class GameCycleDemo : MonoBehaviour
     float minTimeNextcombat, maxTimeNextCombat;
 
     float nextCombatTime;
-
+    bool canAttack = false;
 
     private void Start()
     {
+
+        RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
         nextCombatTime = Random.Range(minTimeNextcombat, maxTimeNextCombat);
     }
     private void Update()
     {
-
         int secondsToCombat = ((int)(nextCombatTime - Time.timeSinceLevelLoad));
 
         if (secondsToCombat <= 0)
-            LoadCombat();
+        {
+            nextCombatTimer.text = "FIGHT!";
+            canAttack = true;
+        }
         else
             nextCombatTimer.text = "NEXT COMBAT IN: " + secondsToCombat.ToString() + " SECONDS";
     }
 
-    void LoadCombat()
+    public void LoadCombat()
     {
-        SceneManager.LoadScene("Combat");
+        if (canAttack)
+            SceneManager.LoadScene("Combat");
     }
 
 }

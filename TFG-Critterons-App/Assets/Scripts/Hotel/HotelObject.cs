@@ -88,5 +88,5 @@ public class HotelObject : MonoBehaviour
 }
 
 //Decoration siempre el ultimo
-public enum HotelObjectType { cureObject, levelObject, decorationObject }
+public enum HotelObjectType { cureObject, levelObject, decorationObject, damageUpObject }
 

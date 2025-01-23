@@ -79,7 +79,7 @@ public class CombatManager : MonoBehaviour
                                 int randomIndex = UnityEngine.Random.Range(0, list.Count);
 
                                 int randomLevel = UnityEngine.Random.Range(0, userdata.level + 3);
-                                crittteronsInfo[1] = new CritteronCombatInfo(list[randomIndex].life + randomLevel, list[randomIndex].basicDamage + randomLevel / 2, list[randomIndex].name, randomLevel, list[randomIndex].life + randomLevel, list[randomIndex].defense, null);
+                                crittteronsInfo[1] = new CritteronCombatInfo(list[randomIndex].life - randomLevel, list[randomIndex].basicDamage - randomLevel / 2, list[randomIndex].name, randomLevel, list[randomIndex].life - randomLevel, list[randomIndex].defense, null);
 
                                 coldownSpecialAttack *= 1;
                                 experiencePerCombat = 1 + experiencieExtra;
@@ -309,6 +309,9 @@ public class CombatManager : MonoBehaviour
         {
 
             Debug.Log("WIIN");
+
+            PlayerPrefs.SetInt("Result", 0);
+
             //cargar experiencia maxima y minima segun combate
             var newExp = GetExpPoints(5, 10);
             var life = GetLifeCritterons();
@@ -340,7 +343,7 @@ public class CombatManager : MonoBehaviour
             else
             {
                 RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), experience: user.experience + 10);
-                SceneManager.LoadScene("DemoPrincipal");
+                SceneManager.LoadScene("EndCombat");
 
             }
 
@@ -348,12 +351,13 @@ public class CombatManager : MonoBehaviour
         else
         {
             Debug.Log("LOSEEE");
+            PlayerPrefs.SetInt("Result", 1);
 
             var life = GetLifeCritterons();
             RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), idCritteronCurrent, currentLife: life[0]);
 
             Debug.Log("derrotado aliados");
-            SceneManager.LoadScene("DemoPrincipal");
+            SceneManager.LoadScene("EndCombat");
 
         }
 

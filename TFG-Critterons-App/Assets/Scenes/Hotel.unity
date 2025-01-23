@@ -955,8 +955,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameRoom: Baby Room
   description: Feel young again
-  typeHotelRoom: 0
+  typeHotelRoom: 1
   valueRoom: 0.5
+  percentRoom: 0
   bought: 0
   rooms: []
   critteronsInRoom: []
@@ -3836,6 +3837,7 @@ MonoBehaviour:
   description: Relax with yours plants
   typeHotelRoom: 0
   valueRoom: 0.5
+  percentRoom: 0
   bought: 1
   rooms: []
   critteronsInRoom: []
@@ -11351,6 +11353,7 @@ MonoBehaviour:
   description: The bed is from Ikea
   typeHotelRoom: 0
   valueRoom: 0.3
+  percentRoom: 0
   bought: 0
   rooms: []
   critteronsInRoom: []
@@ -15763,6 +15766,7 @@ MonoBehaviour:
   description: Just in case you need it
   typeHotelRoom: 1
   valueRoom: 0.6
+  percentRoom: 0
   bought: 0
   rooms: []
   critteronsInRoom: []
@@ -17154,8 +17158,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameRoom: Party place
   description: Alcohol is under the sofa
-  typeHotelRoom: 1
+  typeHotelRoom: 0
   valueRoom: 0.2
+  percentRoom: 0
   bought: 0
   rooms: []
   critteronsInRoom: []
@@ -18863,8 +18868,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameRoom: Bedroom  2
   description: A very cozy room
-  typeHotelRoom: 1
+  typeHotelRoom: 3
   valueRoom: 0.1
+  percentRoom: 0
   bought: 0
   rooms: []
   critteronsInRoom: []
