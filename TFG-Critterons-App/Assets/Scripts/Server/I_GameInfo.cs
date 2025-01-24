@@ -7,6 +7,7 @@ public class I_GameInfo   {
     public List<Critteron> critterons;
     public List<Room> rooms;
     public WeekRewards weekRewards;
+    public int cureTime;
 
     [Serializable]
     public class Critteron  {

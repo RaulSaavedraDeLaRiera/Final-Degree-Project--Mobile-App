@@ -45,7 +45,7 @@ public class HotelInput : MonoBehaviour
                 case "Critteron":
                     var hCritteron = target.GetComponent<HotelCritteron>();
 
-                   
+                    RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
                     critteronPopUp.EnterAnimation();
                     infoCritteronPopUp.AssignInfo(hCritteron.InfoCritteron);
 

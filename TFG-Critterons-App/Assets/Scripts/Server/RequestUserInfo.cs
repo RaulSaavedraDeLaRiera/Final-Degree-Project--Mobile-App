@@ -42,29 +42,19 @@ public class RequestUserInfo : MonoBehaviour
     {
         if (PlayerPrefs.GetString("UserID") != null)
         {
-            ModifyUserData(PlayerPrefs.GetString("UserID"));
+            ModifyUserTime(PlayerPrefs.GetString("UserID"));
         }
 
     }
 
-    // Se llama cuando el juego entra o sale de pausa (segundo plano)
     private void OnApplicationPause(bool pauseStatus)
     {
-
-        if (PlayerPrefs.GetString("UserID") != null)
-        {
-            ModifyUserData(PlayerPrefs.GetString("UserID"));
-        }
     }
 
-    // Se llama cuando el juego gana o pierde el foco de la ventana
     private void OnApplicationFocus(bool hasFocus)
     {
 
-        if (PlayerPrefs.GetString("UserID") != null)
-        {
-            ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
-        }
+
     }
 
     public void Login(string mail, string password, Action<bool> onLoginComplete)
@@ -318,6 +308,34 @@ public class RequestUserInfo : MonoBehaviour
                 ["experience"] = experience ?? currentData.experience,
                 ["money"] = money ?? currentData.money,
                 ["currentCritteron"] = currentCritteron ?? currentData.currentCritteron,
+                ["lastClosedTime"] = currentData.lastClosedTime
+            };
+
+
+            StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "userData", newValue));
+        });
+    }
+
+
+    public void ModifyUserTime(string idUser)
+    {
+        GetUserByID(idUser, (auxUser) =>
+        {
+            if (auxUser == null)
+            {
+                Debug.LogError("User not found");
+                return;
+            }
+
+            var currentData = auxUser.userData;
+
+            var newValue = new SimpleJSON.JSONObject
+            {
+                ["name"] = currentData.name,
+                ["level"] = currentData.level,
+                ["experience"] = currentData.experience,
+                ["money"] = currentData.money,
+                ["currentCritteron"] = currentData.currentCritteron,
                 ["lastClosedTime"] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             };
 
@@ -422,27 +440,30 @@ public class RequestUserInfo : MonoBehaviour
                 addLife += roomData.percent;
             }
         }
+
+        int cureTime = RequestGameInfo.Instance.GetCureTime();
         var userData = await GetUserDataAsync(idUser);
         long dif = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - userData.lastClosedTime;
-        float lifeHealth = (dif / 5000) * addLife;
+        float lifeHealth = (dif / cureTime) * addLife;
 
-        var critteronList = await GetUserCritteronsAsync();
-
-        for (int i = 0; i < critteronList.Count; i++)
+        if (dif / cureTime > 1)
         {
-            var critteron = await RequestGameInfo.Instance.GetCritteronByIDAsync(critteronList[i].critteronID);
-            var critteronUser = await GetUserCritteronsByIDAsync(idUser, critteronList[i].critteronID);
+            var critteronList = await GetUserCritteronsAsync();
 
-            if (critteronUser.currentLife != critteron.life)
+            for (int i = 0; i < critteronList.Count; i++)
             {
-                int newLife = (int)critteronUser.currentLife + critteronUser.level + (int)addLife;
+                var critteron = await RequestGameInfo.Instance.GetCritteronByIDAsync(critteronList[i].critteronID);
+                var critteronUser = await GetUserCritteronsByIDAsync(idUser, critteronList[i].critteronID);
+
+                int newLife = (int)critteronUser.currentLife + (int)lifeHealth;
                 if (newLife > critteron.life + critteronUser.level)
                     newLife = critteron.life + critteronUser.level;
 
-
-                Debug.Log("VIDA ACTUAL CURADA: " + newLife);
                 ModifyUserCritteron(idUser, critteronList[i].critteronID, currentLife: newLife);
+
             }
+
+            ModifyUserTime(PlayerPrefs.GetString("UserID"));
         }
     }
 
@@ -467,5 +488,22 @@ public class RequestUserInfo : MonoBehaviour
                 });
             }
         });
+    }
+
+    public async Task<float> GetExtraRoomTypeAsync(string idUser, int type)
+    {
+        float extra = 0;
+        List<string> list = await GetUserRoomsOwnedAsync();
+
+        foreach (var room in list)
+        {
+            var r = await RequestGameInfo.Instance.GetRoomByIDAsync(room);
+            if (r.type == type)
+            {
+                extra += r.percent;
+            }
+        }
+
+        return extra;
     }
 }

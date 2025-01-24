@@ -30,6 +30,9 @@ public class HotelManager : MonoBehaviour
 
     void Awake()
     {
+
+
+    
         RoomInfo room;
 
         for (int i = 0; i < roomsRoot.childCount; i++)

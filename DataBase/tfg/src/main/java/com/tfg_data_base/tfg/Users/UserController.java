@@ -45,6 +45,11 @@ public class UserController {
         return userService.findAll();
     }
 
+    @GetMapping("/userTop")
+    public List<String> findTop() {
+        return userService.getTopThreeUsersByLevel();
+    }
+
     @GetMapping("/user/{id}")
     public User findById(@PathVariable String id) {
         return userService.findById(id).orElse(null);

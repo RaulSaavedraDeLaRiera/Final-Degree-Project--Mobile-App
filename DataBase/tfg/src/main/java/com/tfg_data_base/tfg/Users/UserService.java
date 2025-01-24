@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -267,5 +268,17 @@ public class UserService {
             return false;
 
         return true;
+    }
+
+    public List<String> getTopThreeUsersByLevel() {
+        Query query = new Query();
+        query.limit(3);
+        query.with(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Order.desc("userData.level")));
+
+        List<User> topUsers = mongoTemplate.find(query, User.class);
+
+        return topUsers.stream()
+                   .map(User::getId)
+                   .collect(Collectors.toList());
     }
 }

@@ -15,7 +15,7 @@ public class CritteronCombat : MonoBehaviour
     CombatManager combatManager;
     CombatUI ui;
     int combatID;
-    int defense;
+    float defense;
     int maxHealth;
     public int Health => health;
 
@@ -81,16 +81,7 @@ public class CritteronCombat : MonoBehaviour
 
     void GetDamage(int dmg)
     {
-        if (damage > defense )
-        {
-            damage -= defense / 2;
-        }
-        else if (damage < 0) 
-        {
-            damage /= 2;
-        }
-
-        health -= dmg;
+        health -= dmg - (int)(dmg * defense);
 
         ui.ChangeHealth(combatID, health, maxHealth);
 
@@ -108,11 +99,11 @@ public struct CritteronCombatInfo{
     public int currentLife;
     public int damage;
     public string creature;
-    public int defense;
+    public float defense;
     public int level;
     public I_Critteron critteron;
 
-    public CritteronCombatInfo(int live, int damage, string creature,int level, int currentLife, int defense,I_Critteron critteron)
+    public CritteronCombatInfo(int live, int damage, string creature,int level, int currentLife, float defense,I_Critteron critteron)
     {
         this.currentLife = currentLife;
         this.live = live;

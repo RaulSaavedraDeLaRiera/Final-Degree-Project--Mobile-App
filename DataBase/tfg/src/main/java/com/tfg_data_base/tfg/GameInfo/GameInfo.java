@@ -16,6 +16,7 @@ public class GameInfo {
     private List<Critteron> critterons = new ArrayList<>();
     private List<Room> rooms = new ArrayList<>();
     private WeekRewards weekRewards;
+    private Integer cureTime;
 
     @Data
     public static class Critteron {

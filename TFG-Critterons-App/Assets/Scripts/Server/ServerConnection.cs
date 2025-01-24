@@ -184,6 +184,7 @@ public class ServerConnection : MonoBehaviour
                 foreach (var room in gameInfo.rooms)
                     roomIDs.Add(room.roomID);
 
+
                 UnityEngine.Debug.Log("GameInfo init");
                 onSuccess?.Invoke();
             },
@@ -256,6 +257,28 @@ public class ServerConnection : MonoBehaviour
             }
         ));
 
+    }
+
+    public IEnumerator GetUserTop(Action<List<I_User>> callback)
+    {
+        List<I_User> list = new List<I_User>();
+        string url = $"http://localhost:8080/api/v1/userTop";
+
+        yield return StartCoroutine(SendRequest(url, "GET", null,
+            (response) =>
+            {
+                callback(list);
+            },
+            (error) =>
+            {
+                callback(null);
+            }
+        ));
+    }
+
+    public I_GameInfo GetGameInfo()
+    {
+        return gameInfo;
     }
 
     /// <summary>

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ButtonSocial : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class ButtonSocial : MonoBehaviour
         {
             Transform healthC = critteronInfo.transform.Find("Health");
             Transform levelC = critteronInfo.transform.Find("Level");
-            TextMeshProUGUI healthCText = healthC.GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI nameText = healthC.GetComponentInChildren<TextMeshProUGUI>();
             TextMeshProUGUI levelCText = levelC.GetComponentInChildren<TextMeshProUGUI>();
 
             RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userData =>
@@ -35,7 +36,8 @@ public class ButtonSocial : MonoBehaviour
                 });
                 RequestGameInfo.Instance.GetCritteronByID(userData.currentCritteron.ToString(), critteron2 =>
                 {
-                    healthCText.text = critteron2.name;
+                    nameText.text = critteron2.name;
+                    SceneManager.LoadScene("UserInfo");
                 });
             });
         }

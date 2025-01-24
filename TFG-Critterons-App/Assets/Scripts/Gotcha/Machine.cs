@@ -69,7 +69,8 @@ public class PrefabSpawner : MonoBehaviour
 
         });
 
-
+        Debug.Log(randomIndex);
+        Debug.Log(possibleCritterons[randomIndex].name);
         critterons.transform.Find(possibleCritterons[randomIndex].name).gameObject.SetActive(true);
         image.gameObject.SetActive(true);
         yield return new WaitForSeconds(3f);

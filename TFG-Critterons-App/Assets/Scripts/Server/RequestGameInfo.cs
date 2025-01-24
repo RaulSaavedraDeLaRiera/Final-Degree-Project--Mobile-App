@@ -61,6 +61,16 @@ public class RequestGameInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.GetAllCritteron(callback));
     }
 
+    public Task<List<I_Critteron>> GetAllCritteronAsync()
+    {
+        var tcs = new TaskCompletionSource<List<I_Critteron>>();
+        StartCoroutine(ServerConnection.Instance.GetAllCritteron(critterons =>
+        {
+            tcs.SetResult(critterons);
+        }));
+        return tcs.Task;
+    }
+
     /// <summary>
     /// Obtener un room por ID
     /// </summary>
@@ -99,5 +109,10 @@ public class RequestGameInfo : MonoBehaviour
         });
 
         return tcs.Task;
+    }
+
+    public int GetCureTime()
+    {
+        return ServerConnection.Instance.GetGameInfo().cureTime;
     }
 }

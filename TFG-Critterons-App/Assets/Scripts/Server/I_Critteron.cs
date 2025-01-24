@@ -9,7 +9,7 @@ public class I_Critteron
     public int levelUnlock;
     public int life;
     public int basicDamage;
-    public int defense;
+    public float defense;
     public Attack[] attacks = new Attack[2];
 
     public I_Critteron(string id, string name, string mesh,

@@ -15,7 +15,7 @@ public class Critteron {
     private Integer levelUnlock;
     private Integer life;
     private Integer basicDamage;
-    private Integer defense;
+    private Float defense;
     private Integer idZone;
     private List<Attack> attacks;
 
