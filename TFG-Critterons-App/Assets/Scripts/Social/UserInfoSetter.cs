@@ -29,6 +29,29 @@ public class UserInfo : MonoBehaviour
 
     void Start()
     {
+        RequestUserInfo.Instance.GetUserSentFriend(PlayerPrefs.GetString("UserID"), sentList =>
+        {
+            RequestUserInfo.Instance.GetUserPendingFriend(PlayerPrefs.GetString("UserID"), pendingList =>
+            {
+
+                if (sentList.Count != 0 && pendingList.Count != 0)
+                {
+                    foreach (var item in sentList)
+                    {
+                        foreach (var item2 in pendingList)
+                        {
+                            if (item.friendID == item2.friendID)
+                            {
+                                RequestUserInfoSocial.Instance.ModifySocialStat(PlayerPrefs.GetString("UserID"), item.friendID);
+                                RequestUserInfoSocial.Instance.RemovePendingFriend(PlayerPrefs.GetString("UserID"), item.friendID);
+                                RequestUserInfoSocial.Instance.RemoveSentFriend(PlayerPrefs.GetString("UserID"), item.friendID);
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
         Transform level = userInfo.transform.Find("level");
         Transform name = userInfo.transform.Find("NameText");
         TextMeshProUGUI nameText = name.GetComponentInChildren<TextMeshProUGUI>();

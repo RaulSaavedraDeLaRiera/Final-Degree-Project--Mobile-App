@@ -14,6 +14,10 @@ public class SocialInfoSetter : MonoBehaviour
     [SerializeField]
     GameObject globalRanking;
 
+    [SerializeField]
+    GameObject friendProfile;
+
+
     void Start()
     {
 
@@ -25,7 +29,7 @@ public class SocialInfoSetter : MonoBehaviour
                 {
                     GameObject newElement = Instantiate(friend, friendList);
                     newElement.transform.localScale = Vector3.one;
-                  
+                    newElement.GetComponent<ButtonFriend>().SetID(p.friendID, friendProfile, globalRanking, friendRanking);
                     var textComponent = newElement.GetComponentInChildren<TMPro.TextMeshProUGUI>();
 
                     if (textComponent != null)
@@ -43,4 +47,10 @@ public class SocialInfoSetter : MonoBehaviour
         SceneManager.LoadScene("AddFriend");
     }
 
+    public void ClosePopUp()
+    {
+        friendProfile.SetActive(false);
+        friendRanking.SetActive(true);
+        globalRanking.SetActive(true);
+    }
 }

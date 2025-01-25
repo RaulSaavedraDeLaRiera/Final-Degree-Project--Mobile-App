@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,9 +18,10 @@ public class CombatManager : MonoBehaviour
     CombatType combatType;
 
 
-
     string idCritteronCurrent;
     I_User.UserData user;
+
+    bool getExp = true;
 
     //1 posicicion critteron 1 en equipo
     //2 posicion critteron 1, 2 en equipo --- 3 posicion critteron 2, 2 en equipo
@@ -52,6 +54,7 @@ public class CombatManager : MonoBehaviour
         var userdata = await RequestUserInfo.Instance.GetUserDataAsync(userId);
         user = userdata;
         idCritteronCurrent = userdata.currentCritteron;
+       
 
         var critteron = await RequestUserInfo.Instance.GetUserCritteronsByIDAsync(userId, idCritteronCurrent);
         var critteronGame = await RequestGameInfo.Instance.GetCritteronByIDAsync(idCritteronCurrent);
@@ -81,20 +84,55 @@ public class CombatManager : MonoBehaviour
             }
         }
 
-        int randomIndex = UnityEngine.Random.Range(0, list.Count);
-        int randomLevel = UnityEngine.Random.Range(2, critteron.level + 2);
 
-        // Critteron Enemigo
-        crittteronsInfo[1] = new CritteronCombatInfo(
-            (list[randomIndex].life - list[randomIndex].life / randomLevel) + userdata.level,
-            (list[randomIndex].basicDamage - list[randomIndex].basicDamage / randomLevel) +userdata.level,
-            list[randomIndex].name,
-            randomLevel,
-            (list[randomIndex].life - list[randomIndex].life / randomLevel) + userdata.level,
-            list[randomIndex].defense,
-            null
-        );
+        if (PlayerPrefs.GetInt("FriendCombat", 0) == 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, list.Count);
+            int randomLevel = UnityEngine.Random.Range(2, critteron.level + 2);
 
+            // Critteron Enemigo
+            crittteronsInfo[1] = new CritteronCombatInfo(
+                (list[randomIndex].life - list[randomIndex].life / randomLevel) + userdata.level,
+                (list[randomIndex].basicDamage - list[randomIndex].basicDamage / randomLevel) + userdata.level,
+                list[randomIndex].name,
+                randomLevel,
+                (list[randomIndex].life - list[randomIndex].life / randomLevel) + userdata.level,
+                list[randomIndex].defense,
+                null
+            );
+
+            StartCombat(experiencieExtra, crittteronsInfo);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("FriendCombat", 0);
+            var friend = await RequestUserInfo.Instance.GetUserDataAsync(PlayerPrefs.GetString("IDFriend"));
+
+            var idCritteronCurrentFriend = friend.currentCritteron;
+
+            var critteronF = await RequestUserInfo.Instance.GetUserCritteronsByIDAsync(PlayerPrefs.GetString("IDFriend"), idCritteronCurrentFriend);
+            var critteronFGame = await RequestGameInfo.Instance.GetCritteronByIDAsync(idCritteronCurrentFriend);
+
+            crittteronsInfo[1] = new CritteronCombatInfo(
+               critteronFGame.life + critteronF.level,
+              critteronFGame.basicDamage + critteronF.level,
+               critteronFGame.name,
+               critteronF.level,
+              critteronFGame.life + critteronF.level + userdata.level,
+               critteronFGame.defense,
+               null
+           );
+
+            getExp = false;
+            combatType = CombatType.combat1vs1;
+
+            StartCombat(experiencieExtra, crittteronsInfo);
+        }
+
+    }
+
+    void StartCombat(float experiencieExtra, CritteronCombatInfo[] crittteronsInfo)
+    {
         coldownSpecialAttack *= 1;
         experiencePerCombat += experiencieExtra;
 
@@ -131,7 +169,6 @@ public class CombatManager : MonoBehaviour
         combatUI.SetUI(combatInfo);
         InvokeRepeating("Turn", turnDuration, turnDuration);
     }
-
 
     void EmplaceCritterons()
     {
@@ -298,12 +335,10 @@ public class CombatManager : MonoBehaviour
 
     void EndCombat(bool win)
     {
-
         combatUI.ResetAttacks(true);
 
         if (win)
         {
-
             PlayerPrefs.SetInt("Result", 0);
 
             //cargar experiencia maxima y minima segun combate
@@ -314,46 +349,47 @@ public class CombatManager : MonoBehaviour
             Debug.Log("derrotado enemigos");
 
             // Dar experiencia al usuario o subir de nivel
-            if (user.experience + experiencePerCombat >= 50)
+            if (getExp)
             {
-                RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), level: user.level + 1, experience: 0, money: user.money + 20);
-
-                RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), user.currentCritteron, c =>
+                if (user.experience + experiencePerCombat >= 50)
                 {
-                    int exp = c.exp + (int)experiencePerCombat;
-                    int lvl = c.level;
-                    if (exp >= 100)
+                    RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), level: user.level + 1, experience: 0, money: user.money + 20);
+
+                    RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), user.currentCritteron, c =>
                     {
-                        exp = 0;
-                        lvl++;
-                    }
-
-                    RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), user.currentCritteron, exp: exp, level: lvl);
-
-                });
-               
-                SceneManager.LoadScene("NewLevel");
+                        int exp = c.exp + (int)experiencePerCombat;
+                        int lvl = c.level;
+                        if (exp >= 100)
+                        {
+                            exp = 0;
+                            lvl++;
+                        }
+                        RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), user.currentCritteron, exp: exp, level: lvl);
+                    });
+                    SceneManager.LoadScene("NewLevel");
+                }
+                else
+                {
+                    RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), experience: user.experience + (int)experiencePerCombat);
+                    SceneManager.LoadScene("EndCombat");
+                }
             }
             else
             {
-                RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), experience: user.experience + (int)experiencePerCombat);
                 SceneManager.LoadScene("EndCombat");
-
             }
-
         }
         else
         {
             PlayerPrefs.SetInt("Result", 1);
-
-            var life = GetLifeCritterons();
-            RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), idCritteronCurrent, currentLife: life[0]);
+            if (getExp)
+            {
+                var life = GetLifeCritterons();
+                RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), idCritteronCurrent, currentLife: life[0]);
+            }
 
             SceneManager.LoadScene("EndCombat");
-
         }
-
-
     }
 
     int[] GetLifeCritterons()
@@ -400,6 +436,8 @@ public class CombatManager : MonoBehaviour
         return exp;
     }
 }
+
+
 
 public enum CombatType { combat1vs1, combat2vs1 }
 public enum AttackSelected { none, normalAttack, specialAttack1, specialAttack2 }
