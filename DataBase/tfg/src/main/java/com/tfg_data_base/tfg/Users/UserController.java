@@ -50,6 +50,11 @@ public class UserController {
         return userService.getTopThreeUsersByLevel();
     }
 
+    @GetMapping("/userTopFriends/{id}")
+    public List<String> getTopThreeFriendsByLevel(@PathVariable String id) {
+        return userService.getTopThreeFriendsByLevel(id);
+    }
+
     @GetMapping("/user/{id}")
     public User findById(@PathVariable String id) {
         return userService.findById(id).orElse(null);

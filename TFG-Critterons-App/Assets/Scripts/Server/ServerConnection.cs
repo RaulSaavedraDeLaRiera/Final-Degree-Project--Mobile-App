@@ -259,15 +259,23 @@ public class ServerConnection : MonoBehaviour
 
     }
 
-    public IEnumerator GetUserTop(Action<List<I_User>> callback)
+    public IEnumerator GetUserTop(Action<List<string>> callback)
     {
-        List<I_User> list = new List<I_User>();
+        List<string> list = new List<string>();
         string url = $"http://localhost:8080/api/v1/userTop";
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
             (response) =>
             {
-                callback(list);
+                try
+                {
+                    List<string> list = JsonHelper.FromJson<string>(response);
+                    callback(list);
+                }
+                catch (Exception e)
+                {
+                    callback(null);
+                }
             },
             (error) =>
             {
@@ -275,6 +283,32 @@ public class ServerConnection : MonoBehaviour
             }
         ));
     }
+
+    public IEnumerator GetUserTopFriendsById(string userId, Action<List<string>> callback)
+    {
+        List<string> list = new List<string>();
+        string url = $"http://localhost:8080/api/v1/userTopFriends/{userId}"; 
+
+        yield return StartCoroutine(SendRequest(url, "GET", null,
+            (response) =>
+            {
+                try
+                {
+                    list = JsonHelper.FromJson<string>(response);
+                    callback(list);
+                }
+                catch (Exception e)
+                {
+                    callback(null);
+                }
+            },
+            (error) =>
+            {
+                callback(null);
+            }
+        ));
+    }
+
 
     public I_GameInfo GetGameInfo()
     {
@@ -530,4 +564,21 @@ public class ServerConnection : MonoBehaviour
         ));
     }
 
+}
+
+
+public static class JsonHelper
+{
+    public static List<T> FromJson<T>(string json)
+    {
+        string newJson = "{\"items\":" + json + "}";
+        Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(newJson);
+        return wrapper.items;
+    }
+
+    [Serializable]
+    private class Wrapper<T>
+    {
+        public List<T> items;
+    }
 }

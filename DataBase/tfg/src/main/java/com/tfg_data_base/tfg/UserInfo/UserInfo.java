@@ -12,7 +12,7 @@ public class UserInfo {
 
     private String id = "USER_INFO_ID";
     private List<User> users = new ArrayList<>();
-
+    
     @Data
     public static class User {
         private String userID;

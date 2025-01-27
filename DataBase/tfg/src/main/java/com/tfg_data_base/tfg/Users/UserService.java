@@ -200,8 +200,7 @@ public class UserService {
             String newSocialStatID = (String) newValue;
             Update update = new Update().addToSet("socialStats", new User.SocialStat(newSocialStatID));
             mongoTemplate.updateFirst(query, update, User.class);
-        }
-        else {
+        } else {
             Update update = new Update().set(fieldName, newValue);
             mongoTemplate.updateFirst(query, update, User.class);
         }
@@ -243,7 +242,8 @@ public class UserService {
 
         if ("pendingSocialStats".equals(fieldName)) {
             String newPendingSocialStatID = (String) newValue;
-            Update update = new Update().addToSet("pendingSocialStats", new User.PendingSocialStat(newPendingSocialStatID));
+            Update update = new Update().addToSet("pendingSocialStats",
+                    new User.PendingSocialStat(newPendingSocialStatID));
             mongoTemplate.updateFirst(query, update, User.class);
         }
     }
@@ -273,12 +273,40 @@ public class UserService {
     public List<String> getTopThreeUsersByLevel() {
         Query query = new Query();
         query.limit(3);
-        query.with(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Order.desc("userData.level")));
+        query.with(org.springframework.data.domain.Sort
+                .by(org.springframework.data.domain.Sort.Order.desc("userData.level")));
 
         List<User> topUsers = mongoTemplate.find(query, User.class);
 
         return topUsers.stream()
-                   .map(User::getId)
-                   .collect(Collectors.toList());
+                .map(User::getId)
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getTopThreeFriendsByLevel(String userId) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (!userOpt.isPresent()) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        User user = userOpt.get();
+        List<String> friendIds = user.getSocialStats().stream()
+                .map(User.SocialStat::getFriendID)
+                .collect(Collectors.toList());
+
+        if (friendIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        Query query = new Query(Criteria.where("id").in(friendIds));
+        List<User> friends = mongoTemplate.find(query, User.class);
+
+        List<User> sortedFriends = friends.stream()
+                .sorted((u1, u2) -> Integer.compare(u2.getUserData().getLevel(), u1.getUserData().getLevel()))
+                .collect(Collectors.toList());
+        return sortedFriends.stream()
+                .limit(3)
+                .map(User::getId)
+                .collect(Collectors.toList());
     }
 }

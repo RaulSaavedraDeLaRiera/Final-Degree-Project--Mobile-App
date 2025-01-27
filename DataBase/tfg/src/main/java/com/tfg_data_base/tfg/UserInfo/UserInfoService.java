@@ -1,7 +1,10 @@
 package com.tfg_data_base.tfg.UserInfo;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -55,4 +58,5 @@ public class UserInfoService {
             userInfoRepository.save(emptyUserInfo);
         }
     }
+
 }

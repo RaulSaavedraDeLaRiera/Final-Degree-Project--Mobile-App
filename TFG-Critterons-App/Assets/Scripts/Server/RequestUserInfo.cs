@@ -95,6 +95,17 @@ public class RequestUserInfo : MonoBehaviour
     {
         StartCoroutine(ServerConnection.Instance.GetUserByID(id, callback));
     }
+    public Task<I_User> GetUserByIDAsync(string id)
+    {
+        var tcs = new TaskCompletionSource<I_User>();
+
+        GetUserByID(id, user =>
+        {
+            tcs.SetResult(user);
+        });
+
+        return tcs.Task;
+    }
 
     public void GetAllUsers(Action<List<I_User>> callback)
     {
@@ -506,4 +517,39 @@ public class RequestUserInfo : MonoBehaviour
 
         return extra;
     }
+
+    public void GetTopThreeGlobal(Action<List<String>> callback)
+    {
+        StartCoroutine(ServerConnection.Instance.GetUserTop(callback));
+    }
+
+    public Task<List<String>> GetTopThreeGlobalAsync()
+    {
+        var tcs = new TaskCompletionSource<List<String>>();
+
+        GetTopThreeGlobal(top =>
+        {
+            tcs.SetResult(top);
+        });
+
+        return tcs.Task;
+    }
+
+    public void GetTopThreeFriendsById(string userId, Action<List<string>> callback)
+    {
+        StartCoroutine(ServerConnection.Instance.GetUserTopFriendsById(userId, callback));
+    }
+
+    public Task<List<string>> GetTopThreeFriendsByIdAsync(string userId)
+    {
+        var tcs = new TaskCompletionSource<List<string>>();
+
+        GetTopThreeFriendsById(userId, top =>
+        {
+            tcs.SetResult(top);
+        });
+
+        return tcs.Task;
+    }
+
 }

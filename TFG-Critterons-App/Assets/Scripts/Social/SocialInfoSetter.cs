@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,13 +14,27 @@ public class SocialInfoSetter : MonoBehaviour
     GameObject friendRanking;
     [SerializeField]
     GameObject globalRanking;
+    [SerializeField]
+    List<GameObject> globalRankingUser;
+
+    [SerializeField]
+    List<GameObject> friendRankingUser;
 
     [SerializeField]
     GameObject friendProfile;
+    [SerializeField]
+    GameObject ID;
+
 
 
     void Start()
     {
+
+        TextMeshProUGUI textComponentID = ID.GetComponentInChildren<TextMeshProUGUI>();
+        textComponentID.text = PlayerPrefs.GetString("UserID");
+
+        LoadRankingGlobal();
+        LoadRankingFriends(PlayerPrefs.GetString("UserID"));
 
         RequestUserInfoSocial.Instance.GetUserSocialStat(PlayerPrefs.GetString("UserID"), friends =>
         {
@@ -53,4 +68,60 @@ public class SocialInfoSetter : MonoBehaviour
         friendRanking.SetActive(true);
         globalRanking.SetActive(true);
     }
+
+
+    public async void LoadRankingGlobal()
+    {
+        List<string> listUser = await RequestUserInfo.Instance.GetTopThreeGlobalAsync(); 
+
+        for (int i = 0; i < globalRankingUser.Count; i++)
+        {
+            if (i < listUser.Count)
+            {
+                I_User user = await RequestUserInfo.Instance.GetUserByIDAsync(listUser[i]);
+
+                TextMeshProUGUI textComponent = globalRankingUser[i].GetComponentInChildren<TextMeshProUGUI>();
+                if (textComponent != null)
+                {
+                    textComponent.text = user.userData.name;
+                }
+
+                globalRankingUser[i].SetActive(true);
+                globalRankingUser[i].transform.parent.gameObject.SetActive(true);
+            }
+            else
+            {
+                globalRankingUser[i].SetActive(false);
+                globalRankingUser[i].transform.parent.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public async void LoadRankingFriends(string userId)
+    {
+        List<string> listUser = await RequestUserInfo.Instance.GetTopThreeFriendsByIdAsync(userId);
+
+        for (int i = 0; i < friendRankingUser.Count; i++)
+        {
+            if (i < listUser.Count)
+            {
+                I_User user = await RequestUserInfo.Instance.GetUserByIDAsync(listUser[i]);
+
+                TextMeshProUGUI textComponent = friendRankingUser[i].GetComponentInChildren<TextMeshProUGUI>();
+                if (textComponent != null)
+                {
+                    textComponent.text = user.userData.name;
+                }
+
+                friendRankingUser[i].SetActive(true);
+                friendRankingUser[i].transform.parent.gameObject.SetActive(true);
+            }
+            else
+            {
+                friendRankingUser[i].SetActive(false);
+                friendRankingUser[i].transform.parent.gameObject.SetActive(false);
+            }
+        }
+    }
 }
+

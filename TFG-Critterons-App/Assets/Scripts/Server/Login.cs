@@ -58,6 +58,7 @@ public class Login : MonoBehaviour
                         }
                         else
                         {
+
                             RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
                             loadingSpinner.SetActive(false);
                             SceneManager.LoadScene("Hotel");
