@@ -76,7 +76,7 @@ public class GameCycleDemo : MonoBehaviour
     {
         int steps = stepCounter.Steps - stepCountInLastCombat;
 
-        Debug.Log("Steps: " + steps.ToString());
+        //Debug.Log("Steps: " + steps.ToString());
 
         if(steps >= stepsToCombat)
         {
