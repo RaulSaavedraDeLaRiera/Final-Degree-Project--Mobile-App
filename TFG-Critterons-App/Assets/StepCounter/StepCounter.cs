@@ -1,21 +1,21 @@
 using UnityEngine;
 using System;
 
-public class StepCounter : MonoBehaviour
+public class StepCounterV1 : MonoBehaviour
 {
     // Singleton setup
-    private static StepCounter _instance;
-    public static StepCounter Instance
+    private static StepCounterV1 _instance;
+    public static StepCounterV1 Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<StepCounter>();
+                _instance = FindObjectOfType<StepCounterV1>();
                 if (_instance == null)
                 {
                     GameObject container = new GameObject("StepCounter");
-                    _instance = container.AddComponent<StepCounter>();
+                    _instance = container.AddComponent<StepCounterV1>();
                 }
             }
             return _instance;

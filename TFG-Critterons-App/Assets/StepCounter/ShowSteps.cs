@@ -21,6 +21,6 @@ public class ShowSteps : MonoBehaviour
     }
     void ActualizateText()
     {
-        text.text = StepCounter.Instance.GetStepCount().ToString();
+        text.text = StepCounterV1.Instance.GetStepCount().ToString();
     }
 }
