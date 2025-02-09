@@ -8,7 +8,7 @@ public class HotelCritteron : MonoBehaviour
 {
     //metemos todo esto en una clase static config?
     static float updateBehaviourRate = 5f, updateBehaviourRandom = .2f,
-        useItemsProbability = 0.1f;
+        useItemsProbability = 0.7f;
     //si va a cualquie tipo de objeto
     static bool randomObjects = true;
 
@@ -155,14 +155,13 @@ public class HotelCritteron : MonoBehaviour
             //si no lo tiene
             else
             {
-                if (Random.Range(0, 1f) <= useItemsProbability)
+                float prob = Random.Range(0, 1f);
+                if (prob <= useItemsProbability)
                 {
                     //intenta ir a jugar a algun objeto
                     target = NavigationControl.GetTarget();
                 }
             }
-
-
 
             if (target != null)
                 target.CurrentUser = this;

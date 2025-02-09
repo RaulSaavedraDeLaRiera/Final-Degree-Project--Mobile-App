@@ -39,6 +39,8 @@ public class Teleport : MonoBehaviour
         if(critteron != null && 
             critteron.Target != null && critteron.CurrentRoom != critteron.Target.Room)
         {
+            Debug.Log("TELEPORT entroo");
+
             critteron.ChangePosition(critteron.Target.Room.EntryPoint.position);
             critteron.Target.Room.AddCritteron(critteron);
             critteron.CurrentRoom.RemoveCritteron(critteron);

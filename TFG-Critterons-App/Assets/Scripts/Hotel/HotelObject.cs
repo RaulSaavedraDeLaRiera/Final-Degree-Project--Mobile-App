@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class HotelObject : MonoBehaviour
 {
-    [SerializeField]
-    HotelObjectType typeHotelObject;
+    //[SerializeField]
+    //HotelObjectType typeHotelObject;
     [SerializeField]
     float actionValue, timeInObject, timeInObjectVariation, outCritteronTime;
     [SerializeField]
     Transform userPosition;
-    [SerializeField]
-    MeshRenderer[] visuals;
-    [SerializeField]
-    Material nonBoughtMat;
+    //[SerializeField]
+    //MeshRenderer[] visuals;
+    //[SerializeField]
+    //Material nonBoughtMat;
    
     bool bought = false;
 
@@ -22,14 +22,14 @@ public class HotelObject : MonoBehaviour
     HotelCritteron currentUser;
     Vector3 prevPosCritteron;
 
-    public bool Bought
-    {
-        get { return bought; }
-    }
-    public HotelObjectType TypeHotelObject
-    {
-        get { return typeHotelObject; }
-    }
+    //public bool Bought
+    //{
+    //    get { return bought; }
+    //}
+    //public HotelObjectType TypeHotelObject
+    //{
+    //    get { return typeHotelObject; }
+    //}
     public HotelCritteron CurrentUser
     {
         get { return currentUser; }
@@ -44,22 +44,28 @@ public class HotelObject : MonoBehaviour
     private void Awake()
     {
         gameObject.tag = "HotelObject";
-        originMat = visuals[0].material;
+       // originMat = visuals[0].material;
     }
 
-    public void InitialiceObject(bool bought, RoomInfo room, HotelManager hM)
+    //public void InitialiceObject(bool bought, RoomInfo room, HotelManager hM)
+    //{
+    //    this.bought = bought;
+    //    this.room = room;
+
+    //    if (!bought)
+    //    {
+    //        foreach (var item in visuals)
+    //            item.material = nonBoughtMat;
+    //    }
+    //    else
+    //        hM.AddObject(this, typeHotelObject);
+
+    //}
+
+    public void InitialiceObject(RoomInfo room, HotelManager hM)
     {
-        this.bought = bought;
         this.room = room;
-
-        if (!bought)
-        {
-            foreach (var item in visuals)
-                item.material = nonBoughtMat;
-        }
-        else
-            hM.AddObject(this, typeHotelObject);
-
+        hM.AddObject(this, HotelObjectType.decorationObject);
     }
 
     void OutCritteron()

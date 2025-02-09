@@ -25,6 +25,7 @@ public class RoomInfo : MonoBehaviour
     List<HotelObject> rooms;
     [SerializeField]
     List<HotelCritteron> critteronsInRoom;
+
     [SerializeField]
     Teleport entryPointToCritterons;
 
@@ -58,6 +59,7 @@ public class RoomInfo : MonoBehaviour
     public float PercentRoom => percentRoom;
 
     public List<HotelCritteron> CritteronsInRoom => critteronsInRoom;
+
     public bool Bought => bought;
 
     void Start()
@@ -78,7 +80,7 @@ public class RoomInfo : MonoBehaviour
             bought = true;
             foreach (var item in rooms)
             {
-                item.InitialiceObject(true, this, hM);
+                item.InitialiceObject(this, hM);
             }
             nonBoughtCube.SetActive(false);
         }
@@ -93,7 +95,7 @@ public class RoomInfo : MonoBehaviour
         bought = true;
         foreach (var item in rooms)
         {
-            item.InitialiceObject(true, this, hM);
+            item.InitialiceObject(this, hM);
         }
 
         nonBoughtCube.SetActive(false);
