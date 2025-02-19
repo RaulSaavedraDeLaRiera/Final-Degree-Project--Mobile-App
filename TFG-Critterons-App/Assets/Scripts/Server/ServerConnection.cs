@@ -11,6 +11,11 @@ using SimpleJSON;
 using static I_UserInfo;
 using System;
 using System.Threading.Tasks;
+using Unity.VisualScripting.FullSerializer;
+
+
+
+
 
 public class ServerConnection : MonoBehaviour
 {
@@ -23,6 +28,10 @@ public class ServerConnection : MonoBehaviour
     private I_UserInfo userInfo = null;
     private List<string> userIDs = new List<string>();
     private float timeOut = 15f;
+
+
+    private ServerConfig config;
+    private string configPath;
 
     public static ServerConnection Instance
     {
@@ -42,6 +51,7 @@ public class ServerConnection : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
+            LoadConfig();
         }
         else if (_instance != this)
         {
@@ -49,9 +59,57 @@ public class ServerConnection : MonoBehaviour
         }
     }
 
+    private void LoadConfig()
+    {
+        configPath = Path.Combine(Application.persistentDataPath, "server_config.json");
+
+        if (System.IO.File.Exists(configPath))
+        {
+            UnityEngine.Debug.Log("Archivo de configuración encontrado");
+
+            string json = System.IO.File.ReadAllText(configPath);
+            config = JsonUtility.FromJson<ServerConfig>(json);
+        }
+        else
+        {
+            UnityEngine.Debug.Log("Archivo de configuración no encontrado");
+
+            config = new ServerConfig { baseURL = "http://localhost",port = "8080", apiVersion = "v1/" };
+            System.IO.File.WriteAllText(configPath, JsonUtility.ToJson(config, true));
+        }
+
+        CheckLocalRoute();
+    }
+
+    private string GetFullURL(string endpoint)
+    {
+        string fullURL = config.baseURL;
+
+        // agregamos puerto si existe
+        if (!string.IsNullOrEmpty(config.port))
+            fullURL += $":{config.port}";
+
+        return $"{fullURL}/api/{config.apiVersion}{endpoint}";
+    }
+
+    void CheckLocalRoute()
+    {
+        string url = GetFullURL("login");
+        string expectedUrl = "http://localhost:8080/api/v1/login";
+
+        UnityEngine.Debug.Log("Ruta generada: " + url);
+        UnityEngine.Debug.Log("Ruta esperada: " + expectedUrl);
+
+        // Corregimos la comparación
+        bool sonIguales = url == expectedUrl;
+        UnityEngine.Debug.Log("¿Las rutas son iguales? " + sonIguales);
+
+    }
+
     public IEnumerator LoginToken(string mail, string password, Action<string> callback)
     {
-        string url = $"http://localhost:8080/api/v1/login";
+        // string url = $"http://localhost:8080/api/v1/login";
+        string url = GetFullURL("login");
 
         var jsonPayload = new JSONObject();
         jsonPayload["mail"] = mail;
@@ -73,7 +131,8 @@ public class ServerConnection : MonoBehaviour
 
     public IEnumerator GetIDUser(string mail, string password, Action<string> callback)
     {
-        string url = $"http://localhost:8080/api/v1/id";
+        //string url = $"http://localhost:8080/api/v1/id";
+        string url = GetFullURL("id");
 
         var jsonPayload = new JSONObject();
         jsonPayload["mail"] = mail;
@@ -95,7 +154,8 @@ public class ServerConnection : MonoBehaviour
 
     public IEnumerator CreateNewUser(string nickname, string password, string mail, Action<bool> callback)
     {
-        string url = $"http://localhost:8080/api/v1/newUser";
+        //string url = $"http://localhost:8080/api/v1/newUser";
+        string url = GetFullURL("newUser");
 
         var jsonPayload = new JSONObject();
         jsonPayload["password"] = password;
@@ -170,7 +230,8 @@ public class ServerConnection : MonoBehaviour
 
     private IEnumerator GameInfoInitCoroutine(Action onSuccess, Action<string> onError)
     {
-        string url = "http://localhost:8080/api/v1/gameinfo";
+        //string url = "http://localhost:8080/api/v1/gameinfo";
+        string url = GetFullURL("gameInfo");
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
             (response) =>
@@ -210,7 +271,8 @@ public class ServerConnection : MonoBehaviour
 
     private IEnumerator UserInfoInitCoroutine(Action onSuccess, Action<string> onError)
     {
-        string url = "http://localhost:8080/api/v1/userinfo";
+        //string url = "http://localhost:8080/api/v1/userinfo";
+        string url = GetFullURL("userInfo");
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
             (response) =>
@@ -242,7 +304,8 @@ public class ServerConnection : MonoBehaviour
     public IEnumerator GetCritteronByID(string id, Action<I_Critteron> callback)
     {
 
-        string url = $"http://localhost:8080/api/v1/critteron/{id}";
+        //string url = $"http://localhost:8080/api/v1/critteron/{id}";
+        string url = GetFullURL($"critteron/{id}");
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
             (response) =>
@@ -262,7 +325,8 @@ public class ServerConnection : MonoBehaviour
     public IEnumerator GetUserTop(Action<List<string>> callback)
     {
         List<string> list = new List<string>();
-        string url = $"http://localhost:8080/api/v1/userTop";
+        //string url = $"http://localhost:8080/api/v1/userTop";
+        string url = GetFullURL("userTop");
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
             (response) =>
@@ -287,7 +351,8 @@ public class ServerConnection : MonoBehaviour
     public IEnumerator GetUserTopFriendsById(string userId, Action<List<string>> callback)
     {
         List<string> list = new List<string>();
-        string url = $"http://localhost:8080/api/v1/userTopFriends/{userId}"; 
+        //string url = $"http://localhost:8080/api/v1/userTopFriends/{userId}";
+        string url = GetFullURL($"userTopFriends/{userId}");
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
             (response) =>
@@ -345,7 +410,8 @@ public class ServerConnection : MonoBehaviour
     public IEnumerator GetRoomByID(string id, Action<I_Room> callback)
     {
 
-        string url = $"http://localhost:8080/api/v1/room/{id}";
+        //string url = $"http://localhost:8080/api/v1/room/{id}";
+        string url = GetFullURL($"room/{id}");
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
             (response) =>
@@ -393,7 +459,9 @@ public class ServerConnection : MonoBehaviour
     /// <returns></returns>
     public IEnumerator GetUserByID(string id, Action<I_User> callback)
     {
-        string url = $"http://localhost:8080/api/v1/user/{id}";
+        //string url = $"http://localhost:8080/api/v1/user/{id}";
+        string url = GetFullURL($"user/{id}");
+
         string token = PlayerPrefs.GetString("token");
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
@@ -443,7 +511,8 @@ public class ServerConnection : MonoBehaviour
     /// <returns></returns>
     public IEnumerator ModifyUserField<T>(string userId, string fieldName, T newValue)
     {
-        string url = $"http://localhost:8080/api/v1/user/{userId}";
+        //string url = $"http://localhost:8080/api/v1/user/{userId}";
+        string url = GetFullURL($"user/{userId}");
 
         var json = new JSONObject();
         json["fieldName"] = fieldName;
@@ -469,7 +538,9 @@ public class ServerConnection : MonoBehaviour
 
     public IEnumerator RemoveUserFriend(string userId, JSONObject friendID)
     {
-        string url = $"http://localhost:8080/api/v1/user/removeFriend/{userId}";
+        //string url = $"http://localhost:8080/api/v1/user/removeFriend/{userId}";
+        string url = GetFullURL($"user/removeFriend/{userId}");
+
         yield return StartCoroutine(SendRequest(url, "DELETE", friendID,
             (response) =>
             {
@@ -484,7 +555,8 @@ public class ServerConnection : MonoBehaviour
 
     public IEnumerator AddPendingFriend<T>(string userId, string fieldName, T newValue)
     {
-        string url = $"http://localhost:8080/api/v1/userPending/{userId}";
+        //string url = $"http://localhost:8080/api/v1/userPending/{userId}";
+        string url = GetFullURL($"userPending/{userId}");
 
         var json = new JSONObject();
         json["fieldName"] = fieldName;
@@ -510,7 +582,9 @@ public class ServerConnection : MonoBehaviour
 
     public IEnumerator RemoveUserFriendPending(string userId, JSONObject friendID)
     {
-        string url = $"http://localhost:8080/api/v1/user/removeFriendPending/{userId}";
+        // string url = $"http://localhost:8080/api/v1/user/removeFriendPending/{userId}";
+        string url = GetFullURL($"user/removeFriendPending/{userId}");
+
         yield return StartCoroutine(SendRequest(url, "DELETE", friendID,
             (response) =>
             {
@@ -525,7 +599,8 @@ public class ServerConnection : MonoBehaviour
 
     public IEnumerator AddSentFriend<T>(string userId, string fieldName, T newValue)
     {
-        string url = $"http://localhost:8080/api/v1/userSent/{userId}";
+        //string url = $"http://localhost:8080/api/v1/userSent/{userId}";
+        string url = GetFullURL($"userSent/{userId}");
 
         var json = new JSONObject();
         json["fieldName"] = fieldName;
@@ -551,7 +626,9 @@ public class ServerConnection : MonoBehaviour
 
     public IEnumerator RemoveUserFriendSent(string userId, JSONObject friendID)
     {
-        string url = $"http://localhost:8080/api/v1/user/removeFriendSent/{userId}";
+        //string url = $"http://localhost:8080/api/v1/user/removeFriendSent/{userId}";
+        string url = GetFullURL($"user/removeFriendSent/{userId}");
+
         yield return StartCoroutine(SendRequest(url, "DELETE", friendID,
             (response) =>
             {
@@ -581,4 +658,12 @@ public static class JsonHelper
     {
         public List<T> items;
     }
+}
+
+[Serializable]
+public class ServerConfig
+{
+    public string baseURL;
+    public string port;
+    public string apiVersion;
 }
