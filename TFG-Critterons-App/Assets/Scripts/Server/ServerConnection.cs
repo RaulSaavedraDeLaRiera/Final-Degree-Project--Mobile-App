@@ -231,7 +231,7 @@ public class ServerConnection : MonoBehaviour
     private IEnumerator GameInfoInitCoroutine(Action onSuccess, Action<string> onError)
     {
         //string url = "http://localhost:8080/api/v1/gameinfo";
-        string url = GetFullURL("gameInfo");
+        string url = GetFullURL("gameinfo");
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
             (response) =>
@@ -272,7 +272,7 @@ public class ServerConnection : MonoBehaviour
     private IEnumerator UserInfoInitCoroutine(Action onSuccess, Action<string> onError)
     {
         //string url = "http://localhost:8080/api/v1/userinfo";
-        string url = GetFullURL("userInfo");
+        string url = GetFullURL("userinfo");
 
         yield return StartCoroutine(SendRequest(url, "GET", null,
             (response) =>
