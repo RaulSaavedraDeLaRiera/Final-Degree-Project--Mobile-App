@@ -30,4 +30,15 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
 
     }
+
+    public void LogOut()
+    {
+        PlayerPrefs.DeleteKey("email");
+        PlayerPrefs.DeleteKey("password");
+        PlayerPrefs.Save();
+
+
+        SceneManager.LoadScene("Login");
+
+    }
 }

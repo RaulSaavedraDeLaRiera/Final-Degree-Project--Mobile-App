@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -22,11 +23,13 @@ public class Login : MonoBehaviour
         SetCanvasActive(canvasNewUser, false);
     }
 
-    public async void TryLogin()
+    void Start()
     {
-        string mailString = mail.text;
-        string passwordString = password.text;
+        AlreadyLog();
+    }
 
+    public async void LoginGame(string mailString, string passwordString)
+    {
         if (mailString != "" && passwordString != "")
         {
             SetCanvasActive(canvasBase, false);
@@ -36,6 +39,8 @@ public class Login : MonoBehaviour
 
             if (loginSuccess)
             {
+
+                SaveLoginData(mailString, passwordString);
                 try
                 {
                     await ServerConnection.Instance.GameInfoInitAsync();
@@ -75,11 +80,31 @@ public class Login : MonoBehaviour
             }
             else
             {
+                PlayerPrefs.DeleteKey("email");
+                PlayerPrefs.DeleteKey("password"); 
+                PlayerPrefs.Save(); 
+
                 SetCanvasActive(canvasBase, true);
             }
 
             loadingSpinner.SetActive(false);
         }
+    }
+
+    public async void TryLogin()
+    {
+        string mailString = mail.text;
+        string passwordString = password.text;
+
+        LoginGame(mailString, passwordString);
+    }
+
+    void SaveLoginData(string email, string password)
+    {
+        PlayerPrefs.SetString("email", email);
+        PlayerPrefs.SetString("password", password);
+        PlayerPrefs.Save(); 
+
     }
 
     private IEnumerator changeScene()
@@ -146,6 +171,23 @@ public class Login : MonoBehaviour
             loadingSpinner.SetActive(false);
         }
         ChangeCanvas();
+
+    }
+
+
+     async void AlreadyLog()
+    {
+        if (PlayerPrefs.HasKey("email") && PlayerPrefs.HasKey("password"))
+        {
+            string email = PlayerPrefs.GetString("email");
+            string password = PlayerPrefs.GetString("password");
+
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+            {
+                Debug.Log("El usuario ya ha iniciado sesión.");
+                LoginGame(email, password);
+            }
+        }
 
     }
 

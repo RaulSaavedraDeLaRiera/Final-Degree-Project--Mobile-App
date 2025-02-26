@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.InputSystem;
+using static I_UserInfo;
 
 public class StepCounterV2 : MonoBehaviour
 {
@@ -42,6 +43,9 @@ public class StepCounterV2 : MonoBehaviour
 
             initialSteps = StepCounter.current.stepCounter.ReadValue();
             Debug.Log("Initial steps: " + initialSteps.ToString());
+
+            InvokeRepeating(nameof(CheckSteps), 40f, 40f);
+
         }
         else
         {
@@ -95,5 +99,15 @@ public class StepCounterV2 : MonoBehaviour
             // Reinitialize the step counter when the app is resumed
             InitializeStepCounter();
         }
+    }
+
+    void CheckSteps()
+    {
+        RequestUserInfo.Instance.GetUserByID(PlayerPrefs.GetString("UserID"), (user) =>
+        {
+            RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), user.personalStats.globalSteps + currentSteps);
+            currentSteps = 0;
+        });
+
     }
 }
