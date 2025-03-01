@@ -481,8 +481,8 @@ RectTransform:
   m_GameObject: {fileID: 2661698361316177083}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3917199341360059609}
   - {fileID: 6546549251304714440}
@@ -532,6 +532,7 @@ MonoBehaviour:
   descriptionT: {fileID: 1453193997272173889}
   bonusT: {fileID: 1581943452307363360}
   users: {fileID: 8539866846097263021}
+  manager: {fileID: 0}
 --- !u!1 &4288970627735279373
 GameObject:
   m_ObjectHideFlags: 0
