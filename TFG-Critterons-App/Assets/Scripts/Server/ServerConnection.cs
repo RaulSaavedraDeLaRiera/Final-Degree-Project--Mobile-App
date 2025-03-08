@@ -66,7 +66,7 @@ public class ServerConnection : MonoBehaviour
         if (System.IO.File.Exists(configPath))
         {
             UnityEngine.Debug.Log("Archivo de configuración encontrado");
-
+            UnityEngine.Debug.Log(Application.persistentDataPath);
             string json = System.IO.File.ReadAllText(configPath);
             config = JsonUtility.FromJson<ServerConfig>(json);
         }
@@ -74,7 +74,7 @@ public class ServerConnection : MonoBehaviour
         {
             UnityEngine.Debug.Log("Archivo de configuración no encontrado");
 
-            config = new ServerConfig { baseURL = "http://localhost",port = "8080", apiVersion = "v1/" };
+            config = new ServerConfig { baseURL = "http://192.168.1.132", port = "8080", apiVersion = "v1/" };
             System.IO.File.WriteAllText(configPath, JsonUtility.ToJson(config, true));
         }
 
@@ -95,7 +95,7 @@ public class ServerConnection : MonoBehaviour
     void CheckLocalRoute()
     {
         string url = GetFullURL("login");
-        string expectedUrl = "http://localhost:8080/api/v1/login";
+        string expectedUrl = "http://192.168.1.132:8080/api/v1/login";
 
         UnityEngine.Debug.Log("Ruta generada: " + url);
         UnityEngine.Debug.Log("Ruta esperada: " + expectedUrl);

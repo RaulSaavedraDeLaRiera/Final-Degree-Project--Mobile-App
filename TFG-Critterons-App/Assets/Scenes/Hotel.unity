@@ -2316,7 +2316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scenesAllowed:
-  - DemoPrincipal
+  - Principal
   - Combat
 --- !u!1 &146654707
 GameObject:

@@ -24,7 +24,7 @@ EditorBuildSettings:
     path: Assets/Scenes/DemoScene/hotel-ui.unity
     guid: 529e991d3721c154585eac8b5d0927e0
   - enabled: 1
-    path: Assets/Scenes/DemoPrincipal.unity
+    path: Assets/Scenes/Principal.unity
     guid: 607da31375a794b47b588e8703010f96
   - enabled: 1
     path: Assets/Scenes/Combat.unity
@@ -45,5 +45,7 @@ EditorBuildSettings:
     path: Assets/Scenes/EndCombat.unity
     guid: 258b0e06acf910b48bb9d42549cb2063
   m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 6ee0f01d1fe351146b0ae84407127dec,
+      type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
       guid: da81dad269a7f904c8153f586ec167e5, type: 2}
