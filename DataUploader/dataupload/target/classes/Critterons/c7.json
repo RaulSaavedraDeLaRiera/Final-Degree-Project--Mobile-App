@@ -1,0 +1,25 @@
+{
+  "id":  "67cdbaeb9efa2340c96eecc5"
+  ,
+  "name": "Toadstool",
+  "mesh": "toadstoolMesh",
+  "levelUnlock": 3,
+  "life": 135,
+  "basicDamage": 13,
+  "defense": 0.4000000059604645,
+  "idZone": 3,
+  "attacks": [
+    {
+      "name": "Spore Burst",
+      "damage": 18,
+      "percent": 0.8999999761581421,
+      "type": 1
+    },
+    {
+      "name": "Toxic Puff",
+      "damage": 25,
+      "percent": 0.699999988079071,
+      "type": 2
+    }
+  ]
+}

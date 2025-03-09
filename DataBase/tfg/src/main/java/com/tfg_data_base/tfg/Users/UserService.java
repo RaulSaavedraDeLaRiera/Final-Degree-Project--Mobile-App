@@ -33,6 +33,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserInfoService userInfoService;
 
+    private final String passwordToken = "1234567890qrtweu12h32i3o2nr23kj432mbr23kjeg32kjerg32ody2d8cUSUDAUbefgwfu23kweqhf";
+
+
     private JwtUtils jwtUtils = new JwtUtils();
     // private String userPasswordCredentials = "Jm7N@q9!Xf2#ZlT6pV";
 
@@ -129,6 +132,14 @@ public class UserService {
         Map<String, Object> user = mongoTemplate.findOne(query, Map.class, "User");
         if (user != null && password.equals((String) user.get("password"))) {
             return jwtUtils.generateJwtToken(mail);
+        }
+
+        return "";
+    }
+
+    public String token(String password) {
+        if (password != null && password.equals(passwordToken)) {
+            return jwtUtils.generateJwtToken(password);
         }
 
         return "";

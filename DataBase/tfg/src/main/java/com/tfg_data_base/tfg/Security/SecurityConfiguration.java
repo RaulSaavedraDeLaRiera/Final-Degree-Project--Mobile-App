@@ -30,7 +30,7 @@ public class SecurityConfiguration {
     private AuthEntryPoint unauthorizedHandler;
 
     private static final String[] WHITE_LIST_URL = { "/api/v1/login", "/connected", "api/v1/gameinfo",
-            "api/v1/userinfo", "api/v1/newUser", "api/v1/critteron" };
+            "api/v1/userinfo", "api/v1/newUser", "api/v1/token" };
 
     @Bean
     public AuthTokenFilter authenticationTokenFilter() {

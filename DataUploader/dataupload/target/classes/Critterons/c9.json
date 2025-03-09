@@ -1,0 +1,24 @@
+{
+  "id": "67cdbaeb9efa2340c96eecc7",
+  "name": "Snake",
+  "mesh": "snakeMesh",
+  "levelUnlock": 6,
+  "life": 120,
+  "basicDamage": 25,
+  "defense": 0.20000000298023224,
+  "idZone": 8,
+  "attacks": [
+    {
+      "name": "Venom Bite",
+      "damage": 30,
+      "percent": 0.800000011920929,
+      "type": 1
+    },
+    {
+      "name": "Coil Constrict",
+      "damage": 35,
+      "percent": 0.6000000238418579,
+      "type": 2
+    }
+  ]
+}

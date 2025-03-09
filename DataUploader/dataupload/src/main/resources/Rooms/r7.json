@@ -1,0 +1,9 @@
+{
+  "id": "6755c9dcb8d0a120196ac904",
+  "name": "Office",
+  "mesh": "Room1",
+  "price": 175,
+  "percent": 10,
+  "type": 3,
+  "speedDuration": 1.25
+}

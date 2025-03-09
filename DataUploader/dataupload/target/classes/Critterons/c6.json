@@ -1,0 +1,23 @@
+{
+  "id": "67cdbaec9efa2340c96eeccb",
+  "name": "Dog",
+  "mesh": "dogMesh",
+  "levelUnlock": 15,
+  "life": 170,
+  "basicDamage": 15,
+  "defense": 0.3499999940395355,
+  "idZone": 9,
+  "attacks": [
+    {
+      "name": "Fire Fang",
+      "damage": 25,
+      "percent": 0.75,
+      "type": 1
+    },
+    {
+      "name": "Blazing Howl",
+      "damage": 30,
+      "percent": 0.6000000238418579,
+      "type": 2
+    }
+  ]}

@@ -1,0 +1,9 @@
+{
+  "id": "6755c9dbb8d0a120196ac903",
+  "name": "ChildrenRoom",
+  "mesh": "Room1",
+  "price": 175,
+  "percent": 10,
+  "type": 3,
+  "speedDuration": 1.25
+}

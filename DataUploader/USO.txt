@@ -1,0 +1,12 @@
+mvn clean package
+
+(creación del .jar)
+
+
+Para lanzarlo:
+
+ java -jar target/dataupload-1.0-SNAPSHOT.jar critterons
+ java -jar target/dataupload-1.0-SNAPSHOT.jar rooms
+
+
+dependiendo de lo que queramos subir

@@ -1,0 +1,24 @@
+{
+  "id": "67cdbaeb9efa2340c96eecc0",
+  "name": "ChickWing",
+  "mesh": "birdMesh",
+  "levelUnlock": 1,
+  "life": 120,
+  "basicDamage": 20,
+  "defense": 0.05000000074505806,
+  "idZone": 3,
+  "attacks": [
+    {
+      "name": "Peck",
+      "damage": 25,
+      "percent": 0.800000011920929,
+      "type": 1
+    },
+    {
+      "name": "Wing Flap",
+      "damage": 30,
+      "percent": 0.5,
+      "type": 2
+    }
+  ]
+}

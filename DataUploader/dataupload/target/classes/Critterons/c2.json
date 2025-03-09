@@ -1,0 +1,24 @@
+{
+  "id":"67cdbaeb9efa2340c96eecc1",
+  "name": "Cat",
+  "mesh": "catMesh",
+  "levelUnlock": 15,
+  "life": 170,
+  "basicDamage": 35,
+  "defense": 0.15000000596046448,
+  "idZone": 10,
+  "attacks": [
+    {
+      "name": "Lightning Claw",
+      "damage": 45,
+      "percent": 0.800000011920929,
+      "type": 1
+    },
+    {
+      "name": "Thunder Pounce",
+      "damage": 50,
+      "percent": 0.699999988079071,
+      "type": 2
+    }
+  ]
+}

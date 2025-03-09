@@ -51,10 +51,10 @@ public class Login : MonoBehaviour
                         //Nuevo usuario
                         if (userdata.currentCritteron == "")
                         {
-                            RequestGameInfo.Instance.GetCritteronByID("677123cbf8e9b02d66239c82", critteron =>
+                            RequestGameInfo.Instance.GetCritteronByID("67cdbaeb9efa2340c96eecc4", critteron =>
                             {
-                                RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "677123cbf8e9b02d66239c82", currentLife: critteron.life, level: 1);
-                                RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: "677123cbf8e9b02d66239c82", level: 1, money: 100);
+                                RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "67cdbaeb9efa2340c96eecc4", currentLife: critteron.life, level: 1);
+                                RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: "67cdbaeb9efa2340c96eecc4", level: 1, money: 100);
                                 RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
 
                                 StartCoroutine("changeScene");

@@ -1,0 +1,9 @@
+{
+  "id": "6755c9d9b8d0a120196ac901",
+  "name": "Bedroom2",
+  "mesh": "Room1",
+  "price": 175,
+  "percent": 5,
+  "type": 2,
+  "speedDuration": 1.25
+}

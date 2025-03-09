@@ -1,0 +1,23 @@
+{
+  "id":  "67cdbaec9efa2340c96eecca",
+  "name": "Mole",
+  "mesh": "moleMesh",
+  "levelUnlock": 12,
+  "life": 80,
+  "basicDamage": 15,
+  "defense": 0.5,
+  "idZone": 5,
+  "attacks": [
+    {
+      "name": "Dig Tackle",
+      "damage": 20,
+      "percent": 0.800000011920929,
+      "type": 1
+    },
+    {
+      "name": "Mud Spray",
+      "damage": 25,
+      "percent": 0.8999999761581421,
+      "type": 2
+    }
+  ]}

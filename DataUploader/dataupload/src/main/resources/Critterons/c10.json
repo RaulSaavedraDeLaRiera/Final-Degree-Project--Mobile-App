@@ -1,0 +1,24 @@
+{
+  "id":  "67cdbaeb9efa2340c96eecc8",
+  "name": "Shade",
+  "mesh": "shadeMesh",
+  "levelUnlock": 3,
+  "life": 125,
+  "basicDamage": 15,
+  "defense": 0.25,
+  "idZone": 12,
+  "attacks": [
+    {
+      "name": "Shadow Strike",
+      "damage": 20,
+      "percent": 0.699999988079071,
+      "type": 1
+    },
+    {
+      "name": "Dark Veil",
+      "damage": 25,
+      "percent": 0.8999999761581421,
+      "type": 3
+    }
+  ]
+}

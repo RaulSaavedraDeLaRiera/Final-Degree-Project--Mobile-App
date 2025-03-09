@@ -1,0 +1,24 @@
+{
+  "id": "67cdbaeb9efa2340c96eecc2",
+  "name": "Bloom",
+  "mesh": "bloomMesh",
+  "levelUnlock": 3,
+  "life": 100,
+  "basicDamage": 35,
+  "defense": 0.10000000149011612,
+  "idZone": 6,
+  "attacks": [
+    {
+      "name": "Petal Slash",
+      "damage": 40,
+      "percent": 0.8999999761581421,
+      "type": 1
+    },
+    {
+      "name": "Bloom Burst",
+      "damage": 45,
+      "percent": 0.75,
+      "type": 3
+    }
+  ]
+}

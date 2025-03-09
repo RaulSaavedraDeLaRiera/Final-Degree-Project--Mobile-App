@@ -1,0 +1,9 @@
+{
+  "id": "6755c9dab8d0a120196ac902",
+  "name": "Greenhouse",
+  "mesh": "Room1",
+  "price": 150,
+  "percent": 1,
+  "type": 1,
+  "speedDuration": 1.25
+}

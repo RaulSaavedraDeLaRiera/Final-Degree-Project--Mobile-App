@@ -1,6 +1,7 @@
 package com.tfg_data_base.tfg.Users;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tfg_data_base.tfg.Users.Bodys.UserFriend;
@@ -33,6 +34,11 @@ public class UserController {
     @GetMapping("/login")
     public String login(@RequestBody User user) {
         return userService.login(user.getMail(), user.getPassword());
+    }
+
+    @GetMapping("/token")
+    public String token(@RequestParam String password) {
+        return userService.token(password);
     }
 
     @GetMapping("/id")
