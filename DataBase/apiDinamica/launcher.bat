@@ -1,13 +1,38 @@
 @echo off
-set /p MONGODB_URI="Introduce la URL de la base de datos: "
-setx MONGODB_URI "%MONGODB_URI%" /M
-echo Variable de entorno establecida.
+cls
+echo ==========================================
+echo    Selecciona el modo de ejecucion:
+echo ==========================================
+echo 1 - Online (Base de datos remota)
+echo 2 - Local (Base de datos local)
+set /p MODE="Introduce tu elección (1/2): "
 
-echo Iniciando la aplicación...
-::definir el nombre del archivo aqui
-java -jar mi-aplicacion.jar
-::para evitar que se cierre y acabe el proceso
+if "%MODE%"=="1" (
+    set /p MONGODB_URI="Introduce la URL de la base de datos online: "
+    setx MONGODB_URI "%MONGODB_URI%" /M
+    echo Variable de entorno MONGODB_URI establecida.
+    echo Iniciando la aplicación online...
+    java -jar mi-aplicacion-online.jar
+    pause
+    exit
+)
+
+if "%MODE%"=="2" (
+    set /p MONGOHOST="Introduce el host de la base de datos local: "
+    set /p MONGOPORT="Introduce el puerto de la base de datos local: "
+    setx MONGOHOST "%MONGOHOST%" /M
+    setx MONGOPORT "%MONGOPORT%" /M
+    echo Variables de entorno MONGOHOST y MONGOPORT establecidas.
+    echo Iniciando la aplicacin local...
+    java -jar mi-aplicacion-local.jar
+    pause
+    exit
+)
+
+echo Opción no valida. Por favor, ejecuta el script nuevamente.
 pause
+exit
+
 
 
 ::Se puede lanzar manualmente con una ruta dinamica de la siguiente manera:
