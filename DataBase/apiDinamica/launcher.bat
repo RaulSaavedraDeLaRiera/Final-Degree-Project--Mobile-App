@@ -20,9 +20,9 @@ if "%MODE%"=="1" (
 if "%MODE%"=="2" (
     set /p MONGOHOST="Introduce el host de la base de datos local: "
     set /p MONGOPORT="Introduce el puerto de la base de datos local: "
-    setx MONGOHOST "%MONGOHOST%" /M
-    setx MONGOPORT "%MONGOPORT%" /M
-    echo Variables de entorno MONGOHOST y MONGOPORT establecidas.
+    setx MONGOHOST "%MONGO_HOST%" /M
+    setx MONGOPORT "%MONGO_PORT%" /M
+    echo Variables de entorno MONGO_HOST y MONGO_PORT establecidas.
     echo Iniciando la aplicacin local...
     java -jar mi-aplicacion-local.jar
     pause
