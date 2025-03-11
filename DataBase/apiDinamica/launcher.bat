@@ -12,7 +12,7 @@ if "%MODE%"=="1" (
     setx MONGODB_URI "%MONGODB_URI%" /M
     echo Variable de entorno MONGODB_URI establecida.
     echo Iniciando la aplicación online...
-    java -jar mi-aplicacion-online.jar
+    java -jar tfg-0.0.1-SNAPSHOT.jar
     pause
     exit
 )
@@ -24,7 +24,7 @@ if "%MODE%"=="2" (
     setx MONGOPORT "%MONGO_PORT%" /M
     echo Variables de entorno MONGO_HOST y MONGO_PORT establecidas.
     echo Iniciando la aplicacin local...
-    java -jar mi-aplicacion-local.jar
+    java -jar tfgLocal-0.0.1-SNAPSHOT.jar
     pause
     exit
 )

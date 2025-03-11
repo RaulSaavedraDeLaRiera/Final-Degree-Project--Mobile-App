@@ -2,11 +2,13 @@ package com.tfg_data_base.tfg.Users;
 
 import java.util.List;
 import java.util.Map;
+import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.security.MessageDigest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -33,8 +35,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserInfoService userInfoService;
 
-    private final String passwordToken = "1234567890qrtweu12h32i3o2nr23kj432mbr23kjeg32kjerg32ody2d8cUSUDAUbefgwfu23kweqhf";
-
+    private String passwordToken = "1234567890qrtweu12h32i3o2nr23kj432mbr23kjeg32kjerg32ody2d8cUSUDAUbefgwfu23kweqhf";
 
     private JwtUtils jwtUtils = new JwtUtils();
     // private String userPasswordCredentials = "Jm7N@q9!Xf2#ZlT6pV";
@@ -138,11 +139,33 @@ public class UserService {
     }
 
     public String token(String password) {
-        if (password != null && password.equals(passwordToken)) {
+        System.out.println("Hash recibido: " + password);
+        System.out.println("Contraseña esperado: " + passwordToken);
+        String pass = hashPassword(passwordToken);
+        System.out.println("Hash esperado: " + pass);
+
+
+        if (password.equals(pass)) {
             return jwtUtils.generateJwtToken(password);
         }
+        return "ERROR";
+    }
+    
 
-        return "";
+    private static String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error generando hash SHA-256", e);
+        }
     }
 
     public String getUserIdByCredentials(String mail, String password) {

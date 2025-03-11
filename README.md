@@ -3,6 +3,16 @@
 
 ### Gestión de Conexiones Juego - Base de Datos
 
+
+#### Base de datos en MongoDB
+La base de datos se encuentra en MongoDB por lo que si queremos tener la información, tanto en local como a través de la web de MongoDB, deberemos tener definidas una colección previa para que la información pueda ser almacenada. Esta colección la llamaremos "Game", y deberá contener los siguientes directorios:
+
+  - Critteron
+  - GameInfo
+  - Room
+  - User
+  - UserInfo
+
 #### Conexión cliente - API
 Las conexiones del juego con el servidor se gestionan mediante una **API**. La ruta para acceder a esta API es **modificable**, y para ello, solo necesitas acceder al archivo `server_config.json` dentro de la carpeta `./Assets/Resources`del proyecto de Unity.
 
@@ -36,4 +46,17 @@ La base de datos a la que ataca la API pueden ser definidas dinámicamente. Para
 4. Automáticamente, `launcher.bat`lanzará el .jar correspondiente a la modalidad que hayamos seleccionado.
 
 #### Con estos dos pasos se puede configurar de manera sencilla el flujo de datos.
+
+#### Datos estáticos del juego
+
+Existen datos que el juego debe de tener en un inicio para poder jugarse (los critterons y las habitaciones). Por ello, para facilitar la subida de estos datos, esta el proyecto "DataUploader". Lo que tendremos que hacer en este es ejecutar el .jar dependiendo de lo que queramos conseguir. Tendremos que pasarle dos parametros:
+  
+  - El primero tomará los valores de critteron o rooms. De esta manera subiremos los datos del tipo seleccionado.
+  - El segundo parametro será el inicio de la llamada http. Es decir definir donde esta alojada la API.
+
+Un ejemplo podría ser:
+
+ java -jar target/dataupload-1.0-SNAPSHOT.jar rooms http://localhost:8080
+
+
 

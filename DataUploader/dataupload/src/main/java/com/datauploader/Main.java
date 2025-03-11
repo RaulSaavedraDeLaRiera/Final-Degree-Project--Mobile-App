@@ -4,29 +4,32 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-        // Validar argumento
-        if (args.length < 1) {
-            System.err.println("Uso: java -jar dataupload.jar <critterons|rooms>");
+        // Validar argumentos
+        if (args.length < 2) {
+            System.err.println("Uso: java -jar dataupload.jar <critterons|rooms> <baseUrl>");
             return;
         }
 
         // Determinar modo según argumento
         String mode = args[0].toLowerCase();
+        String baseUrl = args[1].endsWith("/") ? args[1].substring(0, args[1].length() - 1) : args[1]; 
         String folderPath;
         String apiUrl;
 
         switch (mode) {
             case "critterons":
                 folderPath = "src/main/resources/Critterons";
-                apiUrl = "http://192.168.1.132:8080/api/v1/critteron";
+                apiUrl = baseUrl + "/api/v1/critteron";
                 break;
             case "rooms":
                 folderPath = "src/main/resources/Rooms";
-                apiUrl = "http://192.168.1.132:8080/api/v1/room";
+                apiUrl = baseUrl + "/api/v1/room";
                 break;
             default:
                 System.err.println("Modo inválido. Usa 'critterons' o 'rooms'.");
@@ -34,7 +37,8 @@ public class Main {
         }
 
         String password = "1234567890qrtweu12h32i3o2nr23kj432mbr23kjeg32kjerg32ody2d8cUSUDAUbefgwfu23kweqhf";
-        String token = getAuthToken(password);
+        String hashedPassword = hashPassword(password); 
+        String token = getAuthToken(hashedPassword, baseUrl);
 
         if (token != null) {
             System.out.println("Token obtenido: " + token);
@@ -51,8 +55,8 @@ public class Main {
         }
     }
 
-    public static String getAuthToken(String password) {
-        String apiUrl = "http://192.168.1.132:8080/api/v1/token?password=" + password;
+    public static String getAuthToken(String hashedPassword, String baseUrl) {
+        String apiUrl = baseUrl + "/api/v1/token?password=" + hashedPassword;
         try {
             URL url = new URL(apiUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -76,6 +80,22 @@ public class Main {
             System.err.println("Error en la solicitud: " + e.getMessage());
         }
         return null;
+    }
+
+    private static String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error generando hash SHA-256", e);
+        }
     }
 
     private static void sendJsonToApi(Path path, String token, String apiUrl) {
