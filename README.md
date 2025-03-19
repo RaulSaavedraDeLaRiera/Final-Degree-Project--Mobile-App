@@ -1,9 +1,18 @@
 # TFG2024-AntonioPRaulS
 ## TFG 2024 - Aplicación Móvil
 
+### Descripción del juego
+
+El juego consiste en ir capturando y mejorando los critterons, unas pequeñas criaturas que alojaremos en nuestro hotel. 
+Para poder obtener nuevos critterons, así como entrenarlos y ampliar nuestras instalaciones, tendremos que desplazarnos mientras luchamos contra otros critterons y visitamos lugares de interes. 
+Los Critterons son criaturas únicas y el principal reclamo del juego, cada una con características propias.  Estos critterons cuentan con salud, estadísticas de ataque y defensa así como ataques especiales que se verán influenciados por el nivel que tengan. 
+
+### Desarrollo
+
+El juego esta desarrollado con el motor de Unity. Además para su uso también se ha desarrollado una API encargada de gestionar la base de datos. Estas usan SpringBoot para la API y MongoDB para la base de datos.
+
+
 ### Gestión de Conexiones Juego - Base de Datos
-
-
 #### Base de datos en MongoDB
 La base de datos se encuentra en MongoDB por lo que si queremos tener la información, tanto en local como a través de la web de MongoDB, deberemos tener definidas una colección previa para que la información pueda ser almacenada. Esta colección la llamaremos "Game", y deberá contener los siguientes directorios:
 
