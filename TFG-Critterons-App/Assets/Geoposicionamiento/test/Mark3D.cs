@@ -5,9 +5,17 @@ using UnityEngine;
 public class Mark3D : MonoBehaviour
 {
     [SerializeField]
-    Transform animationPart;
-    public void Interact(int[] rewards = null)
-    {
+    string markName;
 
+    [SerializeField]
+    Transform animationPart;
+
+    public void SetParams(string name)
+    {
+        markName = name;
+    }
+    public void Interact(InteractMarkBehaviour behaviour, int[] rewards)
+    {
+        behaviour.SetMark(markName, rewards);
     }
 }

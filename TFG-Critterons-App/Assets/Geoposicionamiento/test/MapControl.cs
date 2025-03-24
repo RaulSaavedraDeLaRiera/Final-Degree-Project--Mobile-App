@@ -9,7 +9,7 @@ public class MapControl : MonoBehaviour
 {
     [SerializeField]
     double[] coordenates;
-    List<Coordenate> marksCoordenates = new List<Coordenate>();
+    List<Tuple<string, Coordenate>> marksCoordenates = new List<Tuple<string, Coordenate>>();
     [SerializeField]
     OnlineMaps mapBase;
     [SerializeField]
@@ -22,30 +22,64 @@ public class MapControl : MonoBehaviour
     [SerializeField]
     float maxDistanceToInteractWithPoint = 0.1f;
 
+    [SerializeField]
+    InteractMarkBehaviour markBehaviour;
+
     List<OnlineMapsMarker3D> marks = new List<OnlineMapsMarker3D>();
+
+
+    long timeSinceLastInteract = -1, timeToInteract;
+
+
 
     private void Start()
     {
         CreateMarks();
+        InitTimeCheck();
+
+        markBehaviour.MapControl = this;
+
+    }
+
+    void InitTimeCheck()
+    {
+        //si ya esta inicialziado volvemos
+        if (timeSinceLastInteract >= 0)
+            return;
+
+        //servidor
+        timeSinceLastInteract = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - 10;
+        timeToInteract = 10;
+    }
+
+    void SetLastTimeInteract()
+    {
+        timeSinceLastInteract = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+    }
+
+    void LoadMarks()
+    {
+
     }
 
     void CreateMarks()
     {
 
         //carga de paradas
+        LoadMarks();
 
         for (int i = 0; i < coordenates.Length; i += 2)
         {
-            marksCoordenates.Add(new Coordenate(coordenates[i], coordenates[i + 1]));
+            marksCoordenates.Add(new Tuple<string, Coordenate>("PARADA", new Coordenate(coordenates[i], coordenates[i + 1])));
         }
         //
 
         foreach (var mark in marksCoordenates)
         {
-            var marker3D = 
-                marksManager.Create(mark.x, mark.y, markPrefab);
-                marker3D.scale = defaultScale;
-
+            var marker3D =
+                marksManager.Create(mark.Item2.x, mark.Item2.y, markPrefab);
+            marker3D.scale = defaultScale;
+            marker3D.instance.GetComponent<Mark3D>().SetParams(mark.Item1);
             marks.Add(marker3D);
         }
     }
@@ -61,7 +95,7 @@ public class MapControl : MonoBehaviour
     void TryRaycast()
     {
 
-      
+
 
         // Genera un rayo desde la posición de la cámara hacia la dirección de la vista
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -72,17 +106,19 @@ public class MapControl : MonoBehaviour
         // Realiza el raycast
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            if(hit.collider != null)
+            if (hit.collider != null)
             {
                 // Intenta obtener el componente Mark3D del objeto impactado
                 OnlineMapsMarker3D mark3D = GetMark(hit.collider.gameObject);
 
                 if (mark3D != null)
                 {
-                    // Si el objeto tiene el componente Mark3D
-                    Debug.Log($"Impacto en objeto con Mark3D: {hit.collider.gameObject.name}");
-                    TryInteractWithPoint(mark3D);
-
+                        // Si el objeto tiene el componente Mark3D
+                    if (markBehaviour.Ready() && DateTimeOffset.UtcNow.ToUnixTimeSeconds() > timeSinceLastInteract + timeToInteract)
+                    {
+                        Debug.Log($"Impacto en objeto con Mark3D: {hit.collider.gameObject.name}");
+                        TryInteractWithPoint(mark3D);
+                    }
                 }
                 else
                 {
@@ -104,7 +140,7 @@ public class MapControl : MonoBehaviour
     }
     bool ValidMark(OnlineMapsMarker3D mark)
     {
-       
+
         if (Coordenate.Distance(new Coordenate(mapBase.position.x, mapBase.position.y),
             new Coordenate(mark.position.x, mark.position.y))
             > maxDistanceToInteractWithPoint)
@@ -115,7 +151,7 @@ public class MapControl : MonoBehaviour
 
 
         return true;
-           
+
     }
 
     void TryInteractWithPoint(OnlineMapsMarker3D mark)
@@ -125,11 +161,18 @@ public class MapControl : MonoBehaviour
 
         Debug.Log("Marca interactuada!");
 
+        SetLastTimeInteract();
+
         //obtener las recompensas del servidor y pasarlas
-        mark.instance.GetComponent<Mark3D>().Interact();
+        int[] rewards = { 10 };
+        mark.instance.GetComponent<Mark3D>().Interact(markBehaviour, rewards);
     }
 
- 
+    public void InteractionComplete(int[] rewards)
+    {
+        SetLastTimeInteract();
+        //guardar dinero en servidor y en local
+    }
 
 
 }
