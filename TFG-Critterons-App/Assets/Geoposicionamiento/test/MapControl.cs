@@ -26,6 +26,7 @@ public class MapControl : MonoBehaviour
     InteractMarkBehaviour markBehaviour;
 
     List<OnlineMapsMarker3D> marks = new List<OnlineMapsMarker3D>();
+    List<Mark3D> logicMarks = new List<Mark3D>();
 
 
     long timeSinceLastInteract = -1, timeToInteract;
@@ -79,7 +80,10 @@ public class MapControl : MonoBehaviour
             var marker3D =
                 marksManager.Create(mark.Item2.x, mark.Item2.y, markPrefab);
             marker3D.scale = defaultScale;
-            marker3D.instance.GetComponent<Mark3D>().SetParams(mark.Item1);
+            var logicMark = marker3D.instance.GetComponent<Mark3D>();
+            logicMark.SetParams(mark.Item1);
+
+            logicMarks.Add(logicMark);
             marks.Add(marker3D);
         }
     }
@@ -172,6 +176,12 @@ public class MapControl : MonoBehaviour
     {
         SetLastTimeInteract();
         //guardar dinero en servidor y en local
+
+        //las desactivamos visualmente
+        foreach (var item in logicMarks)
+        {
+            item.DisableMark(timeToInteract);
+        }
     }
 
 

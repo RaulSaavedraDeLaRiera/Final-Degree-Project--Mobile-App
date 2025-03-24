@@ -10,6 +10,11 @@ public class Mark3D : MonoBehaviour
     [SerializeField]
     Transform animationPart;
 
+    [SerializeField]
+    MeshRenderer[] modColor;
+    [SerializeField]
+    Material enableColor, disableColor;
+
     public void SetParams(string name)
     {
         markName = name;
@@ -17,5 +22,28 @@ public class Mark3D : MonoBehaviour
     public void Interact(InteractMarkBehaviour behaviour, int[] rewards)
     {
         behaviour.SetMark(markName, rewards);
+    }
+
+    private void OnDestroy()
+    {
+        CancelInvoke();
+    }
+
+    public void DisableMark(float timeToEnable)
+    {
+        foreach (var item in modColor)
+        {
+            item.material = disableColor;
+            Invoke("EnableMark", timeToEnable);
+        }
+
+    }
+
+    void EnableMark()
+    {
+        foreach (var item in modColor)
+        {
+            item.material = enableColor;
+        }
     }
 }
