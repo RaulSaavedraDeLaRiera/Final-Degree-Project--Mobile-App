@@ -78,4 +78,12 @@ public class GameInfoController {
     public void removeRoom(@PathVariable String roomId) {
         gameInfoService.removeRoom(roomId);
     }
+
+    public void addMark(@PathVariable String markId) {
+        gameInfoService.addMark(markId);
+    }
+
+    public void removeMark(@PathVariable String markId) {
+        gameInfoService.removeMark(markId);
+    }
 }

@@ -173,6 +173,14 @@ public class HotelManager : MonoBehaviour
     async void InitialiceRooms()
     {
         var roomsFromServer = await RequestGameInfo.Instance.GetAllRoomsAsync();
+        var marksWork = await RequestGameInfo.Instance.GetAllMarksAsync();
+
+
+        foreach (var m in marksWork)
+        {
+            Debug.Log("MARKS: " + m.name);
+        }
+
         foreach (var room in roomsFromServer)
         {
             roomPrices.Add(room.price);

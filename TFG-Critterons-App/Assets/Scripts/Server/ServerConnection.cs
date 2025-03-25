@@ -24,6 +24,8 @@ public class ServerConnection : MonoBehaviour
     private I_GameInfo gameInfo = null;
     private List<string> critteronIDs = new List<string>();
     private List<string> roomIDs = new List<string>();
+    private List<string> marksIDs = new List<string>();
+
 
     private I_UserInfo userInfo = null;
     private List<string> userIDs = new List<string>();
@@ -245,6 +247,9 @@ public class ServerConnection : MonoBehaviour
                 foreach (var room in gameInfo.rooms)
                     roomIDs.Add(room.roomID);
 
+                foreach (var mark in gameInfo.marks)
+                    marksIDs.Add(mark.markID);
+
 
                 UnityEngine.Debug.Log("GameInfo init");
                 onSuccess?.Invoke();
@@ -426,6 +431,46 @@ public class ServerConnection : MonoBehaviour
             }
         ));
 
+    }
+
+    public IEnumerator GetMarkByID(string id, Action<I_Mark> callback)
+    {
+
+        //string url = $"http://localhost:8080/api/v1/room/{id}";
+        string url = GetFullURL($"mark/{id}");
+
+        yield return StartCoroutine(SendRequest(url, "GET", null,
+            (response) =>
+            {
+                I_Mark i_mark = JsonUtility.FromJson<I_Mark>(response);
+                callback(i_mark);
+            },
+            (error) =>
+            {
+                UnityEngine.Debug.LogError($"Error fetching mark by ID {id}: {error}");
+                callback(null);
+            }
+        ));
+
+    }
+
+
+    public IEnumerator GetAllMarks(Action<List<I_Mark>> callback)
+    {
+        List<I_Mark> i_marksList = new List<I_Mark>();
+
+        foreach (string id in marksIDs)
+        {
+            yield return StartCoroutine(GetMarkByID(id, (mark) =>
+            {
+                if (mark != null)
+                {
+                    i_marksList.Add(mark);
+                }
+            }));
+        }
+
+        callback(i_marksList);
     }
 
     /// <summary>

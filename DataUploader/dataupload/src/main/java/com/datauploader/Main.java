@@ -12,13 +12,13 @@ public class Main {
     public static void main(String[] args) {
         // Validar argumentos
         if (args.length < 2) {
-            System.err.println("Uso: java -jar dataupload.jar <critterons|rooms> <baseUrl>");
+            System.err.println("Uso: java -jar dataupload.jar <critterons|rooms|marks> <baseUrl>");
             return;
         }
 
         // Determinar modo según argumento
         String mode = args[0].toLowerCase();
-        String baseUrl = args[1].endsWith("/") ? args[1].substring(0, args[1].length() - 1) : args[1]; 
+        String baseUrl = args[1].endsWith("/") ? args[1].substring(0, args[1].length() - 1) : args[1];
         String folderPath;
         String apiUrl;
 
@@ -27,17 +27,21 @@ public class Main {
                 folderPath = "src/main/resources/Critterons";
                 apiUrl = baseUrl + "/api/v1/critteron";
                 break;
+            case "marks":
+                folderPath = "src/main/resources/Marks";
+                apiUrl = baseUrl + "/api/v1/mark";
+                break;
             case "rooms":
                 folderPath = "src/main/resources/Rooms";
                 apiUrl = baseUrl + "/api/v1/room";
                 break;
             default:
-                System.err.println("Modo inválido. Usa 'critterons' o 'rooms'.");
+                System.err.println("Modo inválido. Usa 'critterons', 'rooms' o 'marks' ");
                 return;
         }
 
         String password = "1234567890qrtweu12h32i3o2nr23kj432mbr23kjeg32kjerg32ody2d8cUSUDAUbefgwfu23kweqhf";
-        String hashedPassword = hashPassword(password); 
+        String hashedPassword = hashPassword(password);
         String token = getAuthToken(hashedPassword, baseUrl);
 
         if (token != null) {
@@ -45,8 +49,8 @@ public class Main {
 
             try (Stream<Path> paths = Files.walk(Paths.get(folderPath))) {
                 paths.filter(Files::isRegularFile)
-                     .filter(path -> path.toString().endsWith(".json"))
-                     .forEach(path -> sendJsonToApi(path, token, apiUrl));
+                        .filter(path -> path.toString().endsWith(".json"))
+                        .forEach(path -> sendJsonToApi(path, token, apiUrl));
             } catch (IOException e) {
                 System.err.println("Error leyendo la carpeta: " + e.getMessage());
             }
@@ -89,7 +93,8 @@ public class Main {
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
                 String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
+                if (hex.length() == 1)
+                    hexString.append('0');
                 hexString.append(hex);
             }
             return hexString.toString();

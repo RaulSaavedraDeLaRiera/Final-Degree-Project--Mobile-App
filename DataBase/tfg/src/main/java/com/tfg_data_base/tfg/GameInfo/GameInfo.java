@@ -15,6 +15,7 @@ public class GameInfo {
     private String id = "GAME_INFO_ID";
     private List<Critteron> critterons = new ArrayList<>();
     private List<Room> rooms = new ArrayList<>();
+    private List<Mark> marks = new ArrayList<>();
     private WeekRewards weekRewards;
     private Integer cureTime;
 
@@ -26,6 +27,11 @@ public class GameInfo {
     @Data
     public static class Room {
         private String roomID;
+    }
+
+    @Data
+    public static class Mark {
+        private String markID;
     }
 
     @Data

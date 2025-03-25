@@ -101,6 +101,28 @@ public class RequestGameInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.GetAllRooms(callback));
     }
 
+    public void GetMarkByID(string id, Action<I_Mark> callback)
+    {
+        StartCoroutine(ServerConnection.Instance.GetMarkByID(id, callback));
+    }
+
+    public Task<I_Mark> GetMarkByIDAsync(string markID)
+    {
+        var tcs = new TaskCompletionSource<I_Mark>();
+
+        RequestGameInfo.Instance.GetMarkByID(markID, mark =>
+        {
+            tcs.SetResult(mark);
+        });
+
+        return tcs.Task;
+    }
+
+    public void GetAllMarks(Action<List<I_Mark>> callback)
+    {
+        StartCoroutine(ServerConnection.Instance.GetAllMarks(callback));
+    }
+
     public Task<List<I_Room>> GetAllRoomsAsync()
     {
         var tcs = new TaskCompletionSource<List<I_Room>>();
@@ -108,6 +130,18 @@ public class RequestGameInfo : MonoBehaviour
         GetAllRooms(roomsResult =>
         {
             tcs.SetResult(roomsResult);
+        });
+
+        return tcs.Task;
+    }
+
+    public Task<List<I_Mark>> GetAllMarksAsync()
+    {
+        var tcs = new TaskCompletionSource<List<I_Mark>>();
+
+        GetAllMarks(marksResult =>
+        {
+            tcs.SetResult(marksResult);
         });
 
         return tcs.Task;

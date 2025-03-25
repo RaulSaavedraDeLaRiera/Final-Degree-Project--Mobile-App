@@ -21,6 +21,7 @@ La base de datos se encuentra en MongoDB por lo que si queremos tener la informa
   - Room
   - User
   - UserInfo
+  - Mark
 
 #### Conexión cliente - API
 Las conexiones del juego con el servidor se gestionan mediante una **API**. La ruta para acceder a esta API es **modificable**, y para ello, solo necesitas acceder al archivo `server_config.json` dentro de la carpeta `./Assets/Resources`del proyecto de Unity.
@@ -60,7 +61,7 @@ La base de datos a la que ataca la API pueden ser definidas dinámicamente. Para
 
 Existen datos que el juego debe de tener en un inicio para poder jugarse (los critterons y las habitaciones). Por ello, para facilitar la subida de estos datos, esta el proyecto "DataUploader". Lo que tendremos que hacer en este es ejecutar el .jar dependiendo de lo que queramos conseguir. Tendremos que pasarle dos parametros:
   
-  - El primero tomará los valores de critteron o rooms. De esta manera subiremos los datos del tipo seleccionado.
+  - El primero tomará los valores de critteron/rooms/marks. De esta manera subiremos los datos del tipo seleccionado.
   - El segundo parametro será el inicio de la llamada http. Es decir definir donde esta alojada la API.
 
 Un ejemplo podría ser:

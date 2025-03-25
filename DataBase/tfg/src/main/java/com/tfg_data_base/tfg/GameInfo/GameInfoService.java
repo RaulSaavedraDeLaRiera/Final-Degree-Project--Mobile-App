@@ -75,9 +75,31 @@ public class GameInfoService {
         }
     }
 
+    public void addMark(String markID) {
+        GameInfo gameInfo = getGameInfo();
+
+        boolean exists = gameInfo.getMarks().stream()
+                .anyMatch(mark -> mark.getMarkID().equals(markID));
+
+        if (!exists) {
+            GameInfo.Mark newMark = new GameInfo.Mark();
+            newMark.setMarkID(markID);
+            gameInfo.getMarks().add(newMark);
+            gameInfoRepository.save(gameInfo);
+        } else {
+            System.out.println("Mark with ID " + markID + " already exists in the data base");
+        }
+    }
+
     public void removeCritteron(String critteronID) {
         GameInfo gameInfo = getGameInfo();
         gameInfo.getCritterons().removeIf(critteron -> critteron.getCritteronID().equals(critteronID));
+        gameInfoRepository.save(gameInfo);
+    }
+
+    public void removeMark(String markID) {
+        GameInfo gameInfo = getGameInfo();
+        gameInfo.getMarks().removeIf(mark -> mark.getMarkID().equals(markID));
         gameInfoRepository.save(gameInfo);
     }
 
