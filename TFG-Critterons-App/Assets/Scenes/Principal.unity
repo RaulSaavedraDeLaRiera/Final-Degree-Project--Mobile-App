@@ -2199,6 +2199,8 @@ MonoBehaviour:
   - 40.404328361035
   - -3.69995096562072
   - 40.5987703288476
+  - -3.6921279
+  - 40.4137815
   mapBase: {fileID: 1130100322}
   marksManager: {fileID: 1130100321}
   markPrefab: {fileID: 5103665759902865336, guid: 91eec7f41bb3d5a4cbaabf9a87dd639f,
@@ -2224,6 +2226,8 @@ MonoBehaviour:
   enterTime: 1
   animationTime: 2
   animationSpeed: 5
+  enterSound: {fileID: 0}
+  interactSound: {fileID: 0}
 --- !u!1 &2053576824
 GameObject:
   m_ObjectHideFlags: 0

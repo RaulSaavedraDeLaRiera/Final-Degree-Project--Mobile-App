@@ -3306,6 +3306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337735246d1813d4e81284e76071dfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  configAsset: {fileID: 4900000, guid: eac0c691a60104e4ca3b5f009d9bf350, type: 3}
 --- !u!4 &1792244558
 Transform:
   m_ObjectHideFlags: 0

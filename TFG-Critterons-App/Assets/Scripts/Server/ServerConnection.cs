@@ -35,6 +35,8 @@ public class ServerConnection : MonoBehaviour
     private ServerConfig config;
     private string configPath;
 
+    public TextAsset configAsset;
+
     public static ServerConnection Instance
     {
         get
@@ -63,24 +65,27 @@ public class ServerConnection : MonoBehaviour
 
     private void LoadConfig()
     {
-        configPath = Path.Combine(Application.persistentDataPath, "server_config.json");
+        //configPath = Path.Combine(Application.persistentDataPath, "server_config.json");
+        //if (System.IO.File.Exists(configPath))
 
-        if (System.IO.File.Exists(configPath))
+        if(configAsset != null)
         {
+           
+            UnityEngine.Debug.Log(configAsset.text);
             UnityEngine.Debug.Log("Archivo de configuración encontrado");
-            UnityEngine.Debug.Log(Application.persistentDataPath);
-            string json = System.IO.File.ReadAllText(configPath);
+            //string json = System.IO.File.ReadAllText(configPath);
+            string json = configAsset.text;
             config = JsonUtility.FromJson<ServerConfig>(json);
         }
         else
         {
             UnityEngine.Debug.Log("Archivo de configuración no encontrado");
 
-            config = new ServerConfig { baseURL = "http://192.168.1.132", port = "8080", apiVersion = "v1/" };
+            config = new ServerConfig { baseURL = "https://tfg2024-api.onrender.com", port = "", apiVersion = "v1/" };
             System.IO.File.WriteAllText(configPath, JsonUtility.ToJson(config, true));
         }
 
-        CheckLocalRoute();
+        //CheckLocalRoute();
     }
 
     private string GetFullURL(string endpoint)
@@ -91,7 +96,10 @@ public class ServerConnection : MonoBehaviour
         if (!string.IsNullOrEmpty(config.port))
             fullURL += $":{config.port}";
 
-        return $"{fullURL}/api/{config.apiVersion}{endpoint}";
+        string route = $"{fullURL}/api/{config.apiVersion}/{endpoint}";
+        UnityEngine.Debug.Log(route);
+
+        return route;
     }
 
     void CheckLocalRoute()
