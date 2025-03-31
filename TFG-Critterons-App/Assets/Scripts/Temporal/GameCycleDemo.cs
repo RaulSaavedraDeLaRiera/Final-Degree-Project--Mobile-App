@@ -52,7 +52,7 @@ public class GameCycleDemo : MonoBehaviour
                 nextCombatTime = Random.Range(minTimeNextcombat, maxTimeNextCombat);
                 break;
             case CombatTriggerSystem.steps:
-                stepCounter = GetComponent<StepCounterV2>();
+                stepCounter = GameObject.Find("InfoManager").GetComponent<StepCounterV2>();
                 break;
         }
     }
