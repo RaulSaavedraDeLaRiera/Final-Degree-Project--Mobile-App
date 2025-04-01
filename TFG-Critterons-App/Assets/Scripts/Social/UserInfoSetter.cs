@@ -103,6 +103,9 @@ public class UserInfo : MonoBehaviour
             {
                 foreach (var critteronInfo in critteronsUserList)
                 {
+                    if (critteron == null || critteronsRoot == null)
+                        break;
+
                     GameObject newCritteron = Instantiate(critteron, critteronsRoot.transform);
 
                     ButtonSocial b = newCritteron.GetComponent<ButtonSocial>();
