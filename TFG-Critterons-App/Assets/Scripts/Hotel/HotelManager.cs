@@ -15,6 +15,8 @@ public class HotelManager : MonoBehaviour
 
     [SerializeField]
     Canvas canvas;
+    [SerializeField]
+    WaitingAnimation waitingAnimation;
 
     List<RoomInfo> rooms = new List<RoomInfo>();
     List<CritteronCombat> userCritterons;
@@ -28,11 +30,12 @@ public class HotelManager : MonoBehaviour
 
     int money;
 
+
     void Awake()
     {
 
 
-    
+
         RoomInfo room;
 
         for (int i = 0; i < roomsRoot.childCount; i++)
@@ -62,8 +65,7 @@ public class HotelManager : MonoBehaviour
             name.text = userData.name;
         });
 
-        InitialiceRooms();
-        InitialiceCritterons();
+        InitHotel();
     }
 
     public void AddObject(HotelObject hotelObject, HotelObjectType typeObject)
@@ -170,7 +172,18 @@ public class HotelManager : MonoBehaviour
 
     }
 
-    async void InitialiceRooms()
+    async void InitHotel()
+    {
+        await Task.WhenAll(
+       InitialiceRooms(),
+       InitialiceCritterons()
+        );
+
+        if (waitingAnimation != null)
+            waitingAnimation.Hide(1);
+    }
+
+    async Task InitialiceRooms()
     {
         var roomsFromServer = await RequestGameInfo.Instance.GetAllRoomsAsync();
         var marksWork = await RequestGameInfo.Instance.GetAllMarksAsync();
@@ -195,7 +208,7 @@ public class HotelManager : MonoBehaviour
     }
 
 
-    async void InitialiceCritterons()
+    async Task InitialiceCritterons()
     {
         var listUserCritterons = await RequestUserInfo.Instance.GetUserCritteronsAsync();
 

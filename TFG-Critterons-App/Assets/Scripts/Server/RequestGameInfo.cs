@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -79,19 +80,33 @@ public class RequestGameInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.GetRoomByID(id, callback));
     }
 
-  
 
-    public Task<I_Room> GetRoomByIDAsync(string roomID)
+
+    public Task<I_Room> GetRoomByIDAsync(string roomID, CancellationTokenSource cts = null)
     {
         var tcs = new TaskCompletionSource<I_Room>();
 
+        // Si hay un CancellationToken, registramos la cancelación
+        cts?.Token.Register(() =>
+        {
+            tcs.TrySetCanceled(); // Cancelamos la tarea si el token lo indica
+        });
+
         RequestGameInfo.Instance.GetRoomByID(roomID, room =>
         {
-            tcs.SetResult(room);
+            // Verificamos si la tarea ya fue cancelada antes de completar el resultado
+            if (cts?.Token.IsCancellationRequested == true)
+            {
+                tcs.TrySetCanceled();
+                return;
+            }
+
+            tcs.TrySetResult(room);
         });
 
         return tcs.Task;
     }
+
 
     /// <summary>
     /// Obtener todos los room

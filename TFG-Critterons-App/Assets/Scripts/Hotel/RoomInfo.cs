@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class RoomInfo : MonoBehaviour
@@ -13,7 +14,7 @@ public class RoomInfo : MonoBehaviour
     HotelObjectType typeHotelRoom;
     [SerializeField]
     float valueRoom;
-    
+
     [SerializeField]
     float percentRoom;
 
@@ -62,6 +63,18 @@ public class RoomInfo : MonoBehaviour
 
     public bool Bought => bought;
 
+    private CancellationTokenSource _cts;
+
+    void OnEnable()
+    {
+        _cts = new CancellationTokenSource();  // Crear un nuevo token cuando el objeto se activa
+    }
+
+    void OnDisable()
+    {
+        _cts.Cancel(); // Cancelar cualquier operación en curso si el objeto se desactiva o destruye
+    }
+
     void Start()
     {
         entryPointToCritterons.Room = this;
@@ -69,25 +82,39 @@ public class RoomInfo : MonoBehaviour
     //List<string> boughtRoomsID, List<string> boughtObjectsID, HotelManager hM
     async public void InitialiceRoom(List<string> boughtRoomsID, HotelManager hM)
     {
-        // Obtengo la room con la info
-        var room = await RequestGameInfo.Instance.GetRoomByIDAsync(gameObject.name);
-        nameRoom = room.name;
-        valueRoom = room.price;
-        percentRoom = room.percent;
+        if (_cts.Token.IsCancellationRequested) return;  // Si se canceló antes de empezar, salir
 
-        if (boughtRoomsID.Contains(gameObject.name))
+        try
         {
-            bought = true;
-            foreach (var item in rooms)
-            {
-                item.InitialiceObject(this, hM);
-            }
-            nonBoughtCube.SetActive(false);
-        }
+            // Obtener la información de la habitación
+            var room = await RequestGameInfo.Instance.GetRoomByIDAsync(gameObject.name, _cts);
 
-        else
-            nonBoughtCube.SetActive(true);
+            if (_cts.Token.IsCancellationRequested || this == null || gameObject == null) return; // Verificar si fue destruido
+
+            nameRoom = room.name;
+            valueRoom = room.price;
+            percentRoom = room.percent;
+
+            if (boughtRoomsID.Contains(gameObject.name))
+            {
+                bought = true;
+                foreach (var item in rooms)
+                {
+                    item.InitialiceObject(this, hM);
+                }
+                nonBoughtCube.SetActive(false);
+            }
+            else
+            {
+                nonBoughtCube.SetActive(true);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            Debug.Log("?? Request cancelled because object was destroyed.");
+        }
     }
+
 
     public void InitialiceRoom(HotelManager hM)
     {

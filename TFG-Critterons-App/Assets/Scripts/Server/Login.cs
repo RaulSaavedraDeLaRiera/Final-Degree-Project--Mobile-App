@@ -18,6 +18,8 @@ public class Login : MonoBehaviour
     [SerializeField]
     private Canvas canvasNewUser;
 
+    const string initScene = "Principal";
+
     private void Awake()
     {
         SetCanvasActive(canvasNewUser, false);
@@ -66,7 +68,7 @@ public class Login : MonoBehaviour
 
                             RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
                             loadingSpinner.SetActive(false);
-                            SceneManager.LoadScene("Hotel");
+                            SceneManager.LoadScene(initScene);
                         }
                     });
 
@@ -111,7 +113,7 @@ public class Login : MonoBehaviour
     {
         yield return new WaitForSeconds(4);
         loadingSpinner.SetActive(false);
-        SceneManager.LoadScene("Hotel");
+        SceneManager.LoadScene(initScene);
     }
 
     private Task<bool> LoginAsync(string mail, string password)
