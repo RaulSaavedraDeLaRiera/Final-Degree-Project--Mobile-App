@@ -22,6 +22,10 @@ public class StepCounterV2 : MonoBehaviour
     void Start()
     {
 #if UNITY_ANDROID
+
+        PlayerPrefs.SetInt("LastCombatSteps", 0);
+        PlayerPrefs.Save();
+
         // Pedir permisos de detecci?n de actividad (necesario en Android 10+)
         if (!Permission.HasUserAuthorizedPermission("android.permission.ACTIVITY_RECOGNITION"))
         {

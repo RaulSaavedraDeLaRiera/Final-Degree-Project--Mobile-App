@@ -57,12 +57,16 @@ public class HotelManager : MonoBehaviour
         Transform nameText = nameBar.transform.Find("NameText");
         TextMeshProUGUI name = nameText.GetComponentInChildren<TextMeshProUGUI>();
 
+        Transform levelText = nameBar.transform.Find("UserIcon");
+        TextMeshProUGUI levelTextC = levelText.GetComponentInChildren<TextMeshProUGUI>();
+
         RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userData =>
         {
             money = userData.money;
             moneyText.text = money.ToString();
 
             name.text = userData.name;
+            levelTextC.text = userData.level.ToString();
         });
 
         InitHotel();

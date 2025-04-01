@@ -20,13 +20,17 @@ public class GameCycleDemo : MonoBehaviour
 
     StepCounterV2 stepCounter;
     int stepCountInLastCombat = 0;
+    int stepsInLastCombat = 0;
 
     private void Start()
     {
-
-        //RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
-
         CombatCycle();
+
+        if (PlayerPrefs.HasKey("LastCombatSteps"))
+        {
+            stepsInLastCombat = PlayerPrefs.GetInt("LastCombatSteps");
+            nextCombatInfoText.text += "\nLAST COMBAT: " + stepsInLastCombat.ToString() + " STEPS";
+        }
     }
 
     private void Update()
@@ -72,18 +76,16 @@ public class GameCycleDemo : MonoBehaviour
 
     void StepTriggerUpdate()
     {
-        int steps = stepCounter.Steps - stepCountInLastCombat;
+        int steps = stepCounter.Steps - stepsInLastCombat;
 
-        //Debug.Log("Steps: " + steps.ToString());
-
-        if(steps >= stepsToCombat)
+        if (steps >= (stepsToCombat + stepsInLastCombat))
         {
-            nextCombatInfoText.text = "FIGHT! " + steps.ToString();
+            Debug.Log("A LUCHAR " + (stepsToCombat + stepsInLastCombat) + " " + steps);
+            nextCombatInfoText.text = "FIGHT!";
             canAttack = true;
         }
         else
             nextCombatInfoText.text = "NEXT COMBAT IN: " + (stepsToCombat - steps).ToString() + " STEPS";
-
     }
 
     public void LoadCombat()
@@ -91,10 +93,12 @@ public class GameCycleDemo : MonoBehaviour
         if (canAttack)
         {
             canAttack = false;
+            PlayerPrefs.SetInt("LastCombatSteps", stepCounter.Steps);
+            PlayerPrefs.Save();
+
             SceneManager.LoadScene("Combat");
         }
     }
 
     enum CombatTriggerSystem { time, steps }
 }
-
