@@ -57,7 +57,7 @@ public class CombatManager : MonoBehaviour
         var userdata = await RequestUserInfo.Instance.GetUserDataAsync(userId);
         user = userdata;
         idCritteronCurrent = userdata.currentCritteron;
-       
+
 
         var critteron = await RequestUserInfo.Instance.GetUserCritteronsByIDAsync(userId, idCritteronCurrent);
         var critteronGame = await RequestGameInfo.Instance.GetCritteronByIDAsync(idCritteronCurrent);
@@ -78,7 +78,7 @@ public class CombatManager : MonoBehaviour
 
         var critterons = await RequestGameInfo.Instance.GetAllCritteronAsync();
 
-      
+
         List<I_Critteron> list = new List<I_Critteron>();
         foreach (var crit in critterons)
         {
@@ -374,8 +374,8 @@ public class CombatManager : MonoBehaviour
                             lvl++;
                         }
                         RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), user.currentCritteron, exp: exp, level: lvl);
+                        SceneManager.LoadScene("NewLevel");
                     });
-                    SceneManager.LoadScene("NewLevel");
                 }
                 else
                 {

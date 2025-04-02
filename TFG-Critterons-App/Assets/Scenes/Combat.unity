@@ -237,7 +237,7 @@ MonoBehaviour:
   effectsDuration: 0.8
   autoAttack: 1
   combatType: 0
-  waitingScreen: {fileID: 0}
+  waitingScreen: {fileID: 2104755296}
   allyCritteronsPos:
   - {fileID: 1974472978}
   - {fileID: 583487774}
@@ -15754,6 +15754,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3e55e3844a80774089a19290f3abdf8, type: 3}
+--- !u!114 &2104755296 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 367424611828127681, guid: a3e55e3844a80774089a19290f3abdf8,
+    type: 3}
+  m_PrefabInstance: {fileID: 2104755295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822af6bbaac9e994e8c7a4eca63fdf45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2126504668336880165
 PrefabInstance:
   m_ObjectHideFlags: 0
