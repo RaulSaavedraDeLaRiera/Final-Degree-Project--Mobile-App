@@ -18,7 +18,7 @@ public class ButtonActions : MonoBehaviour
     bool startsEnable = false;
 
 
-    Vector3 scale, position;
+    Vector3 scale, position; 
     private void Start()
     {
         scale = transform.localScale;

@@ -12,16 +12,37 @@ Los Critterons son criaturas únicas y el principal reclamo del juego, cada una 
 El juego esta desarrollado con el motor de Unity. Además para su uso también se ha desarrollado una API encargada de gestionar la base de datos. Estas usan SpringBoot para la API y MongoDB para la base de datos.
 
 
-### Gestión de Conexiones Juego - Base de Datos
-#### Base de datos en MongoDB
-La base de datos se encuentra en MongoDB por lo que si queremos tener la información, tanto en local como a través de la web de MongoDB, deberemos tener definidas una colección previa para que la información pueda ser almacenada. Esta colección la llamaremos "Game", y deberá contener los siguientes directorios:
+## Despligue de API y juego
 
-  - Critteron
-  - GameInfo
-  - Room
-  - User
-  - UserInfo
-  - Mark
+#### Base de datos en MongoDB
+
+La base de datos se que se usa en el proyecto es **MongoDB**. Por ello que si queremos tener y usar la API ya desarrollada modificando lo mínimo se recomienda su uso. A través de MongoDB podremos tener los datos tanto en un entorno local o en línea. A continuación se hara una guía con los pasos que hay que seguir para configuración de esta base de datos. La guía se hará para tener los datos en local, pero se irán comentando las diferencias que tendremos que realizar si queremos que los datos estén linea.
+
+Para mayor facilidad se recomienda la instalación de **MongoDB Compass**, que nos permite ver de una manera muy sencilla las conexiones que tenemos.
+
+Primero tendremos que crear una nueva conexión y configurarla:
+Si nos encontramos en MongoDB Compass tendremos que darle al boton que nos permite crear una nueva conexión:
+
+![alt text](image-1.png)
+
+Y tras esto nos saldrá la siguiente pantalla:
+
+![alt text](image-2.png)
+
+En la URI deberemos poner o localhost con el puerto que se nos indica si vamos a querer los datos en local o la URI que nos proporciona MongoDB si queremos una base de datos en linea. En el segundo caso deberemos crearla desde la web de MongoDB. Al crear el cluster desde la web nos da la opción de poder vincularlo con MongoDB Compass, proporcionandonos la informacion que deberemos poner en la URI.
+
+Una vez configurada deberemos dar a "Save & Connect".
+
+Tras esto, podemos crear dentro de esa conexión la base de datos llamada "Game". Esta contendrá los siguientes directorios:
+
+      - Critteron
+      - GameInfo
+      - Room
+      - User
+      - UserInfo
+      - Mark
+
+En caso de no crearlas manualmente estas se crearán de manera automatica al insertar un dato.
 
 #### Conexión cliente - API
 Las conexiones del juego con el servidor se gestionan mediante una **API**. La ruta para acceder a esta API es **modificable**, y para ello, solo necesitas acceder al archivo `server_config.json` dentro de la carpeta `./Assets/Resources`del proyecto de Unity.
@@ -44,9 +65,13 @@ La base de datos a la que ataca la API pueden ser definidas dinámicamente. Para
 
 1. Abrimos una consola como administrador, recomendamos situarnos en el directorio `DataBase\apiDinamica`.
 2. Creamos variables de entorno.
-     - Si es una base de datos en remoto: definimos _MONGODB_URI_ y le asignamos la url de la base de datos.
+     - Si es una base de datos en línea: definimos _MONGODB_URI_ y le asignamos la url de la base de datos.
      - Si es una base de datos en local: definimos _MONGO_HOST_ y _MONGO_PORT_ y le asignamos el host y el puerto correspondientes.
-3. Lanzamos el (nombre-jar-remoto).jar o (nombre-jar-local).jar según si lo hemos configurado para remoto o local respectivamente.
+3. Lanzamos el (nombre-jar-línea).jar o (nombre-jar-local).jar según si lo hemos configurado para línea o local respectivamente.
+
+Para generar un .jar usamos **Maven**, a través del siguiente comando por PowerShell: mvn clean package.
+
+Y para ejecutar el .jar usamos:  java -jar nombre.jar 
 
 **Definición guiada**:
 
@@ -59,7 +84,7 @@ La base de datos a la que ataca la API pueden ser definidas dinámicamente. Para
 
 #### Datos estáticos del juego
 
-Existen datos que el juego debe de tener en un inicio para poder jugarse (los critterons y las habitaciones). Por ello, para facilitar la subida de estos datos, esta el proyecto "DataUploader". Lo que tendremos que hacer en este es ejecutar el .jar dependiendo de lo que queramos conseguir. Tendremos que pasarle dos parametros:
+Existen datos que el juego debe de tener en un inicio para poder jugarse (los critterons, las habitaciones y las marks). Por ello, para facilitar la subida de estos datos, está el proyecto "DataUploader". Lo que tendremos que hacer en este es ejecutar el .jar dependiendo de lo que queramos conseguir. Tendremos que pasarle dos parametros:
   
   - El primero tomará los valores de critteron/rooms/marks. De esta manera subiremos los datos del tipo seleccionado.
   - El segundo parametro será el inicio de la llamada http. Es decir definir donde esta alojada la API.
