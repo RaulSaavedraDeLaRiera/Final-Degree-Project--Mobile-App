@@ -93,8 +93,8 @@ public class GameCycleDemo : MonoBehaviour
         if (canAttack)
         {
             canAttack = false;
-            PlayerPrefs.SetInt("LastCombatSteps", stepCounter.Steps);
-            PlayerPrefs.Save();
+           // PlayerPrefs.SetInt("LastCombatSteps", stepCounter.Steps);
+           // PlayerPrefs.Save();
 
             SceneManager.LoadScene("Combat");
         }

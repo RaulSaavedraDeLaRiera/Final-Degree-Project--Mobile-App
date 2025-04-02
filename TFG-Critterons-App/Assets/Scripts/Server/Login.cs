@@ -50,11 +50,13 @@ public class Login : MonoBehaviour
 
                     RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userdata =>
                     {
-                        //Nuevo usuario
                         if (userdata.currentCritteron == "")
                         {
                             RequestGameInfo.Instance.GetCritteronByID("67cdbaeb9efa2340c96eecc4", critteron =>
                             {
+
+                                PlayerPrefs.SetString("CurrentCritteronID", "67cdbaeb9efa2340c96eecc4");
+                                PlayerPrefs.Save();
                                 RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "67cdbaeb9efa2340c96eecc4", currentLife: critteron.life, level: 1);
                                 RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: "67cdbaeb9efa2340c96eecc4", level: 1, money: 100);
                                 RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
@@ -65,6 +67,10 @@ public class Login : MonoBehaviour
                         }
                         else
                         {
+
+                            PlayerPrefs.SetString("CurrentCritteronID", userdata.currentCritteron);
+                            PlayerPrefs.Save();
+
 
                             RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
                             loadingSpinner.SetActive(false);

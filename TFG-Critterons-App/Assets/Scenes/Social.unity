@@ -2880,6 +2880,11 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4467788214095113054, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4510814743308871661, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2984,6 +2989,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RankingInfo (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160551365148665283, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -34
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160551365148665283, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5246,6 +5261,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RankingInfo (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8076276314053331882, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8160551365148665283, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -5575,6 +5595,11 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4467788214095113054, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4510814743308871661, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
         type: 3}
       propertyPath: m_Pivot.x
@@ -5679,6 +5704,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RankingInfo (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160551365148665283, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -33.999985
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160551365148665283, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -3.999939
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7085,6 +7120,11 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4467788214095113054, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4510814743308871661, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
         type: 3}
       propertyPath: m_Pivot.x
@@ -7189,6 +7229,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RankingInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160551365148665283, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -33.99994
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160551365148665283, guid: 8fa6e3bf8a5c2734aa76eeee0c2320fd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -3.999939
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -146,11 +146,12 @@ public class HotelManager : MonoBehaviour
 
     public void TryBuyRoom(RoomInfo targetRoom, ButtonActions button)
     {
-
+        Debug.Log("compro?");
         if (targetRoom.Bought)
             return;
 
         int index = -1;
+        Debug.Log("lo intento");
 
         for (int i = 0; i < rooms.Count; i++)
             if (rooms[i] == targetRoom)
@@ -159,10 +160,14 @@ public class HotelManager : MonoBehaviour
                 break;
             }
 
+        Debug.Log("dinero?");
+
         if (money < roomPrices[index])
             return;
 
         money -= roomPrices[index];
+
+        Debug.Log("tengo");
 
         //guardar en servidor
         RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), money: money);

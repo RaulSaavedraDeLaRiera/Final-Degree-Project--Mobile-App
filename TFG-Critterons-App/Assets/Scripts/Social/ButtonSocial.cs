@@ -19,8 +19,10 @@ public class ButtonSocial : MonoBehaviour
     public void SetCurrentCritteron()
     {
         RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: idCritteron);
+        PlayerPrefs.SetString("CurrentCritteronID", idCritteron);
+        PlayerPrefs.Save();
 
-        if(critteronInfo != null)
+        if (critteronInfo != null)
         {
             Transform healthC = critteronInfo.transform.Find("Health");
             Transform levelC = critteronInfo.transform.Find("Level");

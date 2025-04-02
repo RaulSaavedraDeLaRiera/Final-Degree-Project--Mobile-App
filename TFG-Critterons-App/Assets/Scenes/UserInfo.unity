@@ -3602,6 +3602,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CurrentCritteron
       objectReference: {fileID: 0}
+    - target: {fileID: 1470421945831986379, guid: c06363fed30c52048b4747fdc5f8d1ad,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1816208269175328139, guid: c06363fed30c52048b4747fdc5f8d1ad,
         type: 3}
       propertyPath: m_LocalScale.x

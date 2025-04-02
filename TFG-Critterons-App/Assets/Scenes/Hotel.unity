@@ -12102,6 +12102,48 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_text
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d6d196dc70b79b40bbf0b61df22fc81,
+        type: 2}
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.5698112
+      objectReference: {fileID: 0}
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.4284869
+      objectReference: {fileID: 0}
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.17524378
+      objectReference: {fileID: 0}
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 1832999303561825259, guid: 0d6d196dc70b79b40bbf0b61df22fc81,
+        type: 2}
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4287720749
+      objectReference: {fileID: 0}
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 519264227055859659, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
       propertyPath: m_IsActive
@@ -12127,6 +12169,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1780865106901569853, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.7965
       objectReference: {fileID: 0}
     - target: {fileID: 1887065267078891614, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
@@ -26436,6 +26483,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WaitingScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 6983662332218344928, guid: a3e55e3844a80774089a19290f3abdf8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

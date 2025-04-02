@@ -15,14 +15,18 @@ public class CritteronMapController : MonoBehaviour
 
     void Start()
     {
-        //setear esta variable cuando se cambie critteron principal
-        var visual = visualRoot.Find(PlayerPrefs.GetString("currentCritteron"));
-
-        if (visual != null)
+        RequestGameInfo.Instance.GetCritteronByID(PlayerPrefs.GetString("CurrentCritteronID"), critteron =>
         {
-            animator = visual.GetComponent<Animator>();
-            visual.gameObject.SetActive(true);
-        }
+            var visual = visualRoot.Find(critteron.name);
+
+            if (visual != null)
+            {
+                animator = visual.GetComponent<Animator>();
+                visual.gameObject.SetActive(true);
+            }
+        });
+
+
     }
 
     // Update is called once per frame

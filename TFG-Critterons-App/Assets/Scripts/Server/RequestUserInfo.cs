@@ -73,7 +73,6 @@ public class RequestUserInfo : MonoBehaviour
                     {
                         PlayerPrefs.SetString("UserID", id);
                         PlayerPrefs.Save();
-                        Debug.Log($"ID USER: {id}");
                     }
                     else
                     {

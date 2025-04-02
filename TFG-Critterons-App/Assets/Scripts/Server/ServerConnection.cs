@@ -97,7 +97,6 @@ public class ServerConnection : MonoBehaviour
             fullURL += $":{config.port}";
 
         string route = $"{fullURL}/api/{config.apiVersion}/{endpoint}";
-        UnityEngine.Debug.Log(route);
 
         return route;
     }
