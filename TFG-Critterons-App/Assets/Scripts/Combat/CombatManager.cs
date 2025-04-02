@@ -17,6 +17,9 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     CombatType combatType;
 
+    [SerializeField]
+    WaitingAnimation waitingScreen;
+
 
     string idCritteronCurrent;
     I_User.UserData user;
@@ -75,6 +78,7 @@ public class CombatManager : MonoBehaviour
 
         var critterons = await RequestGameInfo.Instance.GetAllCritteronAsync();
 
+      
         List<I_Critteron> list = new List<I_Critteron>();
         foreach (var crit in critterons)
         {
@@ -100,6 +104,7 @@ public class CombatManager : MonoBehaviour
                 list[randomIndex].defense,
                 null
             );
+
 
             StartCombat(experiencieExtra, crittteronsInfo);
         }
@@ -133,6 +138,10 @@ public class CombatManager : MonoBehaviour
 
     void StartCombat(float experiencieExtra, CritteronCombatInfo[] crittteronsInfo)
     {
+
+        if (waitingScreen != null)
+            waitingScreen.Hide();
+
         coldownSpecialAttack *= 1;
         experiencePerCombat += experiencieExtra;
 

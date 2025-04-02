@@ -1499,6 +1499,8 @@ public class OnlineMaps : MonoBehaviour, ISerializationCallbackReceiver, IOnline
 
     private void UpdateBottonRightPosition()
     {
+
+
         int countX = width / OnlineMapsUtils.tileSize;
         int countY = height / OnlineMapsUtils.tileSize;
 

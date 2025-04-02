@@ -5,6 +5,8 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.Timeline;
 
+using System.Threading.Tasks;
+
 public class MapControl : MonoBehaviour
 {
     [SerializeField]
@@ -58,22 +60,30 @@ public class MapControl : MonoBehaviour
         timeSinceLastInteract = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
     }
 
-    void LoadMarks()
+    async Task LoadMarks()
     {
+        var marksWork = await RequestGameInfo.Instance.GetAllMarksAsync();
 
+
+        foreach (var m in marksWork)
+        {
+            Debug.Log("MARKS: " + m.name);
+            marksCoordenates.Add(new Tuple<string, Coordenate>(m.name, new Coordenate(m.x, m.y)));
+        }
     }
 
-    void CreateMarks()
+    async void CreateMarks()
     {
 
         //carga de paradas
-        LoadMarks();
+        await LoadMarks();
 
+        /*
         for (int i = 0; i < coordenates.Length; i += 2)
         {
             marksCoordenates.Add(new Tuple<string, Coordenate>("PARADA", new Coordenate(coordenates[i], coordenates[i + 1])));
         }
-        //
+        */
 
         foreach (var mark in marksCoordenates)
         {
@@ -117,7 +127,7 @@ public class MapControl : MonoBehaviour
 
                 if (mark3D != null)
                 {
-                        // Si el objeto tiene el componente Mark3D
+                    // Si el objeto tiene el componente Mark3D
                     if (markBehaviour.Ready() && DateTimeOffset.UtcNow.ToUnixTimeSeconds() > timeSinceLastInteract + timeToInteract)
                     {
                         Debug.Log($"Impacto en objeto con Mark3D: {hit.collider.gameObject.name}");

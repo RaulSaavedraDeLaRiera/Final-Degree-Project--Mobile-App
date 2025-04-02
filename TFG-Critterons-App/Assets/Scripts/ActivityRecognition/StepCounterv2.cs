@@ -19,6 +19,8 @@ public class StepCounterV2 : MonoBehaviour
 
     public int Steps => currentSteps;
 
+    public static bool stepCounterWorking;
+
     void Start()
     {
 #if UNITY_ANDROID
@@ -48,11 +50,14 @@ public class StepCounterV2 : MonoBehaviour
             initialSteps = StepCounter.current.stepCounter.ReadValue();
             Debug.Log("Initial steps: " + initialSteps.ToString());
 
+            stepCounterWorking = true;
+
             InvokeRepeating(nameof(CheckSteps), 40f, 40f);
 
         }
         else
         {
+            stepCounterWorking = false;
             Debug.LogWarning("Sensor de pasos no encontrado en este dispositivo.");
         }
 #endif
