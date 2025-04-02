@@ -12,20 +12,23 @@ public class CritteronMapController : MonoBehaviour
     GameObject plataform;
     [SerializeField]
     bool lookAtCamera;
-    
+
     void Start()
     {
         //setear esta variable cuando se cambie critteron principal
-        var visual = visualRoot.Find(PlayerPrefs.GetString("currentCritteron", "Toadstool"));
-        animator = visual.GetComponent<Animator>();
-        visual.gameObject.SetActive(true);
-        
+        var visual = visualRoot.Find(PlayerPrefs.GetString("currentCritteron"));
+
+        if (visual != null)
+        {
+            animator = visual.GetComponent<Animator>();
+            visual.gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(plataform != null && lookAtCamera)
+        if (plataform != null && lookAtCamera)
         {
             Vector3 direction = Camera.main.transform.position - transform.position;
             direction.y = 0; // Mantiene el objeto recto
