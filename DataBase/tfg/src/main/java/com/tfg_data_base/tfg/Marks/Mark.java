@@ -10,7 +10,7 @@ public class Mark {
     @Id
     private String id;
     private String name;
-    private Long x;
-    private Long y;
+    private Double x;
+    private Double y;
 
 }
