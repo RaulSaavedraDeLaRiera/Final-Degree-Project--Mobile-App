@@ -340,11 +340,13 @@ public class CombatManager : MonoBehaviour
 
         turn++;
         attackSelected = AttackSelected.none;
+        AudioManager.m.Hit();
     }
 
     void EndCombat(bool win)
     {
         combatUI.ResetAttacks(true);
+        AudioManager.m.PlaySound("combat");
 
         if (win)
         {
@@ -356,6 +358,7 @@ public class CombatManager : MonoBehaviour
 
             RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), idCritteronCurrent, currentLife: life[0], exp: newExp[0]);
             Debug.Log("derrotado enemigos");
+
 
             // Dar experiencia al usuario o subir de nivel
             if (getExp)

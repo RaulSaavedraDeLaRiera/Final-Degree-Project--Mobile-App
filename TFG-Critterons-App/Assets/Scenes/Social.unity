@@ -1549,6 +1549,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1129988716}
+        m_TargetAssemblyTypeName: AudioManagerBridge, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &581017647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2191,6 +2203,86 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 4575874385835197956}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1129988715
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336609277026819847, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioBridge
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 14ae2d64109c82e4186357395b892548, type: 3}
+--- !u!114 &1129988716 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6274383755400018890, guid: 14ae2d64109c82e4186357395b892548,
+    type: 3}
+  m_PrefabInstance: {fileID: 1129988715}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45ce8d20bebccd4f99cc683bd4aae6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1132280993
 GameObject:
   m_ObjectHideFlags: 0
@@ -3302,6 +3394,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1129988716}
+        m_TargetAssemblyTypeName: AudioManagerBridge, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1521231800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3602,6 +3706,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1129988716}
+        m_TargetAssemblyTypeName: AudioManagerBridge, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1614262500
@@ -5499,6 +5615,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1129988716}
+        m_TargetAssemblyTypeName: AudioManagerBridge, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2118201411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6084,3 +6212,4 @@ SceneRoots:
   - {fileID: 1023679009}
   - {fileID: 535450577}
   - {fileID: 1225991058574382228}
+  - {fileID: 1129988715}

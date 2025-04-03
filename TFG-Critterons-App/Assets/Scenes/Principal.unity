@@ -1876,6 +1876,86 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961786679}
   m_CullTransparentMesh: 1
+--- !u!1001 &985524573
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336609277026819847, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioBridge
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 14ae2d64109c82e4186357395b892548, type: 3}
+--- !u!114 &985524574 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6274383755400018890, guid: 14ae2d64109c82e4186357395b892548,
+    type: 3}
+  m_PrefabInstance: {fileID: 985524573}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45ce8d20bebccd4f99cc683bd4aae6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1008329162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3475,6 +3555,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1759367104}
+        m_TargetAssemblyTypeName: GameCycleDemo, Assembly-CSharp
+        m_MethodName: ChangeImage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1641934397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3495,7 +3587,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e3248b3efc378d44c9f108ad43c9aaa5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b592fc74d146a4a46b852797b9fbf50c, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3548,6 +3640,8 @@ MonoBehaviour:
   minTimeNextcombat: 2
   maxTimeNextCombat: 10
   stepsToCombat: 100
+  combatEnableSprite: {fileID: 21300000, guid: e3248b3efc378d44c9f108ad43c9aaa5, type: 3}
+  combatImage: {fileID: 1641934397}
 --- !u!4 &1759367105
 Transform:
   m_ObjectHideFlags: 0
@@ -3830,7 +3924,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65.5
+  m_fontSize: 57.15
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4454,6 +4548,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 985524574}
+        m_TargetAssemblyTypeName: AudioManagerBridge, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1759367106}
         m_TargetAssemblyTypeName: LoadScene, Assembly-CSharp
         m_MethodName: LoadSceneSync
@@ -4613,3 +4719,4 @@ SceneRoots:
   - {fileID: 711067928}
   - {fileID: 80662842}
   - {fileID: 698960936}
+  - {fileID: 985524573}

@@ -95,6 +95,7 @@ public class Login : MonoBehaviour
                 SetCanvasActive(canvasBase, true);
             }
 
+            AudioManager.m.PlaySound("changescene");
             loadingSpinner.SetActive(false);
         }
     }
@@ -193,6 +194,7 @@ public class Login : MonoBehaviour
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
                 Debug.Log("El usuario ya ha iniciado sesión.");
+                AudioManager.m.PlaySound("changescene");
                 LoginGame(email, password);
             }
         }

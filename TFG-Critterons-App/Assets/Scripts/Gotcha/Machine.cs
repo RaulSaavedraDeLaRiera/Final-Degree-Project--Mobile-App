@@ -34,6 +34,9 @@ public class PrefabSpawner : MonoBehaviour
         instance = Instantiate(prefab, worldPosition, Quaternion.identity);
         instance.transform.position = new Vector3(worldPosition.x, worldPosition.y, 0);
 
+        AudioManager.m.PlaySound("newlevel");
+
+
         // Iniciar animación y carga de datos en paralelo
         StartCoroutine(SwayUntilReady(instance));
         StartCoroutine(getPossibleCritterons());
@@ -90,6 +93,8 @@ public class PrefabSpawner : MonoBehaviour
 
         critterons.transform.Find(possibleCritterons[randomIndex].name).gameObject.SetActive(true);
         image.gameObject.SetActive(true);
+
+        AudioManager.m.PlaySound("win");
 
         yield return new WaitForSeconds(3f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Hotel");

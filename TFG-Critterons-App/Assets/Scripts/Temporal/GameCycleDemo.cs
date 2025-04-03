@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameCycleDemo : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class GameCycleDemo : MonoBehaviour
     float minTimeNextcombat, maxTimeNextCombat;
     [SerializeField]
     int stepsToCombat = 15;
+    [SerializeField]
+    Sprite combatEnableSprite;
+    [SerializeField]
+    Image combatImage;
 
     float nextCombatTime;
     bool canAttack = false;
@@ -68,6 +73,7 @@ public class GameCycleDemo : MonoBehaviour
         if (secondsToCombat <= 0)
         {
             nextCombatInfoText.text = "FIGHT!";
+            combatImage.sprite = combatEnableSprite;
             canAttack = true;
         }
         else
@@ -82,6 +88,7 @@ public class GameCycleDemo : MonoBehaviour
         {
             Debug.Log("A LUCHAR " + (stepsToCombat + stepsInLastCombat) + " " + steps);
             nextCombatInfoText.text = "FIGHT!";
+            combatImage.sprite = combatEnableSprite;
             canAttack = true;
         }
         else
@@ -93,8 +100,9 @@ public class GameCycleDemo : MonoBehaviour
         if (canAttack)
         {
             canAttack = false;
-           // PlayerPrefs.SetInt("LastCombatSteps", stepCounter.Steps);
-           // PlayerPrefs.Save();
+            // PlayerPrefs.SetInt("LastCombatSteps", stepCounter.Steps);
+            // PlayerPrefs.Save();
+            AudioManager.m.PlaySound("click");
 
             SceneManager.LoadScene("Combat");
         }

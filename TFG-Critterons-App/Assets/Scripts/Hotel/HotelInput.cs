@@ -47,6 +47,7 @@ public class HotelInput : MonoBehaviour
 
                     RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
                     critteronPopUp.EnterAnimation();
+                    AudioManager.m.PlaySound("click");
                     infoCritteronPopUp.AssignInfo(hCritteron.InfoCritteron);
 
                     inputEnable = false;
@@ -66,11 +67,13 @@ public class HotelInput : MonoBehaviour
                     if(hObject.Bought)
                     {
                         ownedObjectPopUp.EnterAnimation();
+                        AudioManager.m.PlaySound("click");
                         ownedPopUp.SetInfoPopUpBought(hObject);
                     }
                     else
                     { 
                         objectToBuyPopUp.EnterAnimation();
+                        AudioManager.m.PlaySound("click");
                         toBuyPopUp.SetInfoPopUp(hObject);
                     }
 

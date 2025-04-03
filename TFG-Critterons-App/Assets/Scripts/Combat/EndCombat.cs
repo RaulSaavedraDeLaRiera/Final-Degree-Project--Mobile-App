@@ -19,11 +19,15 @@ public class EndCombat : MonoBehaviour
         int result = PlayerPrefs.GetInt("Result");
 
         if (result == 0)
+        {
             win.SetActive(true);
+            AudioManager.m.PlaySound("win");
+        }
         else
         {
             lose.SetActive(true);
             mainCamera.backgroundColor = Color.red;
+            AudioManager.m.PlaySound("defeat");
         }
         StartCoroutine(ChangeScene()); 
     }

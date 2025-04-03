@@ -24,6 +24,7 @@ public class WaitingAnimation : MonoBehaviour
 
     void Hide()
     {
+        AudioManager.m.PlaySound("changescene");
         waitingCanvas.SetActive(false);
     }
 }
