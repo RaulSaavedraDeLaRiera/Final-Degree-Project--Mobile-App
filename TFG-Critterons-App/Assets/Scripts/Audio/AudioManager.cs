@@ -9,8 +9,10 @@ public class AudioManager : MonoBehaviour
     AudioSource clickSound, winSound, defeatSound, criterronStopSound, combatSound, newLevelSound, upgradeSound, changeSceneSound, hitSoundBase;
     [SerializeField]
     int hitInstances;
+    [SerializeField]
+    float pitchVariationHit = 0.2f;
 
-   
+
     AudioSource[] hitSounds;
 
     private void Awake()
@@ -31,9 +33,10 @@ public class AudioManager : MonoBehaviour
     {
         hitSounds = new AudioSource[hitInstances];
         hitSounds[0] = hitSoundBase;
-        for (int i = 0; i < hitInstances; i++)
+        for (int i = 1; i < hitInstances; i++)
         {
-            hitSounds[i] = Instantiate<GameObject>(hitSoundBase.gameObject, hitSoundBase.transform).GetComponent<AudioSource>();
+            hitSounds[i] = Instantiate(hitSoundBase.gameObject, hitSoundBase.transform).GetComponent<AudioSource>();
+            hitSounds[i].pitch = hitSoundBase.pitch + Random.Range(-pitchVariationHit / 2, pitchVariationHit / 2);
         }
     }
 
