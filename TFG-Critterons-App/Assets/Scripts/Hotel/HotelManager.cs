@@ -146,12 +146,10 @@ public class HotelManager : MonoBehaviour
 
     public void TryBuyRoom(RoomInfo targetRoom, ButtonActions button)
     {
-        Debug.Log("compro?");
         if (targetRoom.Bought)
             return;
 
         int index = -1;
-        Debug.Log("lo intento");
 
         for (int i = 0; i < rooms.Count; i++)
             if (rooms[i] == targetRoom)
@@ -160,14 +158,11 @@ public class HotelManager : MonoBehaviour
                 break;
             }
 
-        Debug.Log("dinero?");
 
         if (money < roomPrices[index])
             return;
 
         money -= roomPrices[index];
-
-        Debug.Log("tengo");
 
         //guardar en servidor
         RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), money: money);
@@ -178,6 +173,8 @@ public class HotelManager : MonoBehaviour
         //acciones visuales
         button.OutAnimation();
         GetComponent<HotelInput>().InputEnable = true;
+
+        InfoCache.Reload();
 
     }
 
@@ -194,16 +191,21 @@ public class HotelManager : MonoBehaviour
 
     async Task InitialiceRooms()
     {
-        var roomsFromServer = await RequestGameInfo.Instance.GetAllRoomsAsync();
-        
+        List<I_Room> cachedRooms = InfoCache.GetCachedRooms();
 
-        foreach (var room in roomsFromServer)
+        if (cachedRooms.Count == 0)
+        {
+            await InfoCache.LoadRoomsAsync();
+            cachedRooms = InfoCache.GetCachedRooms();
+        }
+
+        roomPrices.Clear();
+        foreach (var room in cachedRooms)
         {
             roomPrices.Add(room.price);
         }
 
         List<string> roomData = await RequestUserInfo.Instance.GetUserRoomsOwnedAsync();
-
         foreach (var room in rooms)
         {
             room.InitialiceRoom(roomData, this);
