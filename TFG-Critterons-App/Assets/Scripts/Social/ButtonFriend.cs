@@ -22,10 +22,14 @@ public class ButtonFriend : MonoBehaviour
     string ID;
 
 
+    ButtonActions friendProfileButton;
+
+
     public void SetID(string id, GameObject profile, GameObject rG, GameObject rF)
     {
         this.ID = id;
         friendProfile = profile;
+        friendProfileButton = profile.GetComponent<ButtonActions>();
         rankingG = rG;
         rankingF = rF;
         userInfo = friendProfile.transform.Find("UserInfo").gameObject;
@@ -43,10 +47,11 @@ public class ButtonFriend : MonoBehaviour
 
     public void ShowProfile()
     {
-        rankingF.SetActive(false);
-        rankingG.SetActive(false);
+        //rankingF.SetActive(false);
+        //rankingG.SetActive(false);
         SetProfileInfo();
-        friendProfile.SetActive(true);
+        Debug.Log("perfil amigo: " + friendProfileButton);
+        friendProfileButton.EnterAnimation();
         friendProfile.transform.Find("UserInfo/Vs").gameObject.GetComponent<CombatFriend>().SetID(ID);
     }
 

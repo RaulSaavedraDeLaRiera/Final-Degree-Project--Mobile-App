@@ -2695,6 +2695,7 @@ RectTransform:
   - {fileID: 2141429126}
   - {fileID: 1931607685}
   - {fileID: 1846952703}
+  - {fileID: 1225991058574382233}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5805,7 +5806,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1272221831}
     m_Modifications:
     - target: {fileID: 1496801740523657396, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
@@ -5816,16 +5817,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 535450576}
+      objectReference: {fileID: 301014424}
     - target: {fileID: 3318296659945555765, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ClosePopUp
+      value: OutAnimation
       objectReference: {fileID: 0}
     - target: {fileID: 3318296659945555765, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SocialInfoSetter, Assembly-CSharp
+      value: ButtonActions, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6518869630385919801, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
@@ -5835,7 +5836,7 @@ PrefabInstance:
     - target: {fileID: 6518869630385919801, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6794446327949294016, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
@@ -5894,6 +5895,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9038909175348925967, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9038909175348925967, guid: 2b62918578db2304fab412287206a1ae,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9038909175348925967, guid: 2b62918578db2304fab412287206a1ae,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9038909175348925967, guid: 2b62918578db2304fab412287206a1ae,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -5930,12 +5946,12 @@ PrefabInstance:
     - target: {fileID: 9038909175348925967, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 414.92676
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9038909175348925967, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1019.9044
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 9038909175348925967, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
@@ -5951,6 +5967,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9038909175348925967, guid: 2b62918578db2304fab412287206a1ae,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9061239315602024093, guid: 2b62918578db2304fab412287206a1ae,
         type: 3}
@@ -6031,6 +6052,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef6585e1379fa0a4bbd0f00e77987ef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1225991058574382233 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 9038909175348925967, guid: 2b62918578db2304fab412287206a1ae,
+    type: 3}
+  m_PrefabInstance: {fileID: 1225991058574382228}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4575874385835197956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6211,5 +6238,4 @@ SceneRoots:
   - {fileID: 1272221831}
   - {fileID: 1023679009}
   - {fileID: 535450577}
-  - {fileID: 1225991058574382228}
   - {fileID: 1129988715}
