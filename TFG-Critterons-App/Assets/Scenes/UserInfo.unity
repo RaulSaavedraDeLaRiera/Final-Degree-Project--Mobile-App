@@ -230,6 +230,30 @@ MonoBehaviour:
           m_StringArgument: Social
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 468203550}
+        m_TargetAssemblyTypeName: AudioManagerBridge, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &91380038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,6 +534,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 468203550}
+        m_TargetAssemblyTypeName: AudioManagerBridge, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &284565633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,8 +619,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 900, y: 1400}
+  m_AnchoredPosition: {x: 0, y: -11.8599}
+  m_SizeDelta: {x: 900, y: 1423.7197}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &360417139
 MonoBehaviour:
@@ -770,6 +806,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Hotel
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 468203550}
+        m_TargetAssemblyTypeName: AudioManagerBridge, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1001 &410201730
@@ -1041,6 +1089,86 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 465671643}
   m_CullTransparentMesh: 1
+--- !u!1001 &468203549
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981834207883304972, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336609277026819847, guid: 14ae2d64109c82e4186357395b892548,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioBridge
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 14ae2d64109c82e4186357395b892548, type: 3}
+--- !u!114 &468203550 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6274383755400018890, guid: 14ae2d64109c82e4186357395b892548,
+    type: 3}
+  m_PrefabInstance: {fileID: 468203549}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45ce8d20bebccd4f99cc683bd4aae6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &533568312
 GameObject:
   m_ObjectHideFlags: 0
@@ -2336,8 +2464,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -683.1}
-  m_SizeDelta: {x: 160, y: 160}
+  m_AnchoredPosition: {x: 0, y: -706.53345}
+  m_SizeDelta: {x: 160, y: 162.7108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1300342205
 MonoBehaviour:
@@ -2387,6 +2515,30 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: ButtonActions, Assembly-CSharp
         m_MethodName: OutAnimation
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 468203550}
+        m_TargetAssemblyTypeName: AudioManagerBridge, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1529700218}
+        m_TargetAssemblyTypeName: SelectPanel, Assembly-CSharp
+        m_MethodName: set_PanelEnable
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3422,6 +3574,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 468203550}
+        m_TargetAssemblyTypeName: AudioManagerBridge, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2009066061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4038,3 +4214,4 @@ SceneRoots:
   - {fileID: 998797260}
   - {fileID: 1109989419}
   - {fileID: 601098624}
+  - {fileID: 468203549}
