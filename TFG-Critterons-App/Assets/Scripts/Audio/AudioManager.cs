@@ -6,14 +6,14 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager m;
     [SerializeField]
-    AudioSource clickSound, winSound, defeatSound, criterronStopSound, combatSound, newLevelSound, upgradeSound, changeSceneSound, hitSoundBase;
+    AudioSource clickSound, winSound, defeatSound, criterronStopSound, combatSound, newLevelSound, upgradeSound, changeSceneSound, hitSoundBase, hitSpecialSoundBase;
     [SerializeField]
-    int hitInstances;
+    int hitInstances, hitSpecialInstances;
     [SerializeField]
     float pitchVariationHit = 0.2f;
 
 
-    AudioSource[] hitSounds;
+    AudioSource[] hitSounds, hitSpecialSounds;
 
     private void Awake()
     {
@@ -37,6 +37,14 @@ public class AudioManager : MonoBehaviour
         {
             hitSounds[i] = Instantiate(hitSoundBase.gameObject, hitSoundBase.transform).GetComponent<AudioSource>();
             hitSounds[i].pitch = hitSoundBase.pitch + Random.Range(-pitchVariationHit / 2, pitchVariationHit / 2);
+        }
+
+        hitSpecialSounds = new AudioSource[hitSpecialInstances];
+        hitSpecialSounds[0] = hitSpecialSoundBase;
+        for (int i = 1; i < hitSpecialInstances; i++)
+        {
+            hitSpecialSounds[i] = Instantiate(hitSpecialSoundBase.gameObject, hitSpecialSoundBase.transform).GetComponent<AudioSource>();
+            hitSpecialSounds[i].pitch = hitSpecialSoundBase.pitch + Random.Range(-pitchVariationHit / 2, pitchVariationHit / 2);
         }
     }
 
@@ -66,6 +74,18 @@ public class AudioManager : MonoBehaviour
     public void Hit()
     {
         foreach (var item in hitSounds)
+        {
+            if (!item.isPlaying)
+            {
+                item.Play();
+                break;
+            }
+        }
+    }
+
+    public void HitSpecial()
+    {
+        foreach (var item in hitSpecialSounds)
         {
             if (!item.isPlaying)
             {

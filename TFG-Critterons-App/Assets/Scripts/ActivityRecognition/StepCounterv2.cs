@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static I_UserInfo;
 
 public class StepCounterV2 : MonoBehaviour
@@ -21,25 +22,35 @@ public class StepCounterV2 : MonoBehaviour
 
     public static bool stepCounterWorking;
 
+    bool delayInit = false;
+
     void Start()
     {
 #if UNITY_ANDROID
 
         PlayerPrefs.SetInt("LastCombatSteps", 0);
         PlayerPrefs.Save();
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Pedir permisos de detecci?n de actividad (necesario en Android 10+)
         if (!Permission.HasUserAuthorizedPermission("android.permission.ACTIVITY_RECOGNITION"))
         {
             Permission.RequestUserPermission("android.permission.ACTIVITY_RECOGNITION");
+            delayInit = true;
         }
         else
         {
             Debug.Log("Permiso concedido.");
             permissionGranted = true;
-            InitializeStepCounter();
+            InitializateSensor();
         }
+#endif
+    }
 
+
+    void InitializateSensor()
+    {
+        InitializeStepCounter();
         // Verificar si el sensor est? disponible
         if (StepCounter.current != null)
         {
@@ -60,7 +71,6 @@ public class StepCounterV2 : MonoBehaviour
             stepCounterWorking = false;
             Debug.LogWarning("Sensor de pasos no encontrado en este dispositivo.");
         }
-#endif
     }
 
     void Update()
@@ -107,6 +117,15 @@ public class StepCounterV2 : MonoBehaviour
         {
             // Reinitialize the step counter when the app is resumed
             InitializeStepCounter();
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(delayInit)
+        {
+            InitializateSensor();
+            delayInit = false;
         }
     }
 

@@ -68,7 +68,7 @@ public class UserInfo : MonoBehaviour
         RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userData =>
         {
             nameText.text = userData.name;
-            levelText.text = userData.level.ToString();
+            levelText.text =  "LVL "  + userData.level.ToString();
             RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), userData.currentCritteron.ToString(), critteron =>
             {
                 levelCText.text = critteron.level.ToString();

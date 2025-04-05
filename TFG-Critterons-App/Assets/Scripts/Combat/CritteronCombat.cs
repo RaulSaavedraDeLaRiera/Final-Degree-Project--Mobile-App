@@ -45,6 +45,7 @@ public class CritteronCombat : MonoBehaviour
         animator.Play("NormalAttack");
         combatManager.SolicitateEffect(0, 0);
         target.GetDamage(damage);
+
     }
     public void Attack(CritteronCombat target, AttackSelected attackSelected, float extraDamage)
     {

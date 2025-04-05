@@ -278,6 +278,12 @@ public class CombatManager : MonoBehaviour
         effectType = type;
         efffectIndex = index;
         effectsRoot.GetChild(type).gameObject.SetActive(true);
+
+        if (type == 0)
+            AudioManager.m.Hit();
+        else
+            AudioManager.m.HitSpecial();
+
         Invoke("DisableEffect", effectsDuration);
     }
 
@@ -340,7 +346,7 @@ public class CombatManager : MonoBehaviour
 
         turn++;
         attackSelected = AttackSelected.none;
-        AudioManager.m.Hit();
+       
     }
 
     void EndCombat(bool win)
