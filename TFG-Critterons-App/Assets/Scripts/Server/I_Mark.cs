@@ -6,6 +6,6 @@ public class I_Mark
 {
     public string id;
     public string name;
-    public long x;
-    public long y;
+    public double x;
+    public double y;
 }

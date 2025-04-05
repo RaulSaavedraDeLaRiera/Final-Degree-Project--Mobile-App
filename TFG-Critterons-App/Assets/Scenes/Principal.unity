@@ -2463,7 +2463,7 @@ MonoBehaviour:
   labels: 0
   language: en
   lockRedraw: 0
-  needRedraw: 0
+  needRedraw: 1
   notInteractUnderGUI: 1
   mapType: cartodb.positron
   osmServer: 0
@@ -2486,8 +2486,8 @@ MonoBehaviour:
   width: 2048
   _activeTypeSettings: 
   _zoom: 16.2
-  latitude: 40.4
-  longitude: -3.7
+  latitude: -6
+  longitude: 37.001
 --- !u!1 &1288815959
 GameObject:
   m_ObjectHideFlags: 0

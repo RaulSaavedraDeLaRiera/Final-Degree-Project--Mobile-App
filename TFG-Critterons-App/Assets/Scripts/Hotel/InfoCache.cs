@@ -27,6 +27,11 @@ public class InfoCache : MonoBehaviour
         }
     }
 
+    public static bool MarksReady()
+    {
+        return areMarksLoaded;
+    }
+
 
     public static async Task LoadMarksAsync()
     {
@@ -37,7 +42,7 @@ public class InfoCache : MonoBehaviour
 
         foreach (var mark in cachedMarks)
         {
-            Debug.Log($"Marca cargada: {mark.name}");
+            Debug.Log($"Marca cargada: {mark.name} {mark.x} {mark.y}");
         }
     }
 
@@ -76,6 +81,11 @@ public class InfoCache : MonoBehaviour
     public static List<float> GetRoomPrices()
     {
         return roomPrices;
+    }
+
+    public static List<I_Mark> GetCachedMarks()
+    {
+        return cachedMarks;
     }
 
     public static async void Reload()

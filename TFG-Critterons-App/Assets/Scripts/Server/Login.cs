@@ -28,6 +28,7 @@ public class Login : MonoBehaviour
     void Start()
     {
         AlreadyLog();
+        AudioManager.m.PlaySound("upgrade");
     }
 
     public async void LoginGame(string mailString, string passwordString)

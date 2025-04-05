@@ -12,11 +12,9 @@ public class InteractMarkBehaviour : MonoBehaviour
     TextMeshProUGUI textName, textRewards;
     [SerializeField]
     float enterTime = 0.5f, animationTime = 1, animationSpeed = 10;
-    //falta meter los sonidos
-    [SerializeField]
-    AudioSource enterSound, interactSound;
 
-     MapControl control;
+
+    MapControl control;
     public MapControl MapControl
     {
         set
@@ -50,15 +48,15 @@ public class InteractMarkBehaviour : MonoBehaviour
 
         markUI.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-      
+
         this.textName.text = textName;
         this.rewards = rewards;
 
         //de momento siempre es monedas
         textRewards.text = rewards[0].ToString();
 
-        if (enterSound != null)
-            enterSound.Play();
+
+        AudioManager.m.PlaySound("stop");
     }
 
     public void Interact()
@@ -73,19 +71,14 @@ public class InteractMarkBehaviour : MonoBehaviour
 
         markUI.transform.DOScale(0, animationTime).onComplete = EndInteract;
 
-        if (interactSound != null)
-        {
-            if (enterSound != null && enterSound.isPlaying)
-                enterSound.Stop();
-            interactSound.Play();
-        }
+        AudioManager.m.PlaySound("stop");
 
     }
 
     void EndInteract()
     {
         markUI.SetActive(false);
-        interactInProgress = interactStarted =  false;
+        interactInProgress = interactStarted = false;
         control.InteractionComplete(rewards);
     }
 }

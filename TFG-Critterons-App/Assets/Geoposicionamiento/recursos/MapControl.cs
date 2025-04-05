@@ -37,11 +37,16 @@ public class MapControl : MonoBehaviour
 
     private void Start()
     {
-        CreateMarks();
+        InvokeRepeating("CreateMarks",0.2f, 0.25f);
         InitTimeCheck();
 
         markBehaviour.MapControl = this;
 
+    }
+
+    private void OnDestroy()
+    {
+        CancelInvoke();
     }
 
     void InitTimeCheck()
@@ -72,11 +77,29 @@ public class MapControl : MonoBehaviour
         }
     }
 
-    async void CreateMarks()
+    void LoadCacheMarks()
     {
+        var marksWork = InfoCache.GetCachedMarks();
+
+
+        foreach (var m in marksWork)
+        {
+            Debug.Log("MARKS: " + m.name);
+            marksCoordenates.Add(new Tuple<string, Coordenate>(m.name, new Coordenate(m.x, m.y)));
+        }
+    }
+
+    void CreateMarks()
+    {
+        if (!InfoCache.MarksReady())
+            return;
+
+        CancelInvoke("CreateMarks");
 
         //carga de paradas
-        await LoadMarks();
+        //await LoadMarks();
+        LoadCacheMarks();
+        Debug.Log("marksReady");
 
         /*
         for (int i = 0; i < coordenates.Length; i += 2)
