@@ -26,6 +26,8 @@ public class HotelCritteron : MonoBehaviour
     RoomInfo currentRoom;
     HotelObject target;
 
+    Collider col;
+
 
     public I_Critteron InfoCritteron
     {
@@ -61,6 +63,7 @@ public class HotelCritteron : MonoBehaviour
     {
         animator.Play("Move");
 
+        col = GetComponent<Collider>();
         InvokeRepeating("BehaviourUpdate", Random.Range(0, updateBehaviourRandom), updateBehaviourRate);
     }
 
@@ -88,7 +91,9 @@ public class HotelCritteron : MonoBehaviour
     }
     public void StopCritteron()
     {
+        CancelInvoke("EnableCol");
         agent.enabled = false;
+        col.enabled = false;
 
         animator.Play("Idle");
     }
@@ -100,6 +105,7 @@ public class HotelCritteron : MonoBehaviour
         if (time == 0)
         {
             agent.enabled = true;
+            col.enabled = true;
             animator.Play("Move");
         }
         //esta bien u otro metodo?
@@ -160,11 +166,15 @@ public class HotelCritteron : MonoBehaviour
                 {
                     //intenta ir a jugar a algun objeto
                     target = NavigationControl.GetTarget();
+
                 }
             }
 
             if (target != null)
+            { 
                 target.CurrentUser = this;
+                ResetPath();
+            }
 
         }
 
@@ -197,7 +207,20 @@ public class HotelCritteron : MonoBehaviour
         action?.Invoke();
     }
 
+    private void OnDestroy()
+    {
+        CancelInvoke();
+    }
 
 
+    void ResetPath()
+    {
+        col.enabled = false;
+        Invoke("EnableCol", 0.1f);
+    }
 
+    void EnableCol()
+    {
+        col.enabled = true;
+    }
 }
