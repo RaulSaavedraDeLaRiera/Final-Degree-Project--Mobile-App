@@ -126,6 +126,8 @@ public class GameInfoService {
             }
             weekRewards.setDays(days);
             emptyGameInfo.setWeekRewards(weekRewards);
+            emptyGameInfo.setCureTime(0);  
+            emptyGameInfo.setMarkTime(0);  
             gameInfoRepository.save(emptyGameInfo);
         }
     }

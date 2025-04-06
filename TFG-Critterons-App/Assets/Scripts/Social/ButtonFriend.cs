@@ -53,6 +53,8 @@ public class ButtonFriend : MonoBehaviour
         Debug.Log("perfil amigo: " + friendProfileButton);
         friendProfileButton.EnterAnimation();
         friendProfile.transform.Find("UserInfo/Vs").gameObject.GetComponent<CombatFriend>().SetID(ID);
+        friendProfile.transform.Find("UserInfo/Coop").gameObject.GetComponent<CombatFriend>().SetID(ID);
+
     }
 
 

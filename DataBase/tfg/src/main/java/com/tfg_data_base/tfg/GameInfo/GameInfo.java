@@ -18,6 +18,8 @@ public class GameInfo {
     private List<Mark> marks = new ArrayList<>();
     private WeekRewards weekRewards;
     private Integer cureTime;
+    private Integer markTime;
+
 
     @Data
     public static class Critteron {

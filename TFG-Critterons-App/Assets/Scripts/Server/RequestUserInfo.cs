@@ -435,10 +435,45 @@ public class RequestUserInfo : MonoBehaviour
 
     }
 
+    public async Task ModifyUserCritteronLifeTimeWithoutTimePass(string idUser)
+    {
+        int baseHeal = 10;
+        int roomHealBonus = 5;
+
+        var listRoom = await GetUserRoomsOwnedAsync();
+
+        foreach (var room in listRoom)
+        {
+            var roomData = await RequestGameInfo.Instance.GetRoomByIDAsync(room);
+            if (roomData.type == 1)
+            {
+                baseHeal += roomHealBonus;
+            }
+        }
+
+        var critteronList = await GetUserCritteronsAsync();
+
+        for (int i = 0; i < critteronList.Count; i++)
+        {
+            var critteron = await RequestGameInfo.Instance.GetCritteronByIDAsync(critteronList[i].critteronID);
+            var critteronUser = await GetUserCritteronsByIDAsync(idUser, critteronList[i].critteronID);
+
+            int newLife = (int)critteronUser.currentLife + (int)baseHeal;
+            if (newLife > critteron.life + critteronUser.level)
+                newLife = critteron.life + critteronUser.level;
+
+            ModifyUserCritteron(idUser, critteronList[i].critteronID, currentLife: newLife);
+
+        }
+
+        ModifyUserTime(PlayerPrefs.GetString("UserID"));
+
+    }
+
 
     public async Task ModifyUserCritteronLifeTime(string idUser)
     {
-        float addLife = 0;
+        float addLife = 20;
 
         var listRoom = await GetUserRoomsOwnedAsync();
 
@@ -453,28 +488,30 @@ public class RequestUserInfo : MonoBehaviour
 
         int cureTime = RequestGameInfo.Instance.GetCureTime();
         var userData = await GetUserDataAsync(idUser);
+
         long dif = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - userData.lastClosedTime;
+        Debug.Log(dif);
+
         float lifeHealth = (dif / cureTime) * addLife;
 
-        if (dif / cureTime > 1)
+
+        var critteronList = await GetUserCritteronsAsync();
+
+        for (int i = 0; i < critteronList.Count; i++)
         {
-            var critteronList = await GetUserCritteronsAsync();
+            var critteron = await RequestGameInfo.Instance.GetCritteronByIDAsync(critteronList[i].critteronID);
+            var critteronUser = await GetUserCritteronsByIDAsync(idUser, critteronList[i].critteronID);
 
-            for (int i = 0; i < critteronList.Count; i++)
-            {
-                var critteron = await RequestGameInfo.Instance.GetCritteronByIDAsync(critteronList[i].critteronID);
-                var critteronUser = await GetUserCritteronsByIDAsync(idUser, critteronList[i].critteronID);
+            int newLife = (int)critteronUser.currentLife + (int)lifeHealth;
+            if (newLife > critteron.life + critteronUser.level)
+                newLife = critteron.life + critteronUser.level;
 
-                int newLife = (int)critteronUser.currentLife + (int)lifeHealth;
-                if (newLife > critteron.life + critteronUser.level)
-                    newLife = critteron.life + critteronUser.level;
+            ModifyUserCritteron(idUser, critteronList[i].critteronID, currentLife: newLife);
 
-                ModifyUserCritteron(idUser, critteronList[i].critteronID, currentLife: newLife);
-
-            }
-
-            ModifyUserTime(PlayerPrefs.GetString("UserID"));
         }
+
+        ModifyUserTime(PlayerPrefs.GetString("UserID"));
+
     }
 
     public void GetExtraRoomType(string idUser, int type, Action<float> callback)

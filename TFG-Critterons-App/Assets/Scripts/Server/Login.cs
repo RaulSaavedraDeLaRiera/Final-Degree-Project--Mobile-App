@@ -73,7 +73,7 @@ public class Login : MonoBehaviour
                             PlayerPrefs.Save();
 
 
-                            RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
+                           // RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
                             loadingSpinner.SetActive(false);
                             SceneManager.LoadScene(initScene);
                         }

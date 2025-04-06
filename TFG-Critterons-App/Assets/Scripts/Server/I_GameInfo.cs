@@ -9,6 +9,8 @@ public class I_GameInfo   {
     public List<Mark> marks;
     public WeekRewards weekRewards;
     public int cureTime;
+    public int markTime;
+
 
     [Serializable]
     public class Critteron  {

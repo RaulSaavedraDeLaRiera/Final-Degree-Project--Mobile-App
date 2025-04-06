@@ -57,12 +57,14 @@ public class MapControl : MonoBehaviour
 
         //servidor
         timeSinceLastInteract = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - 10;
-        timeToInteract = 10;
+        timeToInteract = 0;
     }
 
     void SetLastTimeInteract()
     {
         timeSinceLastInteract = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        timeToInteract = InfoCache.GetTimemark();
+
     }
 
     async Task LoadMarks()

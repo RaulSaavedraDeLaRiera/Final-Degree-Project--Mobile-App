@@ -88,9 +88,66 @@ public class CombatManager : MonoBehaviour
             }
         }
 
-
-        if (PlayerPrefs.GetInt("FriendCombat", 0) == 0)
+        if (PlayerPrefs.GetInt("FriendTogetherCombat", 0) == 1)
         {
+            PlayerPrefs.SetInt("FriendCombat", 0);
+
+            string friendId = PlayerPrefs.GetString("IDFriend");
+
+            var friend = await RequestUserInfo.Instance.GetUserDataAsync(PlayerPrefs.GetString("IDFriend"));
+
+            var idCritteronCurrentFriend = friend.currentCritteron;
+
+            var critteronF = await RequestUserInfo.Instance.GetUserCritteronsByIDAsync(PlayerPrefs.GetString("IDFriend"), idCritteronCurrentFriend);
+            var critteronFGame = await RequestGameInfo.Instance.GetCritteronByIDAsync(idCritteronCurrentFriend);
+
+
+            crittteronsInfo = new CritteronCombatInfo[3];
+
+            crittteronsInfo[0] = new CritteronCombatInfo(
+                (int)critteronGame.life + critteron.level,
+                (int)extra + critteronGame.basicDamage + critteron.level / 2,
+                critteronGame.name,
+                critteron.level,
+                (int)critteron.currentLife + critteron.level,
+                critteronGame.defense,
+                critteronGame
+            );
+
+            crittteronsInfo[1] = new CritteronCombatInfo(
+                (int)critteronFGame.life,
+                (int)critteronFGame.basicDamage,
+                critteronFGame.name,
+                userdata.level,
+                (int)critteronFGame.life,
+                critteronFGame.defense,
+                critteronFGame
+            );
+
+            int randomIndex = UnityEngine.Random.Range(0, list.Count);
+            int randomLevel = UnityEngine.Random.Range(2, critteron.level + 2);
+
+            crittteronsInfo[2] = new CritteronCombatInfo(
+                (list[randomIndex].life) + userdata.level,
+                (list[randomIndex].basicDamage + list[randomIndex].basicDamage / randomLevel) + userdata.level,
+                list[randomIndex].name,
+                randomLevel,
+                (list[randomIndex].life + list[randomIndex].life / randomLevel) + userdata.level,
+                list[randomIndex].defense,
+                null
+            );
+
+            for (int i = 0; i < crittteronsInfo.Length; i++)
+                Debug.Log(crittteronsInfo[i].currentLife);
+
+
+            combatType = CombatType.combat2vs1;
+
+            StartCombat(experiencieExtra, crittteronsInfo);
+        }
+        else if(PlayerPrefs.GetInt("FriendCombat", 0) == 0)
+        {
+
             int randomIndex = UnityEngine.Random.Range(0, list.Count);
             int randomLevel = UnityEngine.Random.Range(2, critteron.level + 2);
 
@@ -110,6 +167,7 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
+
             PlayerPrefs.SetInt("FriendCombat", 0);
             var friend = await RequestUserInfo.Instance.GetUserDataAsync(PlayerPrefs.GetString("IDFriend"));
 
@@ -145,10 +203,11 @@ public class CombatManager : MonoBehaviour
         coldownSpecialAttack *= 1;
         experiencePerCombat += experiencieExtra;
 
-        combatInfo = new CombatParameters(CombatType.combat1vs1, crittteronsInfo);
+        combatInfo = new CombatParameters(combatType, crittteronsInfo);
         combatType = combatInfo.combatType;
 
         string[] names = new string[0];
+
 
         switch (combatType)
         {
@@ -172,6 +231,7 @@ public class CombatManager : MonoBehaviour
                 names[2] = enemyCritterons[0].InitializateCritteron(this, combatUI, combatInfo.critterons[2], 2);
                 break;
         }
+
 
         combatInfo.critteronsName = names;
         EmplaceCritterons();

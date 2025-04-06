@@ -166,4 +166,9 @@ public class RequestGameInfo : MonoBehaviour
     {
         return ServerConnection.Instance.GetGameInfo().cureTime;
     }
+
+    public int GetMarkTime()
+    {
+        return ServerConnection.Instance.GetGameInfo().markTime;
+    }
 }

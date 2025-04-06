@@ -12,14 +12,20 @@ public class InfoCache : MonoBehaviour
     private static List<I_Mark> cachedMarks = new List<I_Mark>();
     private static bool areMarksLoaded = false;
 
+    private bool isRunningLifeUpdater = false;
+    private static int time; 
+
     private async void Awake()
     {
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            SetTimeMark();
             await LoadRoomsAsync();
             await LoadMarksAsync();
+
+            StartLifeUpdater();
         }
         else
         {
@@ -27,11 +33,28 @@ public class InfoCache : MonoBehaviour
         }
     }
 
+    private async void StartLifeUpdater()
+    {
+        isRunningLifeUpdater = true;
+        string userID = PlayerPrefs.GetString("UserID");
+
+        while (isRunningLifeUpdater)
+        {
+            await RequestUserInfo.Instance.ModifyUserCritteronLifeTime(userID);
+
+            await Task.Delay(500000);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        isRunningLifeUpdater = false;
+    }
+
     public static bool MarksReady()
     {
         return areMarksLoaded;
     }
-
 
     public static async Task LoadMarksAsync()
     {
@@ -45,7 +68,6 @@ public class InfoCache : MonoBehaviour
             Debug.Log($"Marca cargada: {mark.name} {mark.x} {mark.y}");
         }
     }
-
 
     public static async Task LoadRoomsAsync()
     {
@@ -94,5 +116,16 @@ public class InfoCache : MonoBehaviour
         roomPrices.Clear();
         cachedRooms.Clear();
         await LoadRoomsAsync();
+    }
+
+
+    void SetTimeMark()
+    {
+        time = RequestGameInfo.Instance.GetMarkTime();
+    }
+
+    public static int GetTimemark()
+    {
+        return time;
     }
 }

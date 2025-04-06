@@ -249,7 +249,7 @@ public class HotelManager : MonoBehaviour
     public void changeToPersonalStats()
     {
 
-        RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
+        //RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
         SceneManager.LoadScene("UserInfo");
     }
 
