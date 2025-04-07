@@ -13,7 +13,7 @@ public class InfoCache : MonoBehaviour
     private static bool areMarksLoaded = false;
 
     private bool isRunningLifeUpdater = false;
-    private static int time; 
+    private static int time;
 
     private async void Awake()
     {
@@ -126,6 +126,8 @@ public class InfoCache : MonoBehaviour
 
     public static int GetTimemark()
     {
+        if (time == 0)
+            time = 100;
         return time;
     }
 }

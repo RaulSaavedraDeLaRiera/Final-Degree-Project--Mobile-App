@@ -14,7 +14,7 @@ public class GameCycleDemo : MonoBehaviour
     [SerializeField]
     float minTimeNextcombat, maxTimeNextCombat;
     [SerializeField]
-    int stepsToCombat = 15;
+    int stepsToCombat = 50; 
     [SerializeField]
     Sprite combatEnableSprite;
     [SerializeField]
@@ -24,18 +24,21 @@ public class GameCycleDemo : MonoBehaviour
     bool canAttack = false;
 
     StepCounterV2 stepCounter;
-    int stepCountInLastCombat = 0;
-    int stepsInLastCombat = 0;
+    int stepsInLastCombat;
 
     private void Start()
     {
         CombatCycle();
 
+        // Cargar los pasos del último combate
         if (PlayerPrefs.HasKey("LastCombatSteps"))
         {
             stepsInLastCombat = PlayerPrefs.GetInt("LastCombatSteps");
             nextCombatInfoText.text += "\nLAST COMBAT: " + stepsInLastCombat.ToString() + " STEPS";
         }
+        else
+            stepsInLastCombat = 0;
+
     }
 
     private void Update()
@@ -84,15 +87,16 @@ public class GameCycleDemo : MonoBehaviour
     {
         int steps = stepCounter.Steps - stepsInLastCombat;
 
-        if (steps >= (stepsToCombat + stepsInLastCombat))
+        if (steps >= stepsToCombat)
         {
-            Debug.Log("A LUCHAR " + (stepsToCombat + stepsInLastCombat) + " " + steps);
             nextCombatInfoText.text = "FIGHT!";
             combatImage.sprite = combatEnableSprite;
             canAttack = true;
         }
         else
+        {
             nextCombatInfoText.text = "NEXT COMBAT IN: " + (stepsToCombat - steps).ToString() + " STEPS";
+        }
     }
 
     public void LoadCombat()
@@ -100,8 +104,11 @@ public class GameCycleDemo : MonoBehaviour
         if (canAttack)
         {
             canAttack = false;
-            // PlayerPrefs.SetInt("LastCombatSteps", stepCounter.Steps);
-            // PlayerPrefs.Save();
+
+            stepsInLastCombat = stepCounter.Steps;
+            PlayerPrefs.SetInt("LastCombatSteps", stepsInLastCombat);
+            PlayerPrefs.Save();
+
             AudioManager.m.PlaySound("click");
 
             SceneManager.LoadScene("Combat");

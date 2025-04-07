@@ -3924,7 +3924,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 57.15
+  m_fontSize: 65.5
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4342,8 +4342,6 @@ MonoBehaviour:
   enterTime: 1
   animationTime: 2
   animationSpeed: 5
-  enterSound: {fileID: 0}
-  interactSound: {fileID: 0}
 --- !u!1 &2044161883
 GameObject:
   m_ObjectHideFlags: 0
