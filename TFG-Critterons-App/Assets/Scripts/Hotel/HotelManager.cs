@@ -247,8 +247,6 @@ public class HotelManager : MonoBehaviour
         {
             var critteron = await RequestGameInfo.Instance.GetCritteronByIDAsync(cUser.critteronID);
             data.Add(critteron);
-            data.Add(critteron);
-            data.Add(critteron);
         }
 
         int startIndex = UnityEngine.Random.Range(0, data.Count);
