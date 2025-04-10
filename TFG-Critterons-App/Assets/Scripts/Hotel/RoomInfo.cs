@@ -87,7 +87,7 @@ public class RoomInfo : MonoBehaviour
     public void PlaceUsed()
     {
         placesUsed++;
-        Debug.Log("current places used: " + placesUsed);
+        Debug.Log("current places used in room " + gameObject.name + ": " + placesUsed);
     }
     public bool AvailableSpace()
     {

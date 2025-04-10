@@ -8,9 +8,10 @@ public class HotelCritteron : MonoBehaviour
 {
     //metemos todo esto en una clase static config?
     static float updateBehaviourRate = 5f, updateBehaviourRandom = .2f,
-        useItemsProbability = 0.7f;
+        useItemsProbability = 0.3f;
     //si va a cualquie tipo de objeto
     static bool randomObjects = true;
+    static bool staticInRoom = true;
 
     [SerializeField]
     I_Critteron infoCritteron;
@@ -57,7 +58,7 @@ public class HotelCritteron : MonoBehaviour
         }
     }
 
-  
+
 
     public void Start()
     {
@@ -133,7 +134,7 @@ public class HotelCritteron : MonoBehaviour
         if (target == null)
         {
             //si tiene en cuenta el tipo de objeto
-            if(!randomObjects)
+            if (!randomObjects)
             {
 
                 //aqui añadiriamos todos los tipos de objeto necesarios
@@ -165,13 +166,15 @@ public class HotelCritteron : MonoBehaviour
                 if (prob <= useItemsProbability)
                 {
                     //intenta ir a jugar a algun objeto
-                    target = NavigationControl.GetTarget();
-
+                    if (!staticInRoom)
+                        target = NavigationControl.GetTarget();
+                    else
+                        target = NavigationControl.GetTarget(currentRoom);
                 }
             }
 
             if (target != null)
-            { 
+            {
                 target.CurrentUser = this;
                 ResetPath();
             }

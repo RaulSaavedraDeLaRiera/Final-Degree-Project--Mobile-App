@@ -30,14 +30,18 @@ public class NavigationControl : MonoBehaviour
         return instance.hotelManager.GetHotelObject(typeObject);
     }
 
-    public static HotelObject GetTarget()
+    public static HotelObject GetTarget(RoomInfo specificRoom = null)
     {
-        return instance.hotelManager.GetRandomHotelObject();
+        if (specificRoom == null)
+            return instance.hotelManager.GetRandomHotelObject();
+        else
+            return instance.hotelManager.GetRandomHotelObject(specificRoom);
+
     }
 
     public static Transform GetNextRoutePoint(HotelCritteron critteron)
     {
-        if(critteron.Target.Room == critteron.CurrentRoom)
+        if (critteron.Target.Room == critteron.CurrentRoom)
         {
             return critteron.Target.transform;
         }
@@ -50,19 +54,19 @@ public class NavigationControl : MonoBehaviour
     {
         Vector3 roomPos; Vector2 roomSize;
 
-        if(!globalMove)
+        if (!globalMove)
         {
             roomPos = critteron.CurrentRoom.transform.position;
             roomSize = critteron.CurrentRoom.Size;
         }
         else
         {
-            var room = 
+            var room =
                 instance.hotelManager.Rooms[Random.Range(0, instance.hotelManager.Rooms.Count)];
             roomPos = room.transform.position;
             roomSize = room.Size;
         }
-       
+
 
         NavMeshHit hit;
 
@@ -77,6 +81,6 @@ public class NavigationControl : MonoBehaviour
         }
 
         return critteron.transform.position;
-       
+
     }
 }

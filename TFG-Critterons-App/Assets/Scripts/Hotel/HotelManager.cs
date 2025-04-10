@@ -144,6 +144,28 @@ public class HotelManager : MonoBehaviour
         return null;
     }
 
+    public HotelObject GetRandomHotelObject(RoomInfo roomSelected)
+    {
+
+        List<HotelObject> objects = new List<HotelObject>();
+        objects.AddRange(healthObjects);
+        objects.AddRange(levelObjects);
+        objects.AddRange(decorationObjects);
+
+
+        int randomStart = UnityEngine.Random.Range(0, objects.Count);
+
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (objects[(randomStart + i) % objects.Count].Room == roomSelected && objects[(randomStart + i) % objects.Count].CurrentUser == null)
+            {
+                return objects[(randomStart + i) % objects.Count];
+            }
+        }
+
+        return null;
+    }
+
 
     public void TryBuyRoom(RoomInfo targetRoom, ButtonActions button)
     {
