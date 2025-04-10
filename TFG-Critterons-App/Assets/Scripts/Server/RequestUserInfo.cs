@@ -452,8 +452,8 @@ public class RequestUserInfo : MonoBehaviour
 
     public async Task ModifyUserCritteronLifeTimeWithoutTimePass(string idUser)
     {
-        int baseHeal = 10;
-        int roomHealBonus = 5;
+        int baseHeal = 5;
+        int roomHealBonus = 1;
 
         var listRoom = await GetUserRoomsOwnedAsync();
 
@@ -488,6 +488,7 @@ public class RequestUserInfo : MonoBehaviour
 
     public async Task ModifyUserCritteronLifeTime(string idUser)
     {
+        Debug.Log("CURANDO");
         float addLife = 20;
 
         var listRoom = await GetUserRoomsOwnedAsync();
@@ -507,7 +508,7 @@ public class RequestUserInfo : MonoBehaviour
         long dif = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - userData.lastClosedTime;
         Debug.Log(dif);
 
-        float lifeHealth = (dif / cureTime) * addLife;
+        float lifeHealth = (dif / cureTime) * (addLife/2);
 
 
         var critteronList = await GetUserCritteronsAsync();

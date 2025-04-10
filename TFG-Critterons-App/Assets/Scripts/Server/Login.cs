@@ -71,20 +71,23 @@ public class Login : MonoBehaviour
                         Debug.Log("Modificacndo datos");
 
                         PlayerPrefs.SetString("CurrentCritteronID", user.userData.currentCritteron);
+                        PlayerPrefs.SetInt("FriendTogetherCombat", 0);
                         PlayerPrefs.Save();
 
-                        //DateTimeOffset lastSeenOffset = DateTimeOffset.FromUnixTimeSeconds(user.userData.lastClosedTime);
-                        //DateTime lastDate = lastSeenOffset.Date;
-                        //DateTime currentDate = DateTime.UtcNow.Date;
+                        var a = user.userData.lastClosedTime;
 
-                        //TimeSpan difference = currentDate - lastDate;
+                        DateTimeOffset lastSeenOffset = DateTimeOffset.FromUnixTimeSeconds(user.userData.lastClosedTime / 1000);
+                        DateTime lastDate = lastSeenOffset.Date;
+                        DateTime currentDate = DateTime.UtcNow.Date;
 
-                        //if (difference.Days == 1)
-                        //    RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: user.personalStats.daysStreak + 1);
-                        //else if (difference.Days > 1)
-                        //    RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: 1);
+                        TimeSpan difference = currentDate - lastDate;
 
-                        //RequestUserInfo.Instance.ModifyUserTime(PlayerPrefs.GetString("UserID"));
+                        if (difference.Days == 1)
+                            RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: user.personalStats.daysStreak + 1);
+                        else if (difference.Days > 1)
+                            RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: 1);
+
+                        RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
 
                         loadingSpinner.SetActive(false);
                         Debug.Log("Cambiando escena");

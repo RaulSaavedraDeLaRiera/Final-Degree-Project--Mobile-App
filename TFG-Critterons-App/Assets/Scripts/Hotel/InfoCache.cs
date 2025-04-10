@@ -42,7 +42,7 @@ public class InfoCache : MonoBehaviour
 
         while (isRunningLifeUpdater)
         {
-            await RequestUserInfo.Instance.ModifyUserCritteronLifeTime(userID);
+            await RequestUserInfo.Instance.ModifyUserCritteronLifeTimeWithoutTimePass(userID);
 
             await Task.Delay(GetGameInfo().cureTime);
         }

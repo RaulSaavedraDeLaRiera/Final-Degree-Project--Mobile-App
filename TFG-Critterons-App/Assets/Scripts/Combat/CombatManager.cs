@@ -42,7 +42,7 @@ public class CombatManager : MonoBehaviour
 
     AttackSelected attackSelected;
     CombatParameters combatInfo;
-    
+
     float coldownSpecialAttack = 2.5f, lastSpecialAttack = 0f;
 
     private void Start()
@@ -57,7 +57,7 @@ public class CombatManager : MonoBehaviour
         CritteronCombatInfo[] crittteronsInfo = new CritteronCombatInfo[2];
         string userId = PlayerPrefs.GetString("UserID");
 
-        
+
         user = await RequestUserInfo.Instance.GetUserAsync(userId); ;
         idCritteronCurrent = user.userData.currentCritteron;
 
@@ -131,7 +131,7 @@ public class CombatManager : MonoBehaviour
             int randomLevel = UnityEngine.Random.Range(2, critteron.level + 2);
 
             crittteronsInfo[2] = new CritteronCombatInfo(
-                (list[randomIndex].life) + user.userData.level,
+                (list[randomIndex].life + list[randomIndex].life / randomLevel) + user.userData.level,
                 (list[randomIndex].basicDamage + list[randomIndex].basicDamage / randomLevel) + user.userData.level,
                 list[randomIndex].name,
                 randomLevel,
@@ -148,7 +148,7 @@ public class CombatManager : MonoBehaviour
 
             StartCombat(experiencieExtra, crittteronsInfo);
         }
-        else if(PlayerPrefs.GetInt("FriendCombat", 0) == 0)
+        else if (PlayerPrefs.GetInt("FriendCombat", 0) == 0)
         {
 
             int randomIndex = UnityEngine.Random.Range(0, list.Count);
@@ -165,6 +165,7 @@ public class CombatManager : MonoBehaviour
                 null
             );
 
+            combatType = CombatType.combat1vs1;
 
             StartCombat(experiencieExtra, crittteronsInfo);
         }
@@ -303,14 +304,11 @@ public class CombatManager : MonoBehaviour
                 }
                 else
                 {
-                    allyCritterons.Remove(critteron);
-                    if (allyCritterons.Count == 0)
-                    {
-                        //fin del combate
-                        CancelInvoke();
 
-                        EndCombat(false);
-                    }
+
+                    CancelInvoke();
+
+                    EndCombat(false);
                 }
                 break;
         }
@@ -409,7 +407,7 @@ public class CombatManager : MonoBehaviour
 
         turn++;
         attackSelected = AttackSelected.none;
-       
+
     }
 
     void EndCombat(bool win)
