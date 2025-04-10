@@ -201,6 +201,7 @@ public class HotelManager : MonoBehaviour
         GetComponent<HotelInput>().InputEnable = true;
 
         InfoCache.Reload();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
     }
 
