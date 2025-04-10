@@ -206,10 +206,8 @@ public class HotelManager : MonoBehaviour
 
     async void InitHotel()
     {
-        await Task.WhenAll(
-       InitialiceRooms(),
-       InitialiceCritterons()
-        );
+        await InitialiceRooms();
+        await InitialiceCritterons();
 
         if (waitingAnimation != null)
             waitingAnimation.Hide(1);
