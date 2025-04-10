@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -191,7 +192,7 @@ public class HotelManager : MonoBehaviour
         if (waitingAnimation != null)
             waitingAnimation.Hide(1);
     }
-
+   
     async Task InitialiceRooms()
     {
         List<I_Room> cachedRooms = InfoCache.GetCachedRooms();
@@ -211,6 +212,7 @@ public class HotelManager : MonoBehaviour
         List<string> roomData = await RequestUserInfo.Instance.GetUserRoomsOwnedAsync();
         foreach (var room in rooms)
         {
+            Debug.Log("numero de habitaciones compradas: " + roomData.Count);
             room.InitialiceRoom(roomData, this);
         }
     }
@@ -225,26 +227,43 @@ public class HotelManager : MonoBehaviour
         {
             var critteron = await RequestGameInfo.Instance.GetCritteronByIDAsync(cUser.critteronID);
             data.Add(critteron);
+            data.Add(critteron);
+            data.Add(critteron);
         }
 
-        foreach (var critteron in data)
-        {
-            RoomInfo room = null;
-            do
-            {
-                var r = rooms[UnityEngine.Random.Range(0, rooms.Count)];
-                if (r.Bought)// && r.AvailableSpace)
-                    room = r;
+        int startIndex = UnityEngine.Random.Range(0, data.Count);
 
-            } while (room == null);
+        int critTotal = 0;
+
+        for (int i = 0; i < data.Count; i++)
+        {
+            var critteron = data[(startIndex + i) % data.Count];
+
+            // Buscar habitaciones válidas
+            var availableRooms = rooms
+                .Where(r => r.Bought && r.AvailableSpace())
+                .ToList();
+
+            if (availableRooms.Count == 0)
+            {
+                Debug.Log("mas criterrons que espacios en el hotel: criterrons asignados " + critTotal);
+                // No hay habitaciones disponibles, se detiene el proceso
+                break;
+            }
+
+            // Seleccionar una habitación aleatoria
+            var room = availableRooms[UnityEngine.Random.Range(0, availableRooms.Count)];
 
             var hotelCritteron = Instantiate(critteronPrefab, room.EntryPoint.position, room.EntryPoint.rotation, critteronsRoot)
                 .GetComponent<HotelCritteron>();
 
             hotelCritteron.InitialiceCritteron(critteron, room);
             room.AddCritteron(hotelCritteron);
+            room.PlaceUsed();
+            critTotal++;
         }
     }
+
 
     public void changeToPersonalStats()
     {

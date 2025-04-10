@@ -959,6 +959,7 @@ MonoBehaviour:
   typeHotelRoom: 1
   valueRoom: 0.5
   percentRoom: 0
+  roomSize: 3
   bought: 0
   rooms:
   - {fileID: 1079226858}
@@ -3855,6 +3856,7 @@ MonoBehaviour:
   typeHotelRoom: 0
   valueRoom: 0.5
   percentRoom: 0
+  roomSize: 3
   bought: 1
   rooms:
   - {fileID: 1542921325}
@@ -11602,6 +11604,7 @@ MonoBehaviour:
   typeHotelRoom: 0
   valueRoom: 0.3
   percentRoom: 0
+  roomSize: 3
   bought: 0
   rooms:
   - {fileID: 2012139663}
@@ -12189,6 +12192,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
+      propertyPath: m_fontSize
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 0d6d196dc70b79b40bbf0b61df22fc81,
@@ -12210,10 +12218,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
+      propertyPath: m_fontSizeMax
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 1832999303561825259, guid: 0d6d196dc70b79b40bbf0b61df22fc81,
         type: 2}
+    - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 289074403657610227, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
       propertyPath: m_fontColor32.rgba
@@ -12252,8 +12270,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1780865106901569853, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1780865106901569853, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1780865106901569853, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1780865106901569853, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1780865106901569853, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1780865106901569853, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1780865106901569853, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
       propertyPath: m_LocalScale.x
-      value: 4.7965
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1887065267078891614, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
@@ -12554,6 +12602,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4062204829138992103, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_margin.z
+      value: 31.24353
+      objectReference: {fileID: 0}
+    - target: {fileID: 4062204829138992103, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 4062204829138992103, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4714322079866306967, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
@@ -12875,6 +12938,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6366400535474103194, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 6366400535474103194, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 6366400535474103194, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 6366400535474103194, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6530920896771165054, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -13084,6 +13167,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 520
+      objectReference: {fileID: 0}
+    - target: {fileID: 8571371136683116354, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8571371136683116354, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8571371136683116354, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8571371136683116354, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8571371136683116354, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8571371136683116354, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -125
       objectReference: {fileID: 0}
     - target: {fileID: 8794616881196292499, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
@@ -16659,6 +16772,7 @@ MonoBehaviour:
   typeHotelRoom: 1
   valueRoom: 0.6
   percentRoom: 0
+  roomSize: 3
   bought: 0
   rooms:
   - {fileID: 1927928238}
@@ -18048,6 +18162,7 @@ MonoBehaviour:
   typeHotelRoom: 3
   valueRoom: 0.2
   percentRoom: 0
+  roomSize: 3
   bought: 0
   rooms:
   - {fileID: 519818384}
@@ -19863,6 +19978,7 @@ MonoBehaviour:
   typeHotelRoom: 3
   valueRoom: 0.1
   percentRoom: 0
+  roomSize: 3
   bought: 0
   rooms:
   - {fileID: 550597674}

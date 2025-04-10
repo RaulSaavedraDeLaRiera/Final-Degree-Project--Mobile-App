@@ -18,6 +18,9 @@ public class RoomInfo : MonoBehaviour
     [SerializeField]
     float percentRoom;
 
+    
+    const int roomSize = 2;
+
     [SerializeField]
     bool bought = false;
 
@@ -36,6 +39,7 @@ public class RoomInfo : MonoBehaviour
     [SerializeField]
     GameObject nonBoughtCube;
 
+    int placesUsed = 0;
     int numCritteronsInRoom = 0;
     //public bool AvailableSpace
     //{
@@ -78,6 +82,20 @@ public class RoomInfo : MonoBehaviour
     void Start()
     {
         entryPointToCritterons.Room = this;
+    }
+
+    public void PlaceUsed()
+    {
+        placesUsed++;
+        Debug.Log("current places used: " + placesUsed);
+    }
+    public bool AvailableSpace()
+    {
+        if (roomSize > placesUsed)
+            return true;
+        else
+            return false;
+        
     }
     //List<string> boughtRoomsID, List<string> boughtObjectsID, HotelManager hM
     async public void InitialiceRoom(List<string> boughtRoomsID, HotelManager hM)
