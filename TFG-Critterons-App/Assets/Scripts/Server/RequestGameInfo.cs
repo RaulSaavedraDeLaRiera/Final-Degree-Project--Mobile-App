@@ -62,6 +62,7 @@ public class RequestGameInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.GetAllCritteron(callback));
     }
 
+
     public Task<List<I_Critteron>> GetAllCritteronAsync()
     {
         var tcs = new TaskCompletionSource<List<I_Critteron>>();
@@ -170,5 +171,22 @@ public class RequestGameInfo : MonoBehaviour
     public int GetMarkTime()
     {
         return ServerConnection.Instance.GetGameInfo().markTime;
+    }
+
+    public int GetExpPerCombat()
+    {
+        return ServerConnection.Instance.GetGameInfo().expPerCombat;
+    }
+    public int GetExpGoal()
+    {
+        return ServerConnection.Instance.GetGameInfo().expGoal;
+    }
+    public int GetReward()
+    {
+        return ServerConnection.Instance.GetGameInfo().reward;
+    }
+    public int GetStepsToCombat()
+    {
+        return ServerConnection.Instance.GetGameInfo().stepsToCombat;
     }
 }

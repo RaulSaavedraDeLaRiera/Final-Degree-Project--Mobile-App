@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using static I_UserInfo;
 
 public class PrefabSpawner : MonoBehaviour
 {
@@ -22,12 +24,12 @@ public class PrefabSpawner : MonoBehaviour
     List<I_Critteron> possibleCritterons;
     GameObject instance;
     bool critteronsReady = false;
+    I_User user;
 
-    void Start()
+    async void Start()
     {
         possibleCritterons = new List<I_Critteron>();
 
-        // **Crear la pelota antes de esperar los datos**
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 10f);
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenCenter);
 
@@ -36,10 +38,15 @@ public class PrefabSpawner : MonoBehaviour
 
         AudioManager.m.PlaySound("newlevel");
 
+        SetCombat();
+        GetPossibleCritterons();
 
-        // Iniciar animación y carga de datos en paralelo
         StartCoroutine(SwayUntilReady(instance));
-        StartCoroutine(getPossibleCritterons());
+    }
+
+    async Task SetCombat()
+    {
+        user = await RequestUserInfo.Instance.GetUserAsync(PlayerPrefs.GetString("UserID")); ;
     }
 
     IEnumerator SwayUntilReady(GameObject instance)
@@ -47,18 +54,13 @@ public class PrefabSpawner : MonoBehaviour
         float elapsedTime = 0f;
         Vector3 originalPosition = instance.transform.position;
 
-        // **Mover la pelota mientras los critterons se cargan**
-        while (!critteronsReady)
-        {
-            float swayOffset = Mathf.Sin(elapsedTime * Mathf.PI * 2) * swayAmount;
-            instance.transform.position = originalPosition + new Vector3(swayOffset, 0, 0);
+        float swayOffset = Mathf.Sin(elapsedTime * Mathf.PI * 2) * swayAmount;
+        instance.transform.position = originalPosition + new Vector3(swayOffset, 0, 0);
 
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+        elapsedTime += Time.deltaTime;
 
-        // **Cuando los critterons estén listos, destruir la pelota y seguir**
-        yield return new WaitForSeconds(0.5f); // Pequeña espera antes de continuar
+
+        yield return new WaitForSeconds(0.5f);
         Destroy(instance);
         StartCoroutine(HandleCritteronSelection());
     }
@@ -81,6 +83,7 @@ public class PrefabSpawner : MonoBehaviour
             if (!idExists)
             {
                 RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), possibleCritterons[randomIndex].id, currentLife: possibleCritterons[randomIndex].life, level: 1);
+                RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), critteronsOwned: user.personalStats.critteronsOwned + 1);
             }
             else
             {
@@ -100,37 +103,22 @@ public class PrefabSpawner : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene("Hotel");
     }
 
-    IEnumerator getPossibleCritterons()
+    public async Task GetPossibleCritterons()
     {
-        Debug.Log("getPossibleCritterons called");
 
-        bool isCompleted = false;
+        List<I_Critteron> critterons = await RequestGameInfo.Instance.GetAllCritteronAsync();
 
-        RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userdata =>
+        possibleCritterons.Clear();
+
+        for (int i = 0; i < critterons.Count; i++)
         {
-            Debug.Log($"User data retrieved. User level: {userdata.level}");
-
-            RequestGameInfo.Instance.GetAllCritteron(critterons =>
+            if (critterons[i].levelUnlock <= user.userData.level)
             {
-                Debug.Log($"Total critterons retrieved: {critterons.Count}");
+                possibleCritterons.Add(critterons[i]);
+            }
+        }
 
-                possibleCritterons.Clear();
-
-                for (int i = 0; i < critterons.Count; i++)
-                {
-                    if (critterons[i].levelUnlock <= userdata.level)
-                    {
-                        possibleCritterons.Add(critterons[i]);
-                        Debug.Log($"Added critteron: {critterons[i].name}, Level Unlock: {critterons[i].levelUnlock}");
-                    }
-                }
-
-                Debug.Log($"Total possibleCritterons: {possibleCritterons.Count}");
-                critteronsReady = true; // Marca que la información está lista
-                isCompleted = true;
-            });
-        });
-
-        yield return new WaitUntil(() => isCompleted);
+        critteronsReady = true;
     }
+
 }

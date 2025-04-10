@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static I_User;
 
 
 public class Login : MonoBehaviour
@@ -42,43 +43,54 @@ public class Login : MonoBehaviour
 
             if (loginSuccess)
             {
-
+                Debug.Log("Hciendo login");
                 SaveLoginData(mailString, passwordString);
                 try
                 {
                     await ServerConnection.Instance.GameInfoInitAsync();
                     await ServerConnection.Instance.UserInfoInitAsync();
 
-                    RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userdata =>
+                    var user = await RequestUserInfo.Instance.GetUserAsync(PlayerPrefs.GetString("UserID"));
+                    Debug.Log("Obtengo user");
+
+                    if (user.userData.currentCritteron == "")
                     {
-                        if (userdata.currentCritteron == "")
-                        {
-                            RequestGameInfo.Instance.GetCritteronByID("67cdbaeb9efa2340c96eecc4", critteron =>
-                            {
+                        var critteron = await RequestGameInfo.Instance.GetCritteronByIDAsync("67cdbaeb9efa2340c96eecc4");
+                        PlayerPrefs.SetString("CurrentCritteronID", "67cdbaeb9efa2340c96eecc4");
+                        PlayerPrefs.Save();
+                        RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "67cdbaeb9efa2340c96eecc4", currentLife: critteron.life, level: 1);
+                        RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: "67cdbaeb9efa2340c96eecc4", level: 1, money: 100);
+                        RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: 1);
+                        RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
 
-                                PlayerPrefs.SetString("CurrentCritteronID", "67cdbaeb9efa2340c96eecc4");
-                                PlayerPrefs.Save();
-                                RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), "67cdbaeb9efa2340c96eecc4", currentLife: critteron.life, level: 1);
-                                RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), currentCritteron: "67cdbaeb9efa2340c96eecc4", level: 1, money: 100);
-                                RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
+                        StartCoroutine("changeScene");
+                    }
+                    else
+                    {
 
-                                StartCoroutine("changeScene");
-                            });
+                        Debug.Log("Modificacndo datos");
 
-                        }
-                        else
-                        {
+                        PlayerPrefs.SetString("CurrentCritteronID", user.userData.currentCritteron);
+                        PlayerPrefs.Save();
 
-                            PlayerPrefs.SetString("CurrentCritteronID", userdata.currentCritteron);
-                            PlayerPrefs.Save();
+                        //DateTimeOffset lastSeenOffset = DateTimeOffset.FromUnixTimeSeconds(user.userData.lastClosedTime);
+                        //DateTime lastDate = lastSeenOffset.Date;
+                        //DateTime currentDate = DateTime.UtcNow.Date;
 
+                        //TimeSpan difference = currentDate - lastDate;
 
-                           // RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
-                            loadingSpinner.SetActive(false);
-                            SceneManager.LoadScene(initScene);
-                        }
-                    });
+                        //if (difference.Days == 1)
+                        //    RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: user.personalStats.daysStreak + 1);
+                        //else if (difference.Days > 1)
+                        //    RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: 1);
 
+                        //RequestUserInfo.Instance.ModifyUserTime(PlayerPrefs.GetString("UserID"));
+
+                        loadingSpinner.SetActive(false);
+                        Debug.Log("Cambiando escena");
+
+                        SceneManager.LoadScene(initScene);
+                    }
 
                 }
                 catch (Exception ex)
@@ -90,8 +102,8 @@ public class Login : MonoBehaviour
             else
             {
                 PlayerPrefs.DeleteKey("email");
-                PlayerPrefs.DeleteKey("password"); 
-                PlayerPrefs.Save(); 
+                PlayerPrefs.DeleteKey("password");
+                PlayerPrefs.Save();
 
                 SetCanvasActive(canvasBase, true);
             }
@@ -113,7 +125,7 @@ public class Login : MonoBehaviour
     {
         PlayerPrefs.SetString("email", email);
         PlayerPrefs.SetString("password", password);
-        PlayerPrefs.Save(); 
+        PlayerPrefs.Save();
 
     }
 
@@ -185,7 +197,7 @@ public class Login : MonoBehaviour
     }
 
 
-     async void AlreadyLog()
+    async void AlreadyLog()
     {
         if (PlayerPrefs.HasKey("email") && PlayerPrefs.HasKey("password"))
         {

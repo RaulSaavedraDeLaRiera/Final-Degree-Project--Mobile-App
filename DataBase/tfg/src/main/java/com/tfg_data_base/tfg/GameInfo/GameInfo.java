@@ -19,7 +19,10 @@ public class GameInfo {
     private WeekRewards weekRewards;
     private Integer cureTime;
     private Integer markTime;
-
+    private Integer expPerCombat;
+    private Integer expGoal;
+    private Integer reward;
+    private Integer stepsToCombat;
 
     @Data
     public static class Critteron {

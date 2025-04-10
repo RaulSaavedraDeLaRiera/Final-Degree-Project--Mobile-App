@@ -133,7 +133,7 @@ public class StepCounterV2 : MonoBehaviour
     {
         RequestUserInfo.Instance.GetUserByID(PlayerPrefs.GetString("UserID"), (user) =>
         {
-            RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), user.personalStats.globalSteps + currentSteps);
+            RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), globalSteps: user.personalStats.globalSteps + currentSteps);
             currentSteps = 0;
         });
 

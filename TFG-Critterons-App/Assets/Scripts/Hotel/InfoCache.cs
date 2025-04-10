@@ -15,13 +15,15 @@ public class InfoCache : MonoBehaviour
     private bool isRunningLifeUpdater = false;
     private static int time;
 
+    public static I_GameInfo gameInfo = new I_GameInfo();
+
     private async void Awake()
     {
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            SetTimeMark();
+            SetGameInfo();
             await LoadRoomsAsync();
             await LoadMarksAsync();
 
@@ -42,7 +44,7 @@ public class InfoCache : MonoBehaviour
         {
             await RequestUserInfo.Instance.ModifyUserCritteronLifeTime(userID);
 
-            await Task.Delay(500000);
+            await Task.Delay(GetGameInfo().cureTime);
         }
     }
 
@@ -62,11 +64,6 @@ public class InfoCache : MonoBehaviour
 
         cachedMarks = await RequestGameInfo.Instance.GetAllMarksAsync();
         areMarksLoaded = true;
-
-        foreach (var mark in cachedMarks)
-        {
-            Debug.Log($"Marca cargada: {mark.name} {mark.x} {mark.y}");
-        }
     }
 
     public static async Task LoadRoomsAsync()
@@ -119,9 +116,21 @@ public class InfoCache : MonoBehaviour
     }
 
 
-    void SetTimeMark()
+    void SetGameInfo()
     {
-        time = RequestGameInfo.Instance.GetMarkTime();
+        gameInfo.cureTime = RequestGameInfo.Instance.GetCureTime();
+
+        gameInfo.markTime = RequestGameInfo.Instance.GetMarkTime();
+        gameInfo.reward = RequestGameInfo.Instance.GetReward();
+        gameInfo.expPerCombat = RequestGameInfo.Instance.GetExpPerCombat();
+        gameInfo.expGoal = RequestGameInfo.Instance.GetExpGoal();
+        gameInfo.stepsToCombat = RequestGameInfo.Instance.GetStepsToCombat();
+    }
+
+
+    public static I_GameInfo GetGameInfo()
+    {
+        return gameInfo;
     }
 
     public static int GetTimemark()
@@ -130,4 +139,6 @@ public class InfoCache : MonoBehaviour
             time = 100;
         return time;
     }
+
+
 }

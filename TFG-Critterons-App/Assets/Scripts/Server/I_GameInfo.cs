@@ -10,7 +10,10 @@ public class I_GameInfo   {
     public WeekRewards weekRewards;
     public int cureTime;
     public int markTime;
-
+    public int expPerCombat;
+    public int expGoal;
+    public int reward;
+    public int stepsToCombat;
 
     [Serializable]
     public class Critteron  {

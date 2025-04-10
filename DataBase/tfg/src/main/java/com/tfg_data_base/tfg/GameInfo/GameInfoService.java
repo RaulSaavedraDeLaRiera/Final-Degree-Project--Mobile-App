@@ -126,8 +126,12 @@ public class GameInfoService {
             }
             weekRewards.setDays(days);
             emptyGameInfo.setWeekRewards(weekRewards);
-            emptyGameInfo.setCureTime(0);  
-            emptyGameInfo.setMarkTime(0);  
+            emptyGameInfo.setCureTime(500);  
+            emptyGameInfo.setMarkTime(100);  
+            emptyGameInfo.setExpGoal(100);
+            emptyGameInfo.setReward(10);
+            emptyGameInfo.setExpPerCombat(20);
+            emptyGameInfo.setStepsToCombat(150);
             gameInfoRepository.save(emptyGameInfo);
         }
     }

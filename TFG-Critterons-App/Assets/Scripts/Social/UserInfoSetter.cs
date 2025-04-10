@@ -4,8 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static I_GameInfo;
-using static I_User;
+
 
 public class UserInfo : MonoBehaviour
 {
@@ -91,7 +90,7 @@ public class UserInfo : MonoBehaviour
 
             string generalInfoText = $"Steps: {personalStat.globalSteps}\n" +
                             $"Days Streak: {personalStat.daysStreak}\n" +
-                            $"Week Steps: {personalStat.weekSteps}\n" +
+                            $"Critterons Owned: {personalStat.critteronsOwned}\n" +
                             $"Combat Wins: {personalStat.combatWins}";
 
             generalText.text = generalInfoText;

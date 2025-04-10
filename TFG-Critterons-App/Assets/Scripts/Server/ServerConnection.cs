@@ -412,6 +412,35 @@ public class ServerConnection : MonoBehaviour
         }
         callback(i_critteronList);
     }
+    public Task<I_Critteron> GetCritteronByIDAsync(string id)
+    {
+        var tcs = new TaskCompletionSource<I_Critteron>();
+
+        StartCoroutine(GetCritteronByID(id, (critteron) =>
+        {
+            tcs.SetResult(critteron);
+        }));
+
+        return tcs.Task;
+    }
+
+
+    public async Task<List<I_Critteron>> GetAllCritteronAsync()
+    {
+        List<I_Critteron> i_critteronList = new List<I_Critteron>();
+
+        foreach (string id in critteronIDs)
+        {
+            I_Critteron critteron = await GetCritteronByIDAsync(id);
+            if (critteron != null)
+            {
+                i_critteronList.Add(critteron);
+            }
+        }
+
+        return i_critteronList;
+    }
+
 
     /// <summary>
     /// Pedimos la información de un room a través de su ID

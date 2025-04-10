@@ -138,6 +138,21 @@ public class RequestUserInfo : MonoBehaviour
         return await tcs.Task;
     }
 
+    public async Task<I_User> GetUserAsync(string id)
+    {
+        var tcs = new TaskCompletionSource<I_User>();
+
+        GetUserByID(id, (user) =>
+        {
+            if (user != null && user != null)
+                tcs.SetResult(user);
+            else
+                tcs.SetResult(null);
+        });
+
+        return await tcs.Task;
+    }
+
     public void GetUserPersonalStat(string id, System.Action<I_User.PersonalStats> callback)
     {
         GetUserByID(id, (user) =>

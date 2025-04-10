@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Timeline;
 
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 public class MapControl : MonoBehaviour
 {
@@ -63,7 +64,7 @@ public class MapControl : MonoBehaviour
     void SetLastTimeInteract()
     {
         timeSinceLastInteract = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        timeToInteract = InfoCache.GetTimemark();
+        timeToInteract = InfoCache.GetGameInfo().markTime;
 
     }
 
@@ -202,17 +203,16 @@ public class MapControl : MonoBehaviour
 
         SetLastTimeInteract();
 
-        //obtener las recompensas del servidor y pasarlas
-        int[] rewards = { 10 };
+        int[] rewards = { InfoCache.GetGameInfo().reward };
         mark.instance.GetComponent<Mark3D>().Interact(markBehaviour, rewards);
     }
 
-    public void InteractionComplete(int[] rewards)
+    public async void InteractionComplete(int[] rewards)
     {
         SetLastTimeInteract();
-        //guardar dinero en servidor y en local
+        var user = await RequestUserInfo.Instance.GetUserAsync(PlayerPrefs.GetString("UserID"));
+        RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), money: user.userData.money + rewards[0]);
 
-        //las desactivamos visualmente
         foreach (var item in logicMarks)
         {
             item.DisableMark(timeToInteract);
