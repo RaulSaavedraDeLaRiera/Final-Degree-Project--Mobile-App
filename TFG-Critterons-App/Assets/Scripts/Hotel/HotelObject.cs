@@ -80,7 +80,8 @@ public class HotelObject : MonoBehaviour
     {
         if(currentUser != null && other.gameObject == currentUser.gameObject)
         {
-            prevPosCritteron = currentUser.transform.position;
+            //prevPosCritteron = currentUser.transform.position;
+            prevPosCritteron = room.EntryPoint.position;
             currentUser.transform.position = userPosition.position;
             currentUser.transform.rotation = userPosition.rotation;
             currentUser.StopCritteron();

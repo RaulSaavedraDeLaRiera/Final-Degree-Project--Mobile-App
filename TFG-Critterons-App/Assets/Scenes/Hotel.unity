@@ -959,7 +959,6 @@ MonoBehaviour:
   typeHotelRoom: 1
   valueRoom: 0.5
   percentRoom: 0
-  roomSize: 3
   bought: 0
   rooms:
   - {fileID: 1079226858}
@@ -3856,7 +3855,6 @@ MonoBehaviour:
   typeHotelRoom: 0
   valueRoom: 0.5
   percentRoom: 0
-  roomSize: 3
   bought: 1
   rooms:
   - {fileID: 1542921325}
@@ -11604,7 +11602,6 @@ MonoBehaviour:
   typeHotelRoom: 0
   valueRoom: 0.3
   percentRoom: 0
-  roomSize: 3
   bought: 0
   rooms:
   - {fileID: 2012139663}
@@ -16772,7 +16769,6 @@ MonoBehaviour:
   typeHotelRoom: 1
   valueRoom: 0.6
   percentRoom: 0
-  roomSize: 3
   bought: 0
   rooms:
   - {fileID: 1927928238}
@@ -16876,7 +16872,6 @@ GameObject:
   - component: {fileID: 1320876890}
   - component: {fileID: 1320876889}
   - component: {fileID: 1320876892}
-  - component: {fileID: 1320876893}
   m_Layer: 0
   m_Name: 3
   m_TagString: Untagged
@@ -16988,24 +16983,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 1.2742786, z: 2.2985048}
+  m_Size: {x: 2, y: 1.2742786, z: 2.64}
   m_Center: {x: -0.007454872, y: 1, z: 0.14179868}
---- !u!208 &1320876893
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320876887}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: -0.007, y: 0.637, z: -0.007}
-  m_TimeToStationary: 0.5
 --- !u!1 &1321621095
 GameObject:
   m_ObjectHideFlags: 0
@@ -18162,7 +18141,6 @@ MonoBehaviour:
   typeHotelRoom: 3
   valueRoom: 0.2
   percentRoom: 0
-  roomSize: 3
   bought: 0
   rooms:
   - {fileID: 519818384}
@@ -19978,7 +19956,6 @@ MonoBehaviour:
   typeHotelRoom: 3
   valueRoom: 0.1
   percentRoom: 0
-  roomSize: 3
   bought: 0
   rooms:
   - {fileID: 550597674}
