@@ -26,6 +26,7 @@ public class CritteronMapController : MonoBehaviour
             }
         });
 
+        XasuControl.Message("TFG ANTONIO RAUL PRUEBA");
 
     }
 

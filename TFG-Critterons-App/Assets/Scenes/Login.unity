@@ -3659,6 +3659,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1792244558}
   - component: {fileID: 1792244557}
+  - component: {fileID: 1792244560}
+  - component: {fileID: 1792244559}
   m_Layer: 0
   m_Name: Server
   m_TagString: Untagged
@@ -3694,6 +3696,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1792244559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792244556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c634b6bee1030a4d935b564d61f1100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1792244560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792244556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9251e9e3ed36f4eb38a5089a747a25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoStart: 0
+  EnableDebugLogging: 1
+  processingLoopTime: 1
 --- !u!1 &1799538795
 GameObject:
   m_ObjectHideFlags: 0

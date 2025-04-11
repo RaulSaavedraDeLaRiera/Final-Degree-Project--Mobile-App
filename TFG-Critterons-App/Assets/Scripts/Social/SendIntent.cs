@@ -84,7 +84,7 @@ public class SendIntent : MonoBehaviour
     {
         //get data y se amplia o si asi vale
         var textSource = transform.GetComponentInChildren<TextMeshProUGUI>();
-      
+
         if (Application.platform != RuntimePlatform.Android || textSource == null)
         {
             return;
@@ -110,4 +110,39 @@ public class SendIntent : MonoBehaviour
 
 #endif
     }
+
+    public void ShareXasuTraces()
+    {
+#if UNITY_ANDROID
+
+        string sourcePath = System.IO.Path.Combine(Application.persistentDataPath, "traces.log");
+
+        if (!System.IO.File.Exists(sourcePath))
+        {
+            Debug.LogWarning("Archivo no encontrado: " + sourcePath);
+            return;
+        }
+
+        try
+        {
+            AndroidJavaClass environment = new AndroidJavaClass("android.os.Environment");
+            AndroidJavaObject downloadsDir = environment.CallStatic<AndroidJavaObject>("getExternalStoragePublicDirectory", environment.GetStatic<string>("DIRECTORY_DOWNLOADS"));
+
+            string targetPath = System.IO.Path.Combine(downloadsDir.Call<string>("getAbsolutePath"), "traces.log");
+
+            System.IO.File.Copy(sourcePath, targetPath, overwrite: true);
+
+            Debug.Log($"Archivo copiado a: {targetPath}");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Error al copiar archivo a Downloads: " + ex.Message);
+        }
+#endif
+    }
+
 }
+
+
+
+

@@ -1,0 +1,5 @@
+{
+  "offline": "true",
+  "format": "XAPI",
+  "auth_protocol": "basic"
+}

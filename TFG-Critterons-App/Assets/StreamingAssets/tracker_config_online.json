@@ -1,0 +1,15 @@
+ {
+  "online": true,
+  "simva": true,
+  "lrs_endpoint": "https://simva-api.simva-beta.e-ucm.es:443/activities/67f809950ec6b20023026d2b",
+  "auth_protocol": "oauth2",
+  "auth_parameters": {
+    "grant_type": "code",
+    "auth_endpoint": "https://sso.simva-beta.e-ucm.es:443/realms/simva/protocol/openid-connect/auth",
+    "token_endpoint": "https://sso.simva-beta.e-ucm.es:443/realms/simva/protocol/openid-connect/token",
+    "client_id": "simva-plugin",
+    "code_challenge_method": "S256",
+    "simva_user_token": "true",
+    "login_hint": "67f809800ec6b20023026ce6"
+  }
+}
