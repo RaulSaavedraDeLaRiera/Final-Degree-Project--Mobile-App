@@ -54,7 +54,9 @@ public class XasuControl : MonoBehaviour
     {
         StopXasu();
     }
-    private void Ona(bool pause)
+
+   /*
+    private void OnApplicationPause(bool pause)
     {
 
         return;
@@ -68,6 +70,7 @@ public class XasuControl : MonoBehaviour
 
 
     }
+   */
 
     async static Task StopXasu()
     {
