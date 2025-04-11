@@ -93,6 +93,8 @@ public class CombatManager : MonoBehaviour
 
         if (PlayerPrefs.GetInt("FriendTogetherCombat", 0) == 1)
         {
+            XasuControl.Message("COMBAT DUAL");
+
             PlayerPrefs.SetInt("FriendCombat", 0);
 
             string friendId = PlayerPrefs.GetString("IDFriend");
@@ -150,6 +152,8 @@ public class CombatManager : MonoBehaviour
         }
         else if (PlayerPrefs.GetInt("FriendCombat", 0) == 0)
         {
+            XasuControl.Message("COMBAT NORMAL");
+
 
             int randomIndex = UnityEngine.Random.Range(0, list.Count);
             int randomLevel = UnityEngine.Random.Range(2, critteron.level + 2);
@@ -171,6 +175,7 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
+            XasuControl.Message("COMBAT VS FRIEND");
 
             PlayerPrefs.SetInt("FriendCombat", 0);
             var friend = await RequestUserInfo.Instance.GetUserDataAsync(PlayerPrefs.GetString("IDFriend"));
@@ -418,6 +423,7 @@ public class CombatManager : MonoBehaviour
         if (win)
         {
             PlayerPrefs.SetInt("Result", 0);
+            XasuControl.Message("COMBAT WON");
 
             //cargar experiencia maxima y minima segun combate
             var newExp = GetExpPoints(5, 10);
@@ -432,6 +438,8 @@ public class CombatManager : MonoBehaviour
             {
                 if (user.userData.experience + expCombat >= InfoCache.GetGameInfo().expGoal)
                 {
+
+
                     RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), level: user.userData.level + 1, experience: 0, money: user.userData.money + 20);
                     RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), combatWins: user.personalStats.combatWins + 1);
 
@@ -441,6 +449,8 @@ public class CombatManager : MonoBehaviour
                         int lvl = c.level;
                         if (exp >= InfoCache.GetGameInfo().expGoal)
                         {
+                            XasuControl.Message("LEVEL UP");
+
                             exp = 0;
                             lvl++;
                         }
@@ -461,6 +471,9 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
+            XasuControl.Message("COMBAT LOST");
+
+
             PlayerPrefs.SetInt("Result", 1);
             if (getExp)
             {

@@ -28,12 +28,42 @@ public class InfoCache : MonoBehaviour
             await LoadMarksAsync();
 
             StartLifeUpdater();
+
+            StartPositionLogger();
+
         }
         else
         {
             Destroy(gameObject);
         }
     }
+
+    private async void StartPositionLogger()
+    {
+        while (true)
+        {
+            LogCurrentPosition();
+            await Task.Delay(300000); 
+        }
+    }
+
+    private void LogCurrentPosition()
+    {
+        if (OnlineMaps.instance != null)
+        {
+            double lat = OnlineMaps.instance.position.y;
+            double lng = OnlineMaps.instance.position.x;
+
+            XasuControl.Message("X: " + lat);
+            XasuControl.Message("Y: "+ lng);
+
+        }
+        else
+        {
+            Debug.LogWarning("OnlineMaps.instance es null. ¿Está inicializado el mapa?");
+        }
+    }
+
 
     private async void StartLifeUpdater()
     {

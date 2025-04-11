@@ -201,6 +201,8 @@ public class HotelManager : MonoBehaviour
         GetComponent<HotelInput>().InputEnable = true;
 
         InfoCache.Reload();
+        XasuControl.Message("BUY ROOM");
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
     }

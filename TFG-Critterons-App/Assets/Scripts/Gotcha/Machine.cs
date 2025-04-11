@@ -94,11 +94,15 @@ public class PrefabSpawner : MonoBehaviour
 
             if (!idExists)
             {
+                XasuControl.Message("NEW CRITTERON");
+
                 RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), possibleCritterons[randomIndex].id, currentLife: possibleCritterons[randomIndex].life, level: 1);
                 RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), critteronsOwned: user.personalStats.critteronsOwned + 1);
             }
             else
             {
+                XasuControl.Message("LEVEL UP CRITTERON");
+
                 RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), possibleCritterons[randomIndex].id, critteronUser =>
                 {
                     RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), possibleCritterons[randomIndex].id, currentLife: possibleCritterons[randomIndex].life, level: critteronUser.level + 1);

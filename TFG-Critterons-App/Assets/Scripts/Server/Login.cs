@@ -63,6 +63,8 @@ public class Login : MonoBehaviour
                         RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: 1);
                         RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
 
+                        XasuControl.Message("FIRST LOGIN");
+
                         StartCoroutine("changeScene");
                     }
                     else
@@ -88,6 +90,8 @@ public class Login : MonoBehaviour
                             RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: 1);
 
                         RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
+
+                        XasuControl.Message("LOGIN");
 
                         loadingSpinner.SetActive(false);
                         Debug.Log("Cambiando escena");

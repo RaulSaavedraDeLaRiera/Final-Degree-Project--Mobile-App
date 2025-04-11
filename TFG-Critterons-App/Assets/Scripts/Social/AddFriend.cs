@@ -43,6 +43,9 @@ public class AddFriend : MonoBehaviour
                 Debug.Log("NO ID FRIEND FOUND");
             else
             {
+
+                XasuControl.Message("SEND ADDFRIEND");
+
                 RequestUserInfoSocial.Instance.ModifyPendingFriend(id.text, PlayerPrefs.GetString("UserID"));
                 RequestUserInfoSocial.Instance.ModifySentFriend(PlayerPrefs.GetString("UserID"), id.text);
             }

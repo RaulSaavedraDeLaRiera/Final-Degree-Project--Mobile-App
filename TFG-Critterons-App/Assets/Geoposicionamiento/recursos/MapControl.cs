@@ -187,9 +187,6 @@ public class MapControl : MonoBehaviour
             return false;
 
         //tiempo entre uso de la marca
-
-
-
         return true;
 
     }
@@ -200,6 +197,7 @@ public class MapControl : MonoBehaviour
             return;
 
         Debug.Log("Marca interactuada!");
+        XasuControl.Message("MARK TOUCH");
 
         SetLastTimeInteract();
 
