@@ -64,7 +64,7 @@ public class Login : MonoBehaviour
                         RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
 
                         XasuControl.MessageWithCustomVerb(
-                            actionId: "FIRST_LOGIN",
+                            actionId: "User_" + user.id + "Firstlogin",
                             verbId: "http://adlnet.gov/expapi/verbs/initialized",
                             verbDisplay: "initialized",
                             timestamp: DateTime.UtcNow
@@ -79,11 +79,11 @@ public class Login : MonoBehaviour
                         PlayerPrefs.SetString("CurrentCritteronID", user.userData.currentCritteron);
                         PlayerPrefs.SetInt("FriendTogetherCombat", 0);
                         PlayerPrefs.Save();
-
+                        
                         RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
 
                         XasuControl.MessageWithCustomVerb(
-                            actionId: "LOGIN",
+                            actionId: "User_"+ user.id + "login",
                             verbId: "http://adlnet.gov/expapi/verbs/initialized",
                             verbDisplay: "initialized",
                             timestamp: DateTime.UtcNow

@@ -94,7 +94,7 @@ public class CombatManager : MonoBehaviour
         if (PlayerPrefs.GetInt("FriendTogetherCombat", 0) == 1)
         {
             XasuControl.MessageWithCustomVerb(
-                actionId: "COMBAT DUAL",
+                actionId: "Combat_dual_Start",
                 verbId: "http://adlnet.gov/expapi/verbs/interacted",
                 verbDisplay: "interacted",
                 timestamp: DateTime.UtcNow
@@ -158,7 +158,7 @@ public class CombatManager : MonoBehaviour
         else if (PlayerPrefs.GetInt("FriendCombat", 0) == 0)
         {
             XasuControl.MessageWithCustomVerb(
-            actionId: "COMBAT NORMAL",
+            actionId: "Combat_normal_Start",
             verbId: "http://adlnet.gov/expapi/verbs/interacted",
             verbDisplay: "interacted",
             timestamp: DateTime.UtcNow
@@ -185,7 +185,7 @@ public class CombatManager : MonoBehaviour
         else
         {
             XasuControl.MessageWithCustomVerb(
-                actionId: "COMBAT VS FRIEND",
+                actionId: "Combat_friend_Start",
                 verbId: "http://adlnet.gov/expapi/verbs/interacted",
                 verbDisplay: "interacted",
                 timestamp: DateTime.UtcNow
@@ -438,7 +438,7 @@ public class CombatManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("Result", 0);
             XasuControl.MessageWithCustomVerb(
-                 actionId: "COMBAT_WON",
+                 actionId: "Combat_won",
                  verbId: "https://w3id.org/xapi/seriousgames/verbs/completed",
                  verbDisplay: "completed", 
                  timestamp: DateTime.UtcNow
@@ -469,14 +469,15 @@ public class CombatManager : MonoBehaviour
                         int lvl = c.level;
                         if (exp >= InfoCache.GetGameInfo().expGoal)
                         {
-                            XasuControl.MessageWithCustomVerb(
-                                 actionId: "LEVEL UP",
-                                 verbId: "http://adlnet.gov/expapi/verbs/interacted",
-                                 verbDisplay: "interacted",
-                                 timestamp: DateTime.UtcNow
-                             );
                             exp = 0;
                             lvl++;
+                            XasuControl.MessageWithCustomVerb(
+                                 actionId: "User_" + user.id + " Accessed Reachable Level_" + lvl++,
+                                 verbId: "https://w3id.org/xapi/seriousgames/verbs/accessed",
+                                 verbDisplay: "accessed",
+                                 timestamp: DateTime.UtcNow
+                             );
+                            
                         }
                         RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), user.userData.currentCritteron, exp: exp, level: lvl);
                         SceneManager.LoadScene("NewLevel");
@@ -496,11 +497,12 @@ public class CombatManager : MonoBehaviour
         else
         {
             XasuControl.MessageWithCustomVerb(
-                    actionId: "COMBAT LOST",
+                    actionId: "Combat_Lost",
                     verbId: "http://adlnet.gov/expapi/verbs/completed",
                     verbDisplay: "completed",
                     timestamp: DateTime.UtcNow
                 );
+
             PlayerPrefs.SetInt("Result", 1);
             if (getExp)
             {

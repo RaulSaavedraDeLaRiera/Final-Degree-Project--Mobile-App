@@ -96,7 +96,7 @@ public class PrefabSpawner : MonoBehaviour
             if (!idExists)
             {
                 XasuControl.MessageWithCustomVerb(
-                    actionId: "NEW_CRITTERON",
+                    actionId: "User_" + user.id + "Unlock_Critteron" + possibleCritterons[randomIndex].id,
                     verbId: "https://w3id.org/xapi/seriousgames/verbs/unlocked",
                     verbDisplay: "unlocked",
                     timestamp: DateTime.UtcNow
@@ -107,9 +107,9 @@ public class PrefabSpawner : MonoBehaviour
             else
             {
                 XasuControl.MessageWithCustomVerb(
-                    actionId: "LEVEL_UP_CRITTERON",
-                    verbId: "https://w3id.org/xapi/adl/verbs/advanced",
-                    verbDisplay: "advanced",
+                    actionId: "User_" + user.id + "LevelUp_Critteron" + possibleCritterons[randomIndex].id,
+                    verbId: "http://adlnet.gov/expapi/verbs/completed",
+                    verbDisplay: "completed",
                     timestamp: DateTime.UtcNow
                 );
                 RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), possibleCritterons[randomIndex].id, critteronUser =>

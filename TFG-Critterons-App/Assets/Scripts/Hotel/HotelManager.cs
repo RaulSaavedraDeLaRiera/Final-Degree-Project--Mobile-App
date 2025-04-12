@@ -203,7 +203,7 @@ public class HotelManager : MonoBehaviour
 
         InfoCache.Reload();
         XasuControl.MessageWithCustomVerb(
-            actionId: "BUY ROOM",
+            actionId: "Buy_Room_" + targetRoom.name,
             verbId: "http://adlnet.gov/expapi/verbs/interacted",
             verbDisplay: "interacted",
             timestamp: DateTime.UtcNow

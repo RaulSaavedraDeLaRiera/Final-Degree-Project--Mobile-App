@@ -46,7 +46,7 @@ public class AddFriend : MonoBehaviour
             {
 
                 XasuControl.MessageWithCustomVerb(
-                    actionId: "SEND_ADDFRIEND",
+                    actionId: "Send_addFriend_Request",
                     verbId: "http://adlnet.gov/expapi/verbs/interacted",
                     verbDisplay: "interacted",
                     timestamp: DateTime.UtcNow
