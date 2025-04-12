@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Mark3D : MonoBehaviour
@@ -18,11 +17,11 @@ public class Mark3D : MonoBehaviour
     [SerializeField]
     Material[] baseMats;
 
-
     public void SetParams(string name)
     {
         markName = name;
     }
+
     public void Interact(InteractMarkBehaviour behaviour, int[] rewards)
     {
         behaviour.SetMark(markName, rewards);
@@ -30,7 +29,7 @@ public class Mark3D : MonoBehaviour
 
     private void OnDestroy()
     {
-        CancelInvoke();
+        StopAllCoroutines();
     }
 
     private void Start()
@@ -40,35 +39,40 @@ public class Mark3D : MonoBehaviour
         {
             baseMats[i] = modColor[i].material;
         }
+
         if (bodyPart != null)
             bodyPart.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
     }
-
 
     private void Update()
     {
         if (animationPart != null)
         {
             Vector3 direction = Camera.main.transform.position - transform.position;
-            direction.y = 0; // Mantiene el objeto recto
+            direction.y = 0;
             animationPart.rotation = Quaternion.LookRotation(direction);
         }
     }
 
-
     public void DisableMark(float timeToEnable)
+    {
+        StopAllCoroutines();
+        StartCoroutine(DisableTemporarily(timeToEnable));
+    }
+
+    private IEnumerator DisableTemporarily(float time)
     {
         foreach (var item in modColor)
         {
             item.material = disableColor;
-            Invoke("EnableMark", timeToEnable);
         }
 
+        yield return new WaitForSeconds(time);
+        EnableMark();
     }
 
     void EnableMark()
     {
-
         for (int i = 0; i < baseMats.Length; i++)
         {
             modColor[i].material = baseMats[i];
