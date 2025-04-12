@@ -89,7 +89,7 @@ public class UserInfo : MonoBehaviour
         {
 
             string generalInfoText = $"Steps: {personalStat.globalSteps}\n" +
-                            $"Days Streak: {personalStat.daysStreak}\n" +
+                            $"Week Steps: {personalStat.globalSteps}\n" +
                             $"Critterons Owned: {personalStat.critteronsOwned}\n" +
                             $"Combat Wins: {personalStat.combatWins}";
 

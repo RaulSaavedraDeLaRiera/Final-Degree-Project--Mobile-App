@@ -353,6 +353,24 @@ public class RequestUserInfo : MonoBehaviour
             }
 
             var currentData = auxUser.userData;
+            long lastClosedTime = currentData.lastClosedTime;
+
+            DateTime currentDate = DateTime.UtcNow.Date;  
+            DateTime lastClosedDate = DateTimeOffset.FromUnixTimeMilliseconds(lastClosedTime).DateTime.Date;  
+
+            if (currentDate > lastClosedDate)
+            {
+                TimeSpan difference = currentDate - lastClosedDate;
+
+                if (difference.Days == 1)
+                {
+                    RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: auxUser.personalStats.daysStreak + 1);
+                }
+                else if (difference.Days > 1)
+                {
+                    RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: 1);
+                }
+            }
 
             var newValue = new SimpleJSON.JSONObject
             {
@@ -364,10 +382,11 @@ public class RequestUserInfo : MonoBehaviour
                 ["lastClosedTime"] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             };
 
-
+            // Enviamos la actualización al servidor
             StartCoroutine(ServerConnection.Instance.ModifyUserField(idUser, "userData", newValue));
         });
     }
+
 
     /// <summary>
     /// Metodo para modificar o añadir informacion sobre los critterons del jugador

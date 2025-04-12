@@ -8,55 +8,68 @@ using UnityEngine.Timeline;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class MapControl : MonoBehaviour
 {
-    [SerializeField]
-    double[] coordenates;
+    [SerializeField] double[] coordenates;
     List<Tuple<string, Coordenate>> marksCoordenates = new List<Tuple<string, Coordenate>>();
-    [SerializeField]
-    OnlineMaps mapBase;
-    [SerializeField]
-    OnlineMapsMarker3DManager marksManager;
-    [SerializeField]
-    GameObject markPrefab;
-    [SerializeField]
-    float defaultScale = 10;
 
-    [SerializeField]
-    float maxDistanceToInteractWithPoint = 0.1f;
-
-    [SerializeField]
-    InteractMarkBehaviour markBehaviour;
+    [SerializeField] OnlineMaps mapBase;
+    [SerializeField] OnlineMapsMarker3DManager marksManager;
+    [SerializeField] GameObject markPrefab;
+    [SerializeField] float defaultScale = 10;
+    [SerializeField] float maxDistanceToInteractWithPoint = 0.1f;
+    [SerializeField] InteractMarkBehaviour markBehaviour;
 
     List<OnlineMapsMarker3D> marks = new List<OnlineMapsMarker3D>();
     List<Mark3D> logicMarks = new List<Mark3D>();
 
-
     long timeSinceLastInteract = -1, timeToInteract;
 
-
+    private const string LastAvailableMarksTimestampKey = "LastAvailableMarksTimestamp";
 
     private void Start()
     {
-        InvokeRepeating("CreateMarks",0.2f, 0.25f);
+        InvokeRepeating("CreateMarks", 0.2f, 0.25f);
         InitTimeCheck();
-
         markBehaviour.MapControl = this;
-
     }
 
     private void OnDestroy()
     {
         CancelInvoke();
+
+        // Guarda el tiempo restante hasta que se puedan volver a usar las marcas
+        if (timeSinceLastInteract > 0)
+        {
+            long nextAvailable = timeSinceLastInteract + timeToInteract;
+            PlayerPrefs.SetString(LastAvailableMarksTimestampKey, nextAvailable.ToString());
+            PlayerPrefs.Save();
+        }
     }
 
     void InitTimeCheck()
     {
-        //si ya esta inicialziado volvemos
-        if (timeSinceLastInteract >= 0)
-            return;
+        if (timeSinceLastInteract >= 0) return;
 
-        //servidor
+        if (PlayerPrefs.HasKey(LastAvailableMarksTimestampKey))
+        {
+            long savedNextAvailable = long.Parse(PlayerPrefs.GetString(LastAvailableMarksTimestampKey));
+            long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            long remaining = savedNextAvailable - now;
+
+            if (remaining > 0)
+            {
+                timeSinceLastInteract = now;
+                timeToInteract = remaining;
+                return;
+            }
+        }
+
+        // Si no existe o ya expiró
         timeSinceLastInteract = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - 10;
         timeToInteract = 0;
     }
@@ -65,26 +78,11 @@ public class MapControl : MonoBehaviour
     {
         timeSinceLastInteract = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         timeToInteract = InfoCache.GetGameInfo().markTime;
-
-    }
-
-    async Task LoadMarks()
-    {
-        var marksWork = await RequestGameInfo.Instance.GetAllMarksAsync();
-
-
-        foreach (var m in marksWork)
-        {
-            Debug.Log("MARKS: " + m.name);
-            marksCoordenates.Add(new Tuple<string, Coordenate>(m.name, new Coordenate(m.x, m.y)));
-        }
     }
 
     void LoadCacheMarks()
     {
         var marksWork = InfoCache.GetCachedMarks();
-
-
         foreach (var m in marksWork)
         {
             Debug.Log("MARKS: " + m.name);
@@ -94,35 +92,34 @@ public class MapControl : MonoBehaviour
 
     void CreateMarks()
     {
-        if (!InfoCache.MarksReady())
-            return;
+        if (!InfoCache.MarksReady()) return;
 
         CancelInvoke("CreateMarks");
 
-        //carga de paradas
-        //await LoadMarks();
         LoadCacheMarks();
         Debug.Log("marksReady");
 
-        /*
-        for (int i = 0; i < coordenates.Length; i += 2)
-        {
-            marksCoordenates.Add(new Tuple<string, Coordenate>("PARADA", new Coordenate(coordenates[i], coordenates[i + 1])));
-        }
-        */
-
         foreach (var mark in marksCoordenates)
         {
-            var marker3D =
-                marksManager.Create(mark.Item2.x, mark.Item2.y, markPrefab);
+            var marker3D = marksManager.Create(mark.Item2.x, mark.Item2.y, markPrefab);
             marker3D.scale = defaultScale;
+
             var logicMark = marker3D.instance.GetComponent<Mark3D>();
             logicMark.SetParams(mark.Item1);
+
+            // Verifica si debe iniciar desactivado
+            bool isActive = DateTimeOffset.UtcNow.ToUnixTimeSeconds() > timeSinceLastInteract + timeToInteract;
+            if (!isActive)
+            {
+                logicMark.DisableMark((float)(timeSinceLastInteract + timeToInteract - DateTimeOffset.UtcNow.ToUnixTimeSeconds()));
+            }
 
             logicMarks.Add(logicMark);
             marks.Add(marker3D);
         }
+
     }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -131,29 +128,16 @@ public class MapControl : MonoBehaviour
         }
     }
 
-
     void TryRaycast()
     {
-
-
-
-        // Genera un rayo desde la posición de la cámara hacia la dirección de la vista
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        // Almacén para la información del impacto del raycast
-        RaycastHit hit;
-
-        // Realiza el raycast
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
         {
             if (hit.collider != null)
             {
-                // Intenta obtener el componente Mark3D del objeto impactado
                 OnlineMapsMarker3D mark3D = GetMark(hit.collider.gameObject);
-
                 if (mark3D != null)
                 {
-                    // Si el objeto tiene el componente Mark3D
                     if (markBehaviour.Ready() && DateTimeOffset.UtcNow.ToUnixTimeSeconds() > timeSinceLastInteract + timeToInteract)
                     {
                         Debug.Log($"Impacto en objeto con Mark3D: {hit.collider.gameObject.name}");
@@ -172,29 +156,20 @@ public class MapControl : MonoBehaviour
     {
         foreach (var mark in marks)
         {
-            if (mark.instance == container)
-                return mark;
+            if (mark.instance == container) return mark;
         }
-
         return null;
     }
+
     bool ValidMark(OnlineMapsMarker3D mark)
     {
-
-        if (Coordenate.Distance(new Coordenate(mapBase.position.x, mapBase.position.y),
-            new Coordenate(mark.position.x, mark.position.y))
-            > maxDistanceToInteractWithPoint)
-            return false;
-
-        //tiempo entre uso de la marca
-        return true;
-
+        return Coordenate.Distance(new Coordenate(mapBase.position.x, mapBase.position.y),
+            new Coordenate(mark.position.x, mark.position.y)) <= maxDistanceToInteractWithPoint;
     }
 
     void TryInteractWithPoint(OnlineMapsMarker3D mark)
     {
-        if (!ValidMark(mark))
-            return;
+        if (!ValidMark(mark)) return;
 
         Debug.Log("Marca interactuada!");
         XasuControl.MessageWithCustomVerb(
@@ -205,7 +180,6 @@ public class MapControl : MonoBehaviour
         );
 
         SetLastTimeInteract();
-
         int[] rewards = { InfoCache.GetGameInfo().reward };
         mark.instance.GetComponent<Mark3D>().Interact(markBehaviour, rewards);
     }
@@ -221,9 +195,8 @@ public class MapControl : MonoBehaviour
             item.DisableMark(timeToInteract);
         }
     }
-
-
 }
+
 
 public class Coordenate
 {
