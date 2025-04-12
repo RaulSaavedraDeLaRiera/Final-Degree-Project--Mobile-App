@@ -88,7 +88,7 @@ public class MapControl : MonoBehaviour
         foreach (var m in marksWork)
         {
             Debug.Log("MARKS: " + m.name);
-            marksCoordenates.Add(new Tuple<string, Coordenate>(m.name, new Coordenate(m.x, m.y)));
+            marksCoordenates.Add(new Tuple<string, Coordenate>(m.name, new Coordenate(m.y, m.x)));
         }
     }
 
