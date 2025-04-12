@@ -107,13 +107,12 @@ public class MapControl : MonoBehaviour
             var logicMark = marker3D.instance.GetComponent<Mark3D>();
             logicMark.SetParams(mark.Item1);
 
-            // Verifica si debe iniciar desactivado
             bool isActive = DateTimeOffset.UtcNow.ToUnixTimeSeconds() > timeSinceLastInteract + timeToInteract;
             if (!isActive)
             {
-                logicMark.DisableMark((float)(timeSinceLastInteract + timeToInteract - DateTimeOffset.UtcNow.ToUnixTimeSeconds()));
+                float remaining = (float)(timeSinceLastInteract + timeToInteract - DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+                logicMark.DisableMark(remaining);
             }
-
             logicMarks.Add(logicMark);
             marks.Add(marker3D);
         }
