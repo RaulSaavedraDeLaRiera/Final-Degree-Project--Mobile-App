@@ -80,19 +80,6 @@ public class Login : MonoBehaviour
                         PlayerPrefs.SetInt("FriendTogetherCombat", 0);
                         PlayerPrefs.Save();
 
-                        var a = user.userData.lastClosedTime;
-
-                        DateTimeOffset lastSeenOffset = DateTimeOffset.FromUnixTimeSeconds(user.userData.lastClosedTime / 1000);
-                        DateTime lastDate = lastSeenOffset.Date;
-                        DateTime currentDate = DateTime.UtcNow.Date;
-
-                        TimeSpan difference = currentDate - lastDate;
-
-                        if (difference.Days == 1)
-                            RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: user.personalStats.daysStreak + 1);
-                        else if (difference.Days > 1)
-                            RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: 1);
-
                         RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
 
                         XasuControl.MessageWithCustomVerb(
