@@ -6,6 +6,7 @@ using Xasu;
 using Xasu.HighLevel;
 
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 public class XasuControl : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class XasuControl : MonoBehaviour
 
     private void OnDestroy()
     {
+        GameObjectTracker.Instance.Interacted("LOGOUT");
         StopXasu();
     }
 
@@ -46,6 +48,7 @@ public class XasuControl : MonoBehaviour
             return;
         }
 
+        Debug.Log("Xasu new interact: " + action);
         GameObjectTracker.Instance.Interacted(action);
 
     }
