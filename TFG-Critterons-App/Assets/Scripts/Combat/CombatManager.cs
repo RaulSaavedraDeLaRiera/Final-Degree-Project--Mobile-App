@@ -93,7 +93,12 @@ public class CombatManager : MonoBehaviour
 
         if (PlayerPrefs.GetInt("FriendTogetherCombat", 0) == 1)
         {
-            XasuControl.Message("COMBAT DUAL");
+            XasuControl.MessageWithCustomVerb(
+                actionId: "COMBAT DUAL",
+                verbId: "http://adlnet.gov/expapi/verbs/interacted",
+                verbDisplay: "interacted",
+                timestamp: DateTime.UtcNow
+            );
 
             PlayerPrefs.SetInt("FriendCombat", 0);
 
@@ -152,8 +157,12 @@ public class CombatManager : MonoBehaviour
         }
         else if (PlayerPrefs.GetInt("FriendCombat", 0) == 0)
         {
-            XasuControl.Message("COMBAT NORMAL");
-
+            XasuControl.MessageWithCustomVerb(
+            actionId: "COMBAT NORMAL",
+            verbId: "http://adlnet.gov/expapi/verbs/interacted",
+            verbDisplay: "interacted",
+            timestamp: DateTime.UtcNow
+        );
 
             int randomIndex = UnityEngine.Random.Range(0, list.Count);
             int randomLevel = UnityEngine.Random.Range(2, critteron.level + 2);
@@ -175,7 +184,12 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            XasuControl.Message("COMBAT VS FRIEND");
+            XasuControl.MessageWithCustomVerb(
+                actionId: "COMBAT VS FRIEND",
+                verbId: "http://adlnet.gov/expapi/verbs/interacted",
+                verbDisplay: "interacted",
+                timestamp: DateTime.UtcNow
+            );
 
             PlayerPrefs.SetInt("FriendCombat", 0);
             var friend = await RequestUserInfo.Instance.GetUserDataAsync(PlayerPrefs.GetString("IDFriend"));
@@ -423,7 +437,13 @@ public class CombatManager : MonoBehaviour
         if (win)
         {
             PlayerPrefs.SetInt("Result", 0);
-            XasuControl.Message("COMBAT WON");
+            XasuControl.MessageWithCustomVerb(
+                 actionId: "COMBAT_WON",
+                 verbId: "https://w3id.org/xapi/seriousgames/verbs/completed",
+                 verbDisplay: "completed", 
+                 timestamp: DateTime.UtcNow
+             );
+
 
             //cargar experiencia maxima y minima segun combate
             var newExp = GetExpPoints(5, 10);
@@ -449,8 +469,12 @@ public class CombatManager : MonoBehaviour
                         int lvl = c.level;
                         if (exp >= InfoCache.GetGameInfo().expGoal)
                         {
-                            XasuControl.Message("LEVEL UP");
-
+                            XasuControl.MessageWithCustomVerb(
+                                 actionId: "LEVEL UP",
+                                 verbId: "http://adlnet.gov/expapi/verbs/interacted",
+                                 verbDisplay: "interacted",
+                                 timestamp: DateTime.UtcNow
+                             );
                             exp = 0;
                             lvl++;
                         }
@@ -471,9 +495,12 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            XasuControl.Message("COMBAT LOST");
-
-
+            XasuControl.MessageWithCustomVerb(
+                    actionId: "COMBAT LOST",
+                    verbId: "http://adlnet.gov/expapi/verbs/completed",
+                    verbDisplay: "completed",
+                    timestamp: DateTime.UtcNow
+                );
             PlayerPrefs.SetInt("Result", 1);
             if (getExp)
             {

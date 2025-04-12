@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -43,7 +44,7 @@ public class InfoCache : MonoBehaviour
         while (true)
         {
             LogCurrentPosition();
-            await Task.Delay(300000); 
+            await Task.Delay(100000); 
         }
     }
 
@@ -54,8 +55,19 @@ public class InfoCache : MonoBehaviour
             double lat = OnlineMaps.instance.position.y;
             double lng = OnlineMaps.instance.position.x;
 
-            XasuControl.Message("X: " + lat);
-            XasuControl.Message("Y: "+ lng);
+            XasuControl.MessageWithCustomVerb(
+                actionId: $"Latitude_{lat}",
+                verbId: "http://adlnet.gov/expapi/verbs/interacted",
+                verbDisplay: "interacted",
+                timestamp: DateTime.UtcNow
+            );
+
+            XasuControl.MessageWithCustomVerb(
+                actionId: $"Longitude_{lng}",
+                verbId: "http://adlnet.gov/expapi/verbs/interacted",
+                verbDisplay: "interacted",
+                timestamp: DateTime.UtcNow
+            );
 
         }
         else

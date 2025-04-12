@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static I_UserInfo;
+using System;
 
 public class PrefabSpawner : MonoBehaviour
 {
@@ -85,7 +86,7 @@ public class PrefabSpawner : MonoBehaviour
             yield break;
         }
 
-        int randomIndex = Random.Range(0, possibleCritterons.Count);
+        int randomIndex = UnityEngine.Random.Range(0, possibleCritterons.Count);
         Debug.Log($"Randomly selected index: {randomIndex}, Critteron: {possibleCritterons[randomIndex].name}");
 
         RequestUserInfo.Instance.GetUserCritterons(PlayerPrefs.GetString("UserID"), list =>
@@ -94,15 +95,23 @@ public class PrefabSpawner : MonoBehaviour
 
             if (!idExists)
             {
-                XasuControl.Message("NEW CRITTERON");
-
+                XasuControl.MessageWithCustomVerb(
+                    actionId: "NEW_CRITTERON",
+                    verbId: "https://w3id.org/xapi/seriousgames/verbs/unlocked",
+                    verbDisplay: "unlocked",
+                    timestamp: DateTime.UtcNow
+                );
                 RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), possibleCritterons[randomIndex].id, currentLife: possibleCritterons[randomIndex].life, level: 1);
                 RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), critteronsOwned: user.personalStats.critteronsOwned + 1);
             }
             else
             {
-                XasuControl.Message("LEVEL UP CRITTERON");
-
+                XasuControl.MessageWithCustomVerb(
+                    actionId: "LEVEL_UP_CRITTERON",
+                    verbId: "https://w3id.org/xapi/adl/verbs/advanced",
+                    verbDisplay: "advanced",
+                    timestamp: DateTime.UtcNow
+                );
                 RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), possibleCritterons[randomIndex].id, critteronUser =>
                 {
                     RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), possibleCritterons[randomIndex].id, currentLife: possibleCritterons[randomIndex].life, level: critteronUser.level + 1);

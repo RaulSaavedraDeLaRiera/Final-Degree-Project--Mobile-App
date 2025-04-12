@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -201,7 +202,12 @@ public class HotelManager : MonoBehaviour
         GetComponent<HotelInput>().InputEnable = true;
 
         InfoCache.Reload();
-        XasuControl.Message("BUY ROOM");
+        XasuControl.MessageWithCustomVerb(
+            actionId: "BUY ROOM",
+            verbId: "http://adlnet.gov/expapi/verbs/interacted",
+            verbDisplay: "interacted",
+            timestamp: DateTime.UtcNow
+        );
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 

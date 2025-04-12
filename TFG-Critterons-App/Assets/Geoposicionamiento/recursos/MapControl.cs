@@ -197,7 +197,12 @@ public class MapControl : MonoBehaviour
             return;
 
         Debug.Log("Marca interactuada!");
-        XasuControl.Message("MARK TOUCH");
+        XasuControl.MessageWithCustomVerb(
+            actionId: "MARK_TOUCH",
+            verbId: "http://adlnet.gov/expapi/verbs/interacted",
+            verbDisplay: "interacted",
+            timestamp: DateTime.UtcNow
+        );
 
         SetLastTimeInteract();
 

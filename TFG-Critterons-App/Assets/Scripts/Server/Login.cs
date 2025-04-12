@@ -63,8 +63,12 @@ public class Login : MonoBehaviour
                         RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), daysStreak: 1);
                         RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), "6755c9dab8d0a120196ac902");
 
-                        XasuControl.Message("FIRST LOGIN");
-
+                        XasuControl.MessageWithCustomVerb(
+                            actionId: "FIRST_LOGIN",
+                            verbId: "http://adlnet.gov/expapi/verbs/initialized",
+                            verbDisplay: "initialized",
+                            timestamp: DateTime.UtcNow
+                        );
                         StartCoroutine("changeScene");
                     }
                     else
@@ -91,7 +95,12 @@ public class Login : MonoBehaviour
 
                         RequestUserInfo.Instance.ModifyUserCritteronLifeTime(PlayerPrefs.GetString("UserID"));
 
-                        XasuControl.Message("LOGIN");
+                        XasuControl.MessageWithCustomVerb(
+                            actionId: "LOGIN",
+                            verbId: "http://adlnet.gov/expapi/verbs/initialized",
+                            verbDisplay: "initialized",
+                            timestamp: DateTime.UtcNow
+                        );
 
                         loadingSpinner.SetActive(false);
                         Debug.Log("Cambiando escena");

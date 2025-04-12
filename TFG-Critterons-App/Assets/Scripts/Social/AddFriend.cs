@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -44,7 +45,12 @@ public class AddFriend : MonoBehaviour
             else
             {
 
-                XasuControl.Message("SEND ADDFRIEND");
+                XasuControl.MessageWithCustomVerb(
+                    actionId: "SEND_ADDFRIEND",
+                    verbId: "http://adlnet.gov/expapi/verbs/interacted",
+                    verbDisplay: "interacted",
+                    timestamp: DateTime.UtcNow
+                );
 
                 RequestUserInfoSocial.Instance.ModifyPendingFriend(id.text, PlayerPrefs.GetString("UserID"));
                 RequestUserInfoSocial.Instance.ModifySentFriend(PlayerPrefs.GetString("UserID"), id.text);
