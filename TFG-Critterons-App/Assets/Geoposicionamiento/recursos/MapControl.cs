@@ -77,7 +77,7 @@ public class MapControl : MonoBehaviour
     void SetLastTimeInteract()
     {
         timeSinceLastInteract = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        timeToInteract = 10;
+        timeToInteract = InfoCache.GetGameInfo().markTime;
     }
 
     void LoadCacheMarks()
