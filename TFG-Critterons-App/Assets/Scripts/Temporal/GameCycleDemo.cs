@@ -39,6 +39,9 @@ public class GameCycleDemo : MonoBehaviour
         else
             stepsInLastCombat = 0;
 
+        if(InfoCache.GetGameInfo().stepsToCombat != null)
+            stepsToCombat = InfoCache.GetGameInfo().stepsToCombat;
+
     }
 
     private void Update()

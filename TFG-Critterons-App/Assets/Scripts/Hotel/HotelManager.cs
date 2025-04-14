@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using static I_UserInfo;
 
 public class HotelManager : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class HotelManager : MonoBehaviour
 
     public List<RoomInfo> Rooms => rooms;
     public List<int> roomPrices;
-
+    I_User user;
     int money;
 
 
@@ -52,26 +53,18 @@ public class HotelManager : MonoBehaviour
     void Start()
     {
 
-        Transform buttonTransform = canvas.transform.Find("Money");
-        TextMeshProUGUI moneyText = buttonTransform.GetComponentInChildren<TextMeshProUGUI>();
 
-        Transform nameBar = canvas.transform.Find("UserInfo");
-        Transform nameText = nameBar.transform.Find("NameText");
-        TextMeshProUGUI name = nameText.GetComponentInChildren<TextMeshProUGUI>();
-
-        Transform levelText = nameBar.transform.Find("UserIcon");
-        TextMeshProUGUI levelTextC = levelText.GetComponentInChildren<TextMeshProUGUI>();
-
-        RequestUserInfo.Instance.GetUserData(PlayerPrefs.GetString("UserID"), userData =>
-        {
-            money = userData.money;
-            moneyText.text = money.ToString();
-
-            name.text = userData.name;
-            levelTextC.text = userData.level.ToString();
-        });
+        UpdateInfo();
 
         InitHotel();
+    }
+
+
+
+    async Task SetUser()
+    {
+        user = await RequestUserInfo.Instance.GetUserAsync(PlayerPrefs.GetString("UserID"));
+
     }
 
     public void AddObject(HotelObject hotelObject, HotelObjectType typeObject)
@@ -194,6 +187,7 @@ public class HotelManager : MonoBehaviour
         //guardar en servidor
         RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), money: money);
         RequestUserInfo.Instance.ModifyUserRooms(PlayerPrefs.GetString("UserID"), targetRoom.gameObject.name);
+        RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), percentHotel: user.personalStats.percentHotel + 1);
 
         targetRoom.InitialiceRoom(this);
 
@@ -208,7 +202,7 @@ public class HotelManager : MonoBehaviour
             verbDisplay: "interacted",
             timestamp: DateTime.UtcNow
         );
-
+        UpdateInfo();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
     }
@@ -221,7 +215,7 @@ public class HotelManager : MonoBehaviour
         if (waitingAnimation != null)
             waitingAnimation.Hide(1);
     }
-   
+
     async Task InitialiceRooms()
     {
         List<I_Room> cachedRooms = InfoCache.GetCachedRooms();
@@ -299,5 +293,29 @@ public class HotelManager : MonoBehaviour
         SceneManager.LoadScene("UserInfo");
     }
 
+
+    public void UpdateInfo()
+    {
+        Transform buttonTransform = canvas.transform.Find("Money");
+        TextMeshProUGUI moneyText = buttonTransform.GetComponentInChildren<TextMeshProUGUI>();
+
+        Transform nameBar = canvas.transform.Find("UserInfo");
+        Transform nameText = nameBar.transform.Find("NameText");
+        TextMeshProUGUI name = nameText.GetComponentInChildren<TextMeshProUGUI>();
+
+        Transform levelText = nameBar.transform.Find("UserIcon");
+        TextMeshProUGUI levelTextC = levelText.GetComponentInChildren<TextMeshProUGUI>();
+
+        RequestUserInfo.Instance.GetUserByID(PlayerPrefs.GetString("UserID"), userData =>
+        {
+            user = userData;
+            money = userData.userData.money;
+            moneyText.text = money.ToString();
+
+            name.text = userData.userData.name;
+            levelTextC.text = userData.userData.level.ToString();
+        });
+
+    }
 
 }

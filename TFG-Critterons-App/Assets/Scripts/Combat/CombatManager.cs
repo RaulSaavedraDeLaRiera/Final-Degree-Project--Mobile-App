@@ -459,6 +459,7 @@ public class CombatManager : MonoBehaviour
 
             RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), idCritteronCurrent, currentLife: life[0], exp: newExp[0]);
             Debug.Log("derrotado enemigos");
+            RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), combatWins: user.personalStats.combatWins + 1);
 
 
             // Dar experiencia al usuario o subir de nivel
@@ -469,7 +470,6 @@ public class CombatManager : MonoBehaviour
 
 
                     RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), level: user.userData.level + 1, experience: 0, money: user.userData.money + 20);
-                    RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), combatWins: user.personalStats.combatWins + 1);
 
                     RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), user.userData.currentCritteron, c =>
                     {
