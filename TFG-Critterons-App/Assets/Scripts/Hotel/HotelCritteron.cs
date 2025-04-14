@@ -113,6 +113,7 @@ public class HotelCritteron : MonoBehaviour
         else
             StartCoroutine(DelayFunction(() =>
             {
+                col.enabled = true;
                 agent.enabled = true; animator.Play("Move");
             }, time));
 
