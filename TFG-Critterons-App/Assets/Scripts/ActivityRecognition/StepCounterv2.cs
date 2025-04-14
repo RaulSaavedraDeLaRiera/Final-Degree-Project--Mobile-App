@@ -11,7 +11,9 @@ public class StepCounterV2 : MonoBehaviour
 {
     public TextMeshProUGUI debugText; // UI para mostrar pasos
     private int initialSteps = 0;   // Valor inicial de pasos al iniciar
+    private int initialStepsCalculate = 0;   // Valor inicial de pasos al iniciar
     private int currentSteps = 0;    // Pasos detectados en esta sesi?n
+    private int steps = 0;    // Pasos detectados en esta sesi?n
 
 
     private InputAction stepAction;
@@ -23,6 +25,7 @@ public class StepCounterV2 : MonoBehaviour
     public static bool stepCounterWorking;
 
     bool delayInit = false;
+    bool start = false;
 
     void Start()
     {
@@ -59,11 +62,12 @@ public class StepCounterV2 : MonoBehaviour
             stepAction.performed += OnStepDetected;
 
             initialSteps = StepCounter.current.stepCounter.ReadValue();
+            initialStepsCalculate = StepCounter.current.stepCounter.ReadValue();
             Debug.Log("Initial steps: " + initialSteps.ToString());
 
             stepCounterWorking = true;
 
-            InvokeRepeating(nameof(CheckSteps), 40f, 40f);
+            InvokeRepeating(nameof(CheckSteps), 30f, 30f);
 
         }
         else
@@ -88,7 +92,8 @@ public class StepCounterV2 : MonoBehaviour
             }
 
             currentSteps = totalSteps - initialSteps;
-
+            steps = totalSteps - initialStepsCalculate;
+            
             if (debugText != null)
                 debugText.text = "Pasos: " + currentSteps;
         }
@@ -122,7 +127,7 @@ public class StepCounterV2 : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(delayInit)
+        if (delayInit)
         {
             InitializateSensor();
             delayInit = false;
@@ -133,8 +138,11 @@ public class StepCounterV2 : MonoBehaviour
     {
         RequestUserInfo.Instance.GetUserByID(PlayerPrefs.GetString("UserID"), (user) =>
         {
-            RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), globalSteps: user.personalStats.globalSteps + currentSteps);
-            currentSteps = 0;
+            if (steps > 100)
+                steps = 100;
+            RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), globalSteps: user.personalStats.globalSteps + steps);
+            steps = 0;
+            initialStepsCalculate = StepCounter.current.stepCounter.ReadValue();
         });
 
     }
