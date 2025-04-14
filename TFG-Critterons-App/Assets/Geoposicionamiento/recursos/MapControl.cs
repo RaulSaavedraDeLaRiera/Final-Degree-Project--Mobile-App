@@ -77,7 +77,7 @@ public class MapControl : MonoBehaviour
     void SetLastTimeInteract()
     {
         timeSinceLastInteract = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        timeToInteract = InfoCache.GetGameInfo().markTime;
+        timeToInteract = 10;
     }
 
     void LoadCacheMarks()
@@ -99,6 +99,8 @@ public class MapControl : MonoBehaviour
         LoadCacheMarks();
         Debug.Log("marksReady");
 
+        bool isActive = DateTimeOffset.UtcNow.ToUnixTimeSeconds() > timeSinceLastInteract + timeToInteract;
+
         foreach (var mark in marksCoordenates)
         {
             var marker3D = marksManager.Create(mark.Item2.x, mark.Item2.y, markPrefab);
@@ -107,7 +109,7 @@ public class MapControl : MonoBehaviour
             var logicMark = marker3D.instance.GetComponent<Mark3D>();
             logicMark.SetParams(mark.Item1);
 
-            bool isActive = DateTimeOffset.UtcNow.ToUnixTimeSeconds() > timeSinceLastInteract + timeToInteract;
+           
             if (!isActive)
             {
                 float remaining = (float)(timeSinceLastInteract + timeToInteract - DateTimeOffset.UtcNow.ToUnixTimeSeconds());

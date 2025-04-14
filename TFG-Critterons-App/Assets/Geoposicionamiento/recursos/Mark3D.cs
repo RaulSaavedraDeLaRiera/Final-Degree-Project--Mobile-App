@@ -32,7 +32,7 @@ public class Mark3D : MonoBehaviour
         StopAllCoroutines();
     }
 
-    private void Start()
+    private void Awake()
     {
         baseMats = new Material[modColor.Length];
         for (int i = 0; i < modColor.Length; i++)
@@ -57,6 +57,12 @@ public class Mark3D : MonoBehaviour
     public void DisableMark(float timeToEnable)
     {
         StopAllCoroutines();
+
+        if (!gameObject.activeSelf)
+            return;
+
+        Debug.Log("Reactivacion en: " + timeToEnable);
+
         StartCoroutine(DisableTemporarily(timeToEnable));
     }
 
@@ -73,6 +79,9 @@ public class Mark3D : MonoBehaviour
 
     void EnableMark()
     {
+
+        Debug.Log("Enable mark!");
+
         for (int i = 0; i < baseMats.Length; i++)
         {
             modColor[i].material = baseMats[i];
