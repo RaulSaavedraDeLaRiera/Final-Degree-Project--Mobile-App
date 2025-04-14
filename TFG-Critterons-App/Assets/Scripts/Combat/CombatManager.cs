@@ -333,9 +333,15 @@ public class CombatManager : MonoBehaviour
         }
     }
 
+    float lastClick = 0f;
+    const float timeBtwClick = 0.3f;
 
     public void AttackInput(int selected)
     {
+        if (Time.timeSinceLevelLoad - lastClick < timeBtwClick)
+            return;
+
+       
         if ((AttackSelected)selected != AttackSelected.normalAttack)
         {
             if (lastSpecialAttack + coldownSpecialAttack >= Time.timeSinceLevelLoad)
@@ -348,6 +354,8 @@ public class CombatManager : MonoBehaviour
 
         Debug.Log("ataque seleccionado: " + selected + " en turno " + turn);
         attackSelected = (AttackSelected)selected;
+
+        lastClick = Time.timeSinceLevelLoad;
 
         combatUI.SelectAttack(selected - 1);
     }
