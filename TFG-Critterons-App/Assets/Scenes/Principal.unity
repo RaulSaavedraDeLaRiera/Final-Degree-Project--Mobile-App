@@ -3846,7 +3846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c16995619a6a2ea43a8fae64eecce58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerCombatType: 0
+  triggerCombatType: 1
   nextCombatInfoText: {fileID: 1795997114}
   minTimeNextcombat: 2
   maxTimeNextCombat: 4

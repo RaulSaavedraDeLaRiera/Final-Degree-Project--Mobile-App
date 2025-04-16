@@ -22,7 +22,7 @@ public class CritteronInfoPopUp : MonoBehaviour
 
             descriptionC.text = "lvl." + critteronUser.level.ToString() + "\n" +
                 "damage :" + cInfo.basicDamage + "\n" +
-                 "defense :" + cInfo.defense;
+                 "defense :" + (cInfo.defense * 100);
 
             if (cInfo.attacks[0] != null)
                 attack1.text = cInfo.attacks[0].name;
