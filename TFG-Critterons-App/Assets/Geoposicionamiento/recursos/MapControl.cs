@@ -190,6 +190,10 @@ public class MapControl : MonoBehaviour
             timestamp: DateTime.UtcNow
         );
 
+
+        if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() <= timeSinceLastInteract + timeToInteract)
+            return;
+
         SetLastTimeInteract();
         int[] rewards = { InfoCache.GetGameInfo().reward };
         mark.instance.GetComponent<Mark3D>().Interact(markBehaviour, rewards);
@@ -197,7 +201,7 @@ public class MapControl : MonoBehaviour
 
     public async void InteractionComplete(int[] rewards)
     {
-        SetLastTimeInteract();
+   
         var user = await RequestUserInfo.Instance.GetUserAsync(PlayerPrefs.GetString("UserID"));
         RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), money: user.userData.money + rewards[0]);
 
