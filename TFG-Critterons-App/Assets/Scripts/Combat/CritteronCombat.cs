@@ -19,6 +19,7 @@ public class CritteronCombat : MonoBehaviour
     int maxHealth;
     public int Health => health;
 
+    int specialAttack1Damage, specialAttack2Damage;
 
     public string InitializateCritteron(CombatManager manager, CombatUI ui,
         CritteronCombatInfo info, int combatID)
@@ -30,6 +31,8 @@ public class CritteronCombat : MonoBehaviour
         maxHealth = info.live;
         health = info.currentLife;
         damage = info.damage;
+        specialAttack1Damage = info.specialAttack1Damage;
+        specialAttack2Damage = info.specialAttack2Damage;
         defense = info.defense;
 
         visualRoot.Find(info.creature).gameObject.SetActive(true);
@@ -66,12 +69,12 @@ public class CritteronCombat : MonoBehaviour
             case AttackSelected.specialAttack1:
                 //se deberia de dar el index respecto a su ataque especial
                 combatManager.SolicitateEffect(1, 0);
-                target.GetDamage(damage);
+                target.GetDamage((int)(specialAttack1Damage * extraDamage));
                 animator.Play("SpecialAttack");
                 break;
             case AttackSelected.specialAttack2:
                 combatManager.SolicitateEffect(1, 0);
-                target.GetDamage(damage);
+                target.GetDamage((int)(specialAttack1Damage * extraDamage));
                 animator.Play("SpecialAttack");
                 break;
             default:
