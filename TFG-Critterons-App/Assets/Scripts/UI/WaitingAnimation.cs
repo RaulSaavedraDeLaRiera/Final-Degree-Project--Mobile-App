@@ -16,6 +16,11 @@ public class WaitingAnimation : MonoBehaviour
 
     }
 
+    public void Show()
+    {
+        waitingCanvas.SetActive(true);
+    }
+
     private void OnDestroy()
     {
         CancelInvoke();

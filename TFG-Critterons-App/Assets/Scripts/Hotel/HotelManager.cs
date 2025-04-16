@@ -203,8 +203,16 @@ public class HotelManager : MonoBehaviour
             timestamp: DateTime.UtcNow
         );
         UpdateInfo();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
+        waitingAnimation.Show();
+
+        Invoke("ReloadHotel", 2f);
+    }
+
+    void ReloadHotel()
+    {
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     async void InitHotel()
