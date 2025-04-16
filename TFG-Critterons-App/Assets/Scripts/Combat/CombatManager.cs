@@ -169,7 +169,7 @@ public class CombatManager : MonoBehaviour
             verbId: "http://adlnet.gov/expapi/verbs/interacted",
             verbDisplay: "interacted",
             timestamp: DateTime.UtcNow
-        );
+            );
 
             int randomIndex = UnityEngine.Random.Range(0, list.Count);
             int randomLevel = UnityEngine.Random.Range(2, critteron.level + 2);
@@ -351,7 +351,7 @@ public class CombatManager : MonoBehaviour
 
         if ((AttackSelected)selected != AttackSelected.normalAttack)
         {
-            if (lastSpecialAttack + coldownSpecialAttack >= Time.timeSinceLevelLoad)
+            if (lastSpecialAttack + coldownSpecialAttack >= Time.timeSinceLevelLoad || combatUI.SpecialSttacksDisable)
                 return;
             else
             {
@@ -399,8 +399,12 @@ public class CombatManager : MonoBehaviour
                     allyCritterons[0].Attack(enemyCritterons[0], attackSelected, attackExtraDamage);
 
                     combatUI.ResetAttacks();
+                    combatUI.AttackText((int)attackSelected, turnDuration);
+
                     if ((int)attackSelected > 1)
                         combatUI.DisableSpecialAttacks(coldownSpecialAttack);
+
+                    attackSelected = AttackSelected.none;
                 }
                 else
                     enemyCritterons[0].Attack(allyCritterons[0]);
@@ -419,8 +423,12 @@ public class CombatManager : MonoBehaviour
                         allyCritterons[0].Attack(enemyCritterons[0], attackSelected, attackExtraDamage);
 
                         combatUI.ResetAttacks();
+                        combatUI.AttackText((int)attackSelected, turnDuration);
+
                         if ((int)attackSelected > 1)
                             combatUI.DisableSpecialAttacks(coldownSpecialAttack);
+
+                        attackSelected = AttackSelected.none;
                     }
                     //y luego el del aliado
                     else
@@ -441,7 +449,7 @@ public class CombatManager : MonoBehaviour
         }
 
         turn++;
-        attackSelected = AttackSelected.none;
+
 
     }
 

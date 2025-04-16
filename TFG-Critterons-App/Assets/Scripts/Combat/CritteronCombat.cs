@@ -44,15 +44,15 @@ public class CritteronCombat : MonoBehaviour
 
     public void Attack(CritteronCombat target)
     {
-        Debug.Log(gameObject.name + " attacks " + target.gameObject.name);
+        //Debug.Log(gameObject.name + " attacks " + target.gameObject.name);
         animator.Play("NormalAttack");
         combatManager.SolicitateEffect(0, 0);
-        target.GetDamage(damage);
+        target.GetDamage(0);
 
     }
     public void Attack(CritteronCombat target, AttackSelected attackSelected, float extraDamage)
     {
-        Debug.Log(gameObject.name + " attacks " + target.gameObject.name);
+        Debug.Log(gameObject.name + " attacks with attack " + attackSelected);
 
         switch (attackSelected)
         {
@@ -62,20 +62,20 @@ public class CritteronCombat : MonoBehaviour
                 combatManager.SolicitateEffect(0, 0);
                 break;
             case AttackSelected.normalAttack:
-                combatManager.SolicitateEffect(0, 0);
                 target.GetDamage((int)(damage * extraDamage));
+                combatManager.SolicitateEffect(0, 0);
                 animator.Play("NormalAttack");
                 break;
             case AttackSelected.specialAttack1:
                 //se deberia de dar el index respecto a su ataque especial
-                combatManager.SolicitateEffect(1, 0);
                 target.GetDamage((int)(specialAttack1Damage * extraDamage));
-                animator.Play("SpecialAttack");
+                combatManager.SolicitateEffect(1, 0);
+                animator.Play("NormalAttack");
                 break;
             case AttackSelected.specialAttack2:
+                target.GetDamage((int)(specialAttack2Damage * extraDamage));
                 combatManager.SolicitateEffect(1, 0);
-                target.GetDamage((int)(specialAttack1Damage * extraDamage));
-                animator.Play("SpecialAttack");
+                animator.Play("NormalAttack");
                 break;
             default:
                 break;

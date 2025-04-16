@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class CombatUI : MonoBehaviour
 {
@@ -17,6 +18,21 @@ public class CombatUI : MonoBehaviour
     Image[] attacks;
     [SerializeField]
     Color disableAttack, selectedAttack;
+
+    [SerializeField]
+    Transform effectTextRoot;
+    [SerializeField]
+    TextMeshProUGUI[] effectTexts;
+
+    bool specialAttacksDisable = false;
+
+    public bool SpecialSttacksDisable
+    {
+        get
+        {
+            return specialAttacksDisable;
+        }
+    }
 
     CombatType combatType;
     public void SetUI(CombatParameters info)
@@ -93,14 +109,53 @@ public class CombatUI : MonoBehaviour
         attacks[attack].color = selectedAttack;
     }
 
+   
     public void DisableSpecialAttacks(float time)
     {
+        specialAttacksDisable = true;
         attacks[1].color = attacks[2].color = disableAttack;
         Invoke("EnableSpecialAttacks", time);
     }
 
+    public void AttackText(int attack, float turnDur)
+    {
+        string text = "";
+        switch (attack)
+        {
+            case 1:
+                text = "EXTRA DAMAGE!";
+                break;
+            case 2:
+                text = specialAttack1.text;
+                break;
+            case 3:
+                text = specialAttack2.text;
+                break;
+            default:
+                break;
+        }
+
+        if (text == "")
+            return;
+
+        effectTextRoot.gameObject.SetActive(true);
+
+        foreach (var item in effectTexts)
+        {
+            item.text = text;
+        }
+
+        effectTextRoot.localScale = Vector3.zero;
+
+        effectTextRoot.transform.DOScale(1, turnDur / 3 * 2).onComplete = ()=>
+        {
+            effectTextRoot.gameObject.SetActive(false);
+        };
+    }
+
     void EnableSpecialAttacks()
     {
+        specialAttacksDisable = false;
         attacks[1].color = attacks[2].color = Color.white;
 
     }
