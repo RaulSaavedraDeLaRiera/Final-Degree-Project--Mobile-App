@@ -44,7 +44,27 @@ public class ObjectInfoPopUp : MonoBehaviour
     {
         nameT.text = room.NameRoom;
         descriptionT.text = room.Description;
-        bonusT.text = room.TypeHotelRoom.ToString() + ": " + room.PercentRoom;
+
+        string infoText = "";
+
+        switch (room.TypeHotelRoom)
+        {
+            case HotelObjectType.cureObject:
+                infoText = "Makes your critterons heal " + room.PercentRoom + "% faster";
+                break;
+            case HotelObjectType.levelObject:
+                infoText = "Makes your critters improve " + room.PercentRoom + "% faster";
+                break;
+            case HotelObjectType.decorationObject:
+                infoText = "It doesn't do anything, but it's pretty";
+                break;
+            case HotelObjectType.damageUpObject:
+                infoText = "Makes your critterons do " + room.PercentRoom + "% more damage";
+                break;
+        }
+     
+        bonusT.text = infoText;
+        
         if (users != null)
         {
             //hay que implementar que carguen foto critteron etc

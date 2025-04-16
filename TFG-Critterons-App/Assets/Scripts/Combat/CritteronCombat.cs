@@ -102,9 +102,11 @@ public struct CritteronCombatInfo{
     public string creature;
     public float defense;
     public int level;
+    public int specialAttack1Damage;
+    public int specialAttack2Damage;
     public I_Critteron critteron;
 
-    public CritteronCombatInfo(int live, int damage, string creature,int level, int currentLife, float defense,I_Critteron critteron)
+    public CritteronCombatInfo(int live, int damage, string creature,int level, int currentLife, float defense, I_Critteron critteron, int specialAttack1Damage = 0, int specialAttack2Damage = 0)
     {
         this.currentLife = currentLife;
         this.live = live;
@@ -113,6 +115,8 @@ public struct CritteronCombatInfo{
         this.level = level;
         this.critteron = critteron;
         this.defense = defense;
+        this.specialAttack1Damage = specialAttack1Damage;
+        this.specialAttack2Damage = specialAttack2Damage;
     }
 
 }

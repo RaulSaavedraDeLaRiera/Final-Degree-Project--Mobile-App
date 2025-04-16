@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using static I_UserInfo;
 using System;
+using DG.Tweening;
 
 public class PrefabSpawner : MonoBehaviour
 {
@@ -16,6 +17,11 @@ public class PrefabSpawner : MonoBehaviour
 
     [SerializeField] GameObject critterons;
     [SerializeField] Image image;
+
+    [SerializeField]
+    GameObject newLevelText, newCritteronText;
+    [SerializeField]
+    ParticleSystem effect;
 
     List<I_Critteron> possibleCritterons;
     GameObject instance;
@@ -40,6 +46,8 @@ public class PrefabSpawner : MonoBehaviour
 
         isSwaying = false;
         Destroy(instance);
+
+      
 
         StartCoroutine(HandleCritteronSelection());
     }
@@ -80,6 +88,8 @@ public class PrefabSpawner : MonoBehaviour
 
     IEnumerator HandleCritteronSelection()
     {
+        effect.enableEmission = false;
+
         if (possibleCritterons == null || possibleCritterons.Count == 0)
         {
             Debug.LogError("possibleCritterons list is empty or null.");
@@ -92,6 +102,8 @@ public class PrefabSpawner : MonoBehaviour
         RequestUserInfo.Instance.GetUserCritterons(PlayerPrefs.GetString("UserID"), list =>
         {
             bool idExists = list.Any(critteron => critteron.critteronID == possibleCritterons[randomIndex].id);
+
+            SetTextNewLevel(idExists);
 
             if (!idExists)
             {
@@ -127,5 +139,21 @@ public class PrefabSpawner : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Hotel");
+    }
+
+
+    void SetTextNewLevel(bool newCritteron)
+    {
+
+        GameObject target;
+
+        if (newCritteron)
+            target = newCritteronText;
+        else
+            target = newLevelText;
+
+        target.gameObject.SetActive(true);
+        target.transform.DOScale(1.2f, 1);
+
     }
 }
