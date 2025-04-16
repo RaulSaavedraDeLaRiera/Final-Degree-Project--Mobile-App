@@ -433,13 +433,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   markName: 
-  bodyPart: {fileID: 0}
+  bodyPart: {fileID: 2318379872538115208}
   animationPart: {fileID: 6593268841449136006}
   modColor:
   - {fileID: 300001327938999157}
   - {fileID: 1102161354685660276}
   enableColor: {fileID: 2100000, guid: 3f6b266d10b8d464ba3abbc2aad743f8, type: 2}
   disableColor: {fileID: 2100000, guid: 279f8013f047e2049827b58c0b0d8284, type: 2}
+  baseMats: []
 --- !u!1 &6286638740662507548
 GameObject:
   m_ObjectHideFlags: 0

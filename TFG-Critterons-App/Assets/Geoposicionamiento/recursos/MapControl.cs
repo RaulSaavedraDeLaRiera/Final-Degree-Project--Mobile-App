@@ -3,14 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
-using UnityEngine.Timeline;
-
-using System.Threading.Tasks;
-using Unity.VisualScripting;
-
-using System;
-using System.Collections.Generic;
-using UnityEngine;
+using TMPro;
 
 public class MapControl : MonoBehaviour
 {
@@ -24,6 +17,9 @@ public class MapControl : MonoBehaviour
     [SerializeField] float maxDistanceToInteractWithPoint = 0.1f;
     [SerializeField] InteractMarkBehaviour markBehaviour;
 
+    [SerializeField]
+    TextMeshProUGUI moneyText;
+
     List<OnlineMapsMarker3D> marks = new List<OnlineMapsMarker3D>();
     List<Mark3D> logicMarks = new List<Mark3D>();
 
@@ -31,11 +27,25 @@ public class MapControl : MonoBehaviour
 
     private const string LastAvailableMarksTimestampKey = "LastAvailableMarksTimestamp";
 
+    int money;
+
     private void Start()
     {
         InvokeRepeating("CreateMarks", 0.2f, 0.25f);
         InitTimeCheck();
         markBehaviour.MapControl = this;
+
+        GetMoney();
+    }
+
+
+    void GetMoney()
+    {
+        RequestUserInfo.Instance.GetUserByID(PlayerPrefs.GetString("UserID"), userData =>
+        {
+            money = userData.userData.money;
+            moneyText.text = money.ToString();
+        });
     }
 
     private void OnDestroy()
@@ -190,6 +200,9 @@ public class MapControl : MonoBehaviour
         SetLastTimeInteract();
         var user = await RequestUserInfo.Instance.GetUserAsync(PlayerPrefs.GetString("UserID"));
         RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), money: user.userData.money + rewards[0]);
+
+        money += rewards[0];
+        moneyText.text = money.ToString();
 
         foreach (var item in logicMarks)
         {

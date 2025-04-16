@@ -13000,6 +13000,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasHotel
       objectReference: {fileID: 0}
+    - target: {fileID: 6881007230290526444, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6980899836794841678, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
       propertyPath: m_IsActive
