@@ -43,10 +43,13 @@ public class CombatManager : MonoBehaviour
     AttackSelected attackSelected;
     CombatParameters combatInfo;
 
-    float coldownSpecialAttack = 2.5f, lastSpecialAttack = 0f;
+    float coldownSpecialAttack = 2.5f, lastSpecialAttack;
 
     private void Start()
     {
+
+        lastSpecialAttack = -coldownSpecialAttack;
+
         expCombat = InfoCache.GetGameInfo().expPerCombat;
 
         SetCombat();
@@ -76,7 +79,9 @@ public class CombatManager : MonoBehaviour
             critteron.level,
             (int)critteron.currentLife + critteron.level,
             critteronGame.defense,
-            critteronGame
+            critteronGame,
+            critteronGame.attacks[0].damage,
+            critteronGame.attacks[1].damage
         );
 
         var critterons = await RequestGameInfo.Instance.GetAllCritteronAsync();
@@ -121,7 +126,9 @@ public class CombatManager : MonoBehaviour
                 critteron.level,
                 (int)critteron.currentLife + critteron.level,
                 critteronGame.defense,
-                critteronGame
+                critteronGame,
+                critteronGame.attacks[0].damage,
+                critteronGame.attacks[1].damage
             );
 
             crittteronsInfo[1] = new CritteronCombatInfo(
@@ -341,7 +348,7 @@ public class CombatManager : MonoBehaviour
         if (Time.timeSinceLevelLoad - lastClick < timeBtwClick)
             return;
 
-       
+
         if ((AttackSelected)selected != AttackSelected.normalAttack)
         {
             if (lastSpecialAttack + coldownSpecialAttack >= Time.timeSinceLevelLoad)
@@ -408,6 +415,7 @@ public class CombatManager : MonoBehaviour
                     // primero el del jugador
                     if (turn % 2 != 0 && (autoAttack || attackSelected != AttackSelected.none))
                     {
+
                         allyCritterons[0].Attack(enemyCritterons[0], attackSelected, attackExtraDamage);
 
                         combatUI.ResetAttacks();
@@ -448,7 +456,7 @@ public class CombatManager : MonoBehaviour
             XasuControl.MessageWithCustomVerb(
                  actionId: "Combat_won",
                  verbId: "https://w3id.org/xapi/seriousgames/verbs/completed",
-                 verbDisplay: "completed", 
+                 verbDisplay: "completed",
                  timestamp: DateTime.UtcNow
              );
 
@@ -485,7 +493,7 @@ public class CombatManager : MonoBehaviour
                                  verbDisplay: "accessed",
                                  timestamp: DateTime.UtcNow
                              );
-                            
+
                         }
                         RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), user.userData.currentCritteron, exp: exp, level: lvl);
                         SceneManager.LoadScene("NewLevel");
