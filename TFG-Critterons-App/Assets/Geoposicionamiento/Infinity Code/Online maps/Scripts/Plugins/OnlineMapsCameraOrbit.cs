@@ -141,7 +141,7 @@ public class OnlineMapsCameraOrbit : MonoBehaviour, IOnlineMapsSavableComponent
     private void Update()
     {
 #if USE_MOUSE_ROTATION
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(0))
         { 
             Vector2 inputPosition = control.GetInputPosition();
 #else
