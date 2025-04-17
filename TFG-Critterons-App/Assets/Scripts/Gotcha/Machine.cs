@@ -128,9 +128,10 @@ public class PrefabSpawner : MonoBehaviour
                     RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), possibleCritterons[randomIndex].id, currentLife: possibleCritterons[randomIndex].life, level: critteronUser.level + 1);
                 });
 
-                SetTextNewLevel(idExists);
 
             }
+            SetTextNewLevel(idExists);
+
         });
 
         // Mostrar el critteron
@@ -149,7 +150,7 @@ public class PrefabSpawner : MonoBehaviour
 
         GameObject target;
 
-        if (newCritteron)
+        if (!newCritteron)
             target = newCritteronText;
         else
             target = newLevelText;
