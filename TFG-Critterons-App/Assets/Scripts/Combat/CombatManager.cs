@@ -146,11 +146,11 @@ public class CombatManager : MonoBehaviour
             int randomLevel = UnityEngine.Random.Range(2, critteron.level + 2);
 
             crittteronsInfo[2] = new CritteronCombatInfo(
-                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 2,
+                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 3,
                 (list[randomIndex].basicDamage - randomLevel),
                 list[randomIndex].name,
                 randomLevel,
-                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 2,
+                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 3,
                 list[randomIndex].defense,
                 null,
                 list[randomIndex].attacks[0].damage,
@@ -179,11 +179,11 @@ public class CombatManager : MonoBehaviour
 
             // Critteron Enemigo
             crittteronsInfo[1] = new CritteronCombatInfo(
-                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 2,
+                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 3,
                 list[randomIndex].basicDamage + randomLevel,
                 list[randomIndex].name,
                 randomLevel,
-                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) /2,
+                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) /3,
                 list[randomIndex].defense,
                 null,
                  list[randomIndex].attacks[0].damage,
