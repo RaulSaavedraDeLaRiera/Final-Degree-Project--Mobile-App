@@ -2488,8 +2488,8 @@ MonoBehaviour:
   width: 2048
   _activeTypeSettings: 
   _zoom: 16.2
-  latitude: 28.1334483
-  longitude: -15.435
+  latitude: 40.045979
+  longitude: -20.736591
 --- !u!1 &1288815959
 GameObject:
   m_ObjectHideFlags: 0
@@ -4152,7 +4152,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 57.15
+  m_fontSize: 65.5
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

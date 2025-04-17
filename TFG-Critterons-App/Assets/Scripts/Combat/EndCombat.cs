@@ -22,9 +22,10 @@ public class EndCombat : MonoBehaviour
     {
         int result = PlayerPrefs.GetInt("Result");
 
-        if (result == 0)
+        if (result == 0 )
         {
-            infoText.text = "MONEY +" + InfoCache.GetGameInfo().reward.ToString() + "\n" + "EXP +" + InfoCache.GetGameInfo().expPerCombat.ToString();
+            if(PlayerPrefs.GetString("EXP") == "true")
+                infoText.text = "MONEY +" + InfoCache.GetGameInfo().reward.ToString() + "\n" + "EXP +" + InfoCache.GetGameInfo().expPerCombat.ToString();
             win.SetActive(true);
             AudioManager.m.PlaySound("win");
         }
