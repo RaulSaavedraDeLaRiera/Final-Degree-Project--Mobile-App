@@ -138,8 +138,8 @@ public class StepCounterV2 : MonoBehaviour
     {
         RequestUserInfo.Instance.GetUserByID(PlayerPrefs.GetString("UserID"), (user) =>
         {
-            if (steps > 40)
-                steps = 40;
+            if (steps > 65)
+                steps = 65;
             RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), globalSteps: user.personalStats.globalSteps + steps);
             steps = 0;
             initialStepsCalculate = StepCounter.current.stepCounter.ReadValue();
