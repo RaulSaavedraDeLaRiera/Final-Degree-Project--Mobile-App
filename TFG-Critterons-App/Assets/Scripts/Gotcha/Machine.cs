@@ -103,7 +103,6 @@ public class PrefabSpawner : MonoBehaviour
         {
             bool idExists = list.Any(critteron => critteron.critteronID == possibleCritterons[randomIndex].id);
 
-            SetTextNewLevel(idExists);
 
             if (!idExists)
             {
@@ -128,6 +127,9 @@ public class PrefabSpawner : MonoBehaviour
                 {
                     RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), possibleCritterons[randomIndex].id, currentLife: possibleCritterons[randomIndex].life, level: critteronUser.level + 1);
                 });
+
+                SetTextNewLevel(idExists);
+
             }
         });
 
