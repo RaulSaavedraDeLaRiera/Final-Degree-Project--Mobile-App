@@ -145,13 +145,15 @@ public class CombatManager : MonoBehaviour
             int randomLevel = UnityEngine.Random.Range(2, critteron.level + 2);
 
             crittteronsInfo[2] = new CritteronCombatInfo(
-                (list[randomIndex].life + list[randomIndex].life / randomLevel) + user.userData.level,
-                (list[randomIndex].basicDamage + list[randomIndex].basicDamage / randomLevel) + user.userData.level,
+                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 4,
+                (list[randomIndex].basicDamage - randomLevel),
                 list[randomIndex].name,
                 randomLevel,
-                (list[randomIndex].life + list[randomIndex].life / randomLevel) + user.userData.level,
+                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 4,
                 list[randomIndex].defense,
-                null
+                null,
+                list[randomIndex].attacks[0].damage,
+                list[randomIndex].attacks[1].damage
             );
 
             for (int i = 0; i < crittteronsInfo.Length; i++)
@@ -176,13 +178,15 @@ public class CombatManager : MonoBehaviour
 
             // Critteron Enemigo
             crittteronsInfo[1] = new CritteronCombatInfo(
-                (list[randomIndex].life - list[randomIndex].life / randomLevel) + user.userData.level,
-                (list[randomIndex].basicDamage - list[randomIndex].basicDamage / randomLevel) + user.userData.level,
+                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 4,
+                list[randomIndex].basicDamage + randomLevel,
                 list[randomIndex].name,
                 randomLevel,
-                (list[randomIndex].life - list[randomIndex].life / randomLevel) + user.userData.level,
+                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) /4,
                 list[randomIndex].defense,
-                null
+                null,
+                 list[randomIndex].attacks[0].damage,
+                list[randomIndex].attacks[1].damage
             );
 
             combatType = CombatType.combat1vs1;
@@ -208,12 +212,14 @@ public class CombatManager : MonoBehaviour
 
             crittteronsInfo[1] = new CritteronCombatInfo(
                critteronFGame.life + critteronF.level,
-              critteronFGame.basicDamage + critteronF.level,
+               critteronFGame.basicDamage + critteronF.level,
                critteronFGame.name,
                critteronF.level,
-              critteronFGame.life + critteronF.level + user.userData.level,
+               critteronFGame.life + critteronF.level,
                critteronFGame.defense,
-               null
+               null,
+               critteronFGame.attacks[0].damage,
+               critteronFGame.attacks[1].damage
            );
 
             getExp = false;
@@ -470,40 +476,42 @@ public class CombatManager : MonoBehaviour
 
 
             //cargar experiencia maxima y minima segun combate
-            var newExp = GetExpPoints(5, 10);
             var life = GetLifeCritterons();
 
-            RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), idCritteronCurrent, currentLife: life[0], exp: newExp[0]);
+            RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), idCritteronCurrent, currentLife: life[0]);
             Debug.Log("derrotado enemigos");
             RequestUserInfoSocial.Instance.ModifyPersonalStats(PlayerPrefs.GetString("UserID"), combatWins: user.personalStats.combatWins + 1);
-
+            var money = InfoCache.GetGameInfo().reward;
 
             // Dar experiencia al usuario o subir de nivel
             if (getExp)
             {
                 if (user.userData.experience + expCombat >= InfoCache.GetGameInfo().expGoal)
                 {
+                    //Usuario
+                    int dif = (user.userData.experience + expCombat) - InfoCache.GetGameInfo().expGoal;
+                    RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), level: user.userData.level + 1, experience: dif, money: user.userData.money + money);
 
-
-                    RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), level: user.userData.level + 1, experience: 0, money: user.userData.money + 20);
-
-                    RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), user.userData.currentCritteron, c =>
-                    {
-                        int exp = c.exp + expCombat;
-                        int lvl = c.level;
-                        if (exp >= InfoCache.GetGameInfo().expGoal)
-                        {
-                            exp = 0;
-                            lvl++;
-                            XasuControl.MessageWithCustomVerb(
-                                 actionId: "User_" + user.id + " Accessed Reachable Level_" + lvl++,
+                    XasuControl.MessageWithCustomVerb(
+                                 actionId: "User_" + user.id + " Accessed Reachable Level_" + user.userData.level++,
                                  verbId: "https://w3id.org/xapi/seriousgames/verbs/accessed",
                                  verbDisplay: "accessed",
                                  timestamp: DateTime.UtcNow
                              );
 
+                    // Critteron
+                    RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), user.userData.currentCritteron, c =>
+                    {
+                        int exp = c.exp + expCombat;
+                        int lvl = c.level;
+
+                        if (exp >= InfoCache.GetGameInfo().expGoal)
+                        {
+                            exp = 0;
+                            lvl++;
                         }
-                        RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), user.userData.currentCritteron, exp: exp, level: lvl);
+
+                        RequestUserInfo.Instance.ModifyUserCritteron(PlayerPrefs.GetString("UserID"), idCritteronCurrent, level: lvl, exp: exp, combatWins: c.startInfo.combatWins + 1);
                         SceneManager.LoadScene("NewLevel");
                     });
                 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -47,7 +48,7 @@ public class CritteronCombat : MonoBehaviour
         //Debug.Log(gameObject.name + " attacks " + target.gameObject.name);
         animator.Play("NormalAttack");
         combatManager.SolicitateEffect(0, 0);
-        target.GetDamage(0);
+        target.GetDamage(damage);
 
     }
     public void Attack(CritteronCombat target, AttackSelected attackSelected, float extraDamage)
