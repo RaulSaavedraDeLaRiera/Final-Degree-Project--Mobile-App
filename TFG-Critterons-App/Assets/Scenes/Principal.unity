@@ -880,6 +880,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2519676120326239316, guid: 6c514b6e16a7bd84aa36d0e540c8f6db,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2519676120326239316, guid: 6c514b6e16a7bd84aa36d0e540c8f6db,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2519676120326239316, guid: 6c514b6e16a7bd84aa36d0e540c8f6db,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2519676120326239316, guid: 6c514b6e16a7bd84aa36d0e540c8f6db,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -927,6 +942,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2519676120326239316, guid: 6c514b6e16a7bd84aa36d0e540c8f6db,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4152,7 +4172,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65.5
+  m_fontSize: 57.15
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -18152,7 +18152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameRoom: Party place
-  description: Alcohol is under the sofa
+  description: A candy is under the sofa
   typeHotelRoom: 3
   valueRoom: 0.2
   percentRoom: 0

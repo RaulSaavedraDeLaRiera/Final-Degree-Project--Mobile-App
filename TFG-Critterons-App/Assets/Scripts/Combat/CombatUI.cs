@@ -83,10 +83,10 @@ public class CombatUI : MonoBehaviour
         switch (combatType)
         {
             case CombatType.combat1vs1:
-                combat1vs1Health[combatId].text = health.ToString() + "/" + maxHealth.ToString();
+                combat1vs1Health[combatId].text = (Mathf.Max(0, health)).ToString() + "/" + maxHealth.ToString();
                 break;
             case CombatType.combat2vs1:
-                combat2vs1Health[combatId].text = health.ToString() + "/" + maxHealth.ToString();
+                combat2vs1Health[combatId].text = (Mathf.Max(0, health)).ToString() + "/" + maxHealth.ToString();
                 break;
             default:
                 break;

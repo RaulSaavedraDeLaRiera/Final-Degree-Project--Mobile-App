@@ -80,7 +80,7 @@ public class ButtonFriend : MonoBehaviour
 
 
                     levelText.text = critteron.level.ToString();
-                    healthText.text = critteron.currentLife.ToString();
+                    healthText.text = critteronGame.name.ToString();
                 });
 
 
