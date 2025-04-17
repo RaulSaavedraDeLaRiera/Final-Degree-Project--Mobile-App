@@ -70,6 +70,7 @@ public class CombatManager : MonoBehaviour
 
         var extra = await RequestUserInfo.Instance.GetExtraRoomTypeAsync(userId, 2);
         var experiencieExtra = await RequestUserInfo.Instance.GetExtraRoomTypeAsync(userId, 3);
+        Debug.Log("LA EXTRA" +experiencieExtra);
 
         // Critteron aliado
         crittteronsInfo[0] = new CritteronCombatInfo(

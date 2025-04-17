@@ -111,6 +111,19 @@ public class RequestUserInfo : MonoBehaviour
         StartCoroutine(ServerConnection.Instance.GetAllUsers(callback));
     }
 
+    public Task<List<I_User>> GetAllUsersAsync()
+    {
+        var tcs = new TaskCompletionSource<List<I_User>>();
+
+        StartCoroutine(ServerConnection.Instance.GetAllUsers((users) =>
+        {
+            tcs.SetResult(users);
+        }));
+
+        return tcs.Task;
+    }
+
+
     public void GetUserData(string id, System.Action<I_User.UserData> callback)
     {
         GetUserByID(id, (user) =>

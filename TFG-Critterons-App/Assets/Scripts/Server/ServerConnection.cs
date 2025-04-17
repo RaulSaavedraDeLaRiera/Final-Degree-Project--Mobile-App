@@ -581,6 +581,35 @@ public class ServerConnection : MonoBehaviour
 
         callback(i_userList);
     }
+    public Task<I_User> GetUserByIDAsync(string id)
+    {
+        var tcs = new TaskCompletionSource<I_User>();
+
+        StartCoroutine(GetUserByID(id, (user) =>
+        {
+            tcs.SetResult(user);
+        }));
+
+        return tcs.Task;
+    }
+
+    public async Task<List<I_User>> GetAllUsersAsync()
+    {
+        List<I_User> i_userList = new List<I_User>();
+
+        foreach (string id in userIDs)
+        {
+            I_User user = await GetUserByIDAsync(id);
+            if (user != null)
+            {
+                i_userList.Add(user);
+            }
+        }
+
+        return i_userList;
+    }
+
+
 
     /// <summary>
     /// Modificamos una variable del usuario

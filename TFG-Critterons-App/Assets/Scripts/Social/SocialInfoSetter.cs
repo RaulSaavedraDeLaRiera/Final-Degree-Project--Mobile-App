@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -72,21 +74,26 @@ public class SocialInfoSetter : MonoBehaviour
         globalRanking.SetActive(true);
     }
 
-
     public async void LoadRankingGlobal()
     {
-        List<string> listUser = await RequestUserInfo.Instance.GetTopThreeGlobalAsync(); 
+        List<I_User> allUsers = await RequestUserInfo.Instance.GetAllUsersAsync();
+
+        List<I_User> sortedUsers = allUsers
+            .OrderByDescending(u => u.personalStats?.globalSteps ?? 0)
+            .ToList();
 
         for (int i = 0; i < globalRankingUser.Count; i++)
         {
-            if (i < listUser.Count)
+            if (i < sortedUsers.Count)
             {
-                I_User user = await RequestUserInfo.Instance.GetUserByIDAsync(listUser[i]);
-
+                I_User user = sortedUsers[i];
                 TextMeshProUGUI textComponent = globalRankingUser[i].GetComponentInChildren<TextMeshProUGUI>();
+
                 if (textComponent != null)
                 {
-                    textComponent.text = user.userData.name;
+                    string name = user.userData.name;
+                    int steps = user.personalStats?.globalSteps ?? 0;
+                    textComponent.text = $"{i + 1}. {name} - {steps} STEPS";
                 }
 
                 globalRankingUser[i].SetActive(true);
@@ -102,18 +109,41 @@ public class SocialInfoSetter : MonoBehaviour
 
     public async void LoadRankingFriends(string userId)
     {
-        List<string> listUser = await RequestUserInfo.Instance.GetTopThreeFriendsByIdAsync(userId);
+        I_User mainUser = await RequestUserInfo.Instance.GetUserByIDAsync(userId);
 
+        List<string> allUserIds = new List<string> { userId };
+       
+        for (int i = 0;i < mainUser.socialStats.Count; i++)
+        {
+            allUserIds.Add(mainUser.socialStats[i].friendID);
+        }
+
+        List<I_User> allUsers = new List<I_User>();
+        foreach (string id in allUserIds.Distinct())
+        {
+            I_User user = await RequestUserInfo.Instance.GetUserByIDAsync(id);
+            if (user != null)
+            {
+                allUsers.Add(user);
+            }
+        }
+
+        // Ordenar por número de pasos (mayor a menor)
+        List<I_User> sortedUsers = allUsers
+            .OrderByDescending(u => u.personalStats?.globalSteps ?? 0)
+            .ToList();
+
+        // Mostrar en UI
         for (int i = 0; i < friendRankingUser.Count; i++)
         {
-            if (i < listUser.Count)
+            if (i < sortedUsers.Count)
             {
-                I_User user = await RequestUserInfo.Instance.GetUserByIDAsync(listUser[i]);
+                I_User user = sortedUsers[i];
 
                 TextMeshProUGUI textComponent = friendRankingUser[i].GetComponentInChildren<TextMeshProUGUI>();
                 if (textComponent != null)
                 {
-                    textComponent.text = user.userData.name;
+                    textComponent.text = $"{user.userData.name} - {user.personalStats?.globalSteps ?? 0} STEPS";
                 }
 
                 friendRankingUser[i].SetActive(true);
