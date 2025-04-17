@@ -33,8 +33,8 @@ public class SocialInfoSetter : MonoBehaviour
         PlayerPrefs.SetInt("FriendTogetherCombat", 0);
 
 
-        TextMeshProUGUI textComponentID = ID.GetComponentInChildren<TextMeshProUGUI>();
-        textComponentID.text = PlayerPrefs.GetString("UserID");
+       /* TextMeshProUGUI textComponentID = ID.GetComponentInChildren<TextMeshProUGUI>();
+        textComponentID.text = PlayerPrefs.GetString("UserID");*/
 
         LoadRankingGlobal();
         LoadRankingFriends(PlayerPrefs.GetString("UserID"));

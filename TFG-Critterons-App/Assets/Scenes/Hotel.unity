@@ -12602,6 +12602,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4062204829138992103, guid: dd345f467ab36634385ec9473e7ee884,
         type: 3}
+      propertyPath: m_margin.x
+      value: 12.0914
+      objectReference: {fileID: 0}
+    - target: {fileID: 4062204829138992103, guid: dd345f467ab36634385ec9473e7ee884,
+        type: 3}
       propertyPath: m_margin.z
       value: 31.24353
       objectReference: {fileID: 0}
