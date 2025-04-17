@@ -438,6 +438,7 @@ public class RequestUserInfo : MonoBehaviour
             {
                 critteron.level = level ?? critteron.level;
                 critteron.currentLife = currentLife ?? critteron.currentLife;
+                critteron.exp = exp ?? critteron.exp;
 
                 if (critteron.startInfo == null)
                     critteron.startInfo = new I_User.Critteron.StartInfo();
