@@ -14,6 +14,8 @@ public class SendIntent : MonoBehaviour
     bool IsInitialized = false;
 
     [SerializeField] GameObject sprite;
+    [SerializeField]
+    TextMeshProUGUI textManual;
 
     // Start is called before the first frame update
     void Start()
@@ -82,8 +84,12 @@ public class SendIntent : MonoBehaviour
 
     public void SendTheIntet(string text)
     {
+        TextMeshProUGUI textSource = null;
         //get data y se amplia o si asi vale
-        var textSource = transform.GetComponentInChildren<TextMeshProUGUI>();
+        if (textManual == null)
+            textSource = transform.GetComponentInChildren<TextMeshProUGUI>();
+        else
+            textSource = textManual;
 
         if (Application.platform != RuntimePlatform.Android || textSource == null)
         {
