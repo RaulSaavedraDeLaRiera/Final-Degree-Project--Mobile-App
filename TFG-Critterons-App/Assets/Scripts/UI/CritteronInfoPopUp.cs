@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CritteronInfoPopUp : MonoBehaviour
 {
     [SerializeField]
-    TextMeshProUGUI nameC, healthC, descriptionC, attack1, attack2;
+    TextMeshProUGUI nameC, healthC, descriptionC, attack1, attack2, attackDescription1, attackDescription2;
     [SerializeField]
     Slider healthS;
 
@@ -25,9 +25,17 @@ public class CritteronInfoPopUp : MonoBehaviour
                  "defense :" + (cInfo.defense * 100);
 
             if (cInfo.attacks[0] != null)
+            {
+
                 attack1.text = cInfo.attacks[0].name;
+                attackDescription1.text =  "+" + cInfo.attacks[0].damage;
+            }
             if (cInfo.attacks[1] != null)
+            {
                 attack2.text = cInfo.attacks[1].name;
+                attackDescription2.text = "+" + cInfo.attacks[1].damage;
+            }
+             
 
             healthS.value = 3 / (float)cInfo.life;
         });
