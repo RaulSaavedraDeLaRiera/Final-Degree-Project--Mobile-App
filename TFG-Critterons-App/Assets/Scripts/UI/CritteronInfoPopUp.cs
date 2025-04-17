@@ -17,7 +17,12 @@ public class CritteronInfoPopUp : MonoBehaviour
         RequestUserInfo.Instance.GetUserCritteronsByID(PlayerPrefs.GetString("UserID"), cInfo.id, critteronUser =>
         {
             nameC.text = cInfo.name;
-            healthC.text = critteronUser.currentLife.ToString();
+            healthC.text = "LIFE: " + critteronUser.currentLife.ToString();
+
+            /*
+            Debug.Log("crit max life:" + critteronUser.life);
+            float valLife = (critteronUser.currentLife / (float)(critteronUser.life));
+            healthS.value = valLife; */
 
 
             descriptionC.text = "lvl." + critteronUser.level.ToString() + "\n" +
