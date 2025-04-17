@@ -19,11 +19,10 @@ public class CritteronInfoPopUp : MonoBehaviour
             nameC.text = cInfo.name;
             healthC.text = "LIFE: " + critteronUser.currentLife.ToString();
 
-            /*
-            Debug.Log("crit max life:" + critteronUser.life);
-            float valLife = (critteronUser.currentLife / (float)(critteronUser.life));
-            healthS.value = valLife; */
-
+            
+            Debug.Log("crit max life:" + (cInfo.life + critteronUser.level));
+            float valLife = (critteronUser.currentLife / (float)(cInfo.life + critteronUser.level));
+            healthS.value = valLife;
 
             descriptionC.text = "lvl." + critteronUser.level.ToString() + "\n" +
                 "damage :" + cInfo.basicDamage + "\n" +
@@ -42,7 +41,6 @@ public class CritteronInfoPopUp : MonoBehaviour
             }
              
 
-            healthS.value = 3 / (float)cInfo.life;
         });
     }
 }
