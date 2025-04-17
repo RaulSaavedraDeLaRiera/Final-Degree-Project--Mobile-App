@@ -140,18 +140,20 @@ public class OnlineMapsCameraOrbit : MonoBehaviour, IOnlineMapsSavableComponent
 
     private void Update()
     {
-#if USE_MOUSE_ROTATION
+//#if USE_MOUSE_ROTATION
         if (Input.GetMouseButton(0))
         { 
             Vector2 inputPosition = control.GetInputPosition();
-#else
+
+/*#else
+{
         if (Input.touchCount == 2)
         {
             Vector2 p1 = Input.GetTouch(0).position;
             Vector2 p2 = Input.GetTouch(1).position;
 
             Vector2 inputPosition = Vector2.Lerp(p1, p2, 0.5f);
-#endif
+#endif*/
             if (!control.IsCursorOnUIElement(inputPosition))
             {
                 isCameraControl = true;
