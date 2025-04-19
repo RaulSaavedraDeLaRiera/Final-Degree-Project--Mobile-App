@@ -147,7 +147,7 @@ public class CombatManager : MonoBehaviour
 
             crittteronsInfo[2] = new CritteronCombatInfo(
                 (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 3,
-                (list[randomIndex].basicDamage - randomLevel),
+                (list[randomIndex].basicDamage + randomLevel),
                 list[randomIndex].name,
                 randomLevel,
                 (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 3,
@@ -179,14 +179,14 @@ public class CombatManager : MonoBehaviour
 
             // Critteron Enemigo
             crittteronsInfo[1] = new CritteronCombatInfo(
-                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 3,
+                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 6,
                 list[randomIndex].basicDamage + randomLevel,
                 list[randomIndex].name,
                 randomLevel,
-                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) /3,
+                (list[randomIndex].life + randomLevel) + (list[randomIndex].life + randomLevel) / 6,
                 list[randomIndex].defense,
                 null,
-                 list[randomIndex].attacks[0].damage,
+                list[randomIndex].attacks[0].damage,
                 list[randomIndex].attacks[1].damage
             );
 
@@ -491,10 +491,11 @@ public class CombatManager : MonoBehaviour
             // Dar experiencia al usuario o subir de nivel
             if (getExp)
             {
+                int dif = (user.userData.experience + expCombat) - InfoCache.GetGameInfo().expGoal;
+
                 if (user.userData.experience + expCombat >= InfoCache.GetGameInfo().expGoal)
                 {
                     //Usuario
-                    int dif = (user.userData.experience + expCombat) - InfoCache.GetGameInfo().expGoal;
                     RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), level: user.userData.level + 1, experience: dif, money: user.userData.money + money);
 
                     XasuControl.MessageWithCustomVerb(
@@ -522,7 +523,7 @@ public class CombatManager : MonoBehaviour
                 }
                 else
                 {
-                    RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), experience: user.userData.experience + expCombat);
+                    RequestUserInfo.Instance.ModifyUserData(PlayerPrefs.GetString("UserID"), experience: user.userData.experience + expCombat, money: user.userData.money + money);
                     SceneManager.LoadScene("EndCombat");
                 }
             }
