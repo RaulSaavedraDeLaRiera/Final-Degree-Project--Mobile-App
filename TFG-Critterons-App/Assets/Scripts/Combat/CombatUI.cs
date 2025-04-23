@@ -13,7 +13,7 @@ public class CombatUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI[] combat1vs1Names, combat2vs1Names, combat1vs1Health, combat2vs1Health;
     [SerializeField]
-    TextMeshProUGUI specialAttack1, specialAttack2;
+    TextMeshProUGUI specialAttack1, specialAttack2, headerText;
     [SerializeField]
     Image[] attacks;
     [SerializeField]
@@ -41,7 +41,11 @@ public class CombatUI : MonoBehaviour
         combatType = info.combatType;
 
         combatsUI[(int)info.combatType].gameObject.SetActive(true);
-      
+
+        if (PlayerPrefs.GetInt("FriendCombat", 0) == 0)
+            headerText.text = "WILD BATTLE";
+        else
+            headerText.text = "VERSUS BATTLE";
 
         switch (info.combatType)
         {
@@ -53,6 +57,7 @@ public class CombatUI : MonoBehaviour
                     combat1vs1Health[i].text =
                         info.critterons[i].currentLife.ToString() + "/" + info.critterons[i].live.ToString();
                 }
+
                 break;
             case CombatType.combat2vs1:
                 for (int i = 0; i < info.critterons.Length; i++)
@@ -66,7 +71,7 @@ public class CombatUI : MonoBehaviour
                 break;
         }
 
-         string specialAttack1 = "ATCK1", specialAttack2 = "ATCK2";
+        string specialAttack1 = "ATCK1", specialAttack2 = "ATCK2";
         if (info.critterons[0].critteron != null)
         {
             specialAttack1 = info.critterons[0].critteron.attacks[0].name;
@@ -109,7 +114,7 @@ public class CombatUI : MonoBehaviour
         attacks[attack].color = selectedAttack;
     }
 
-   
+
     public void DisableSpecialAttacks(float time)
     {
         specialAttacksDisable = true;
@@ -147,7 +152,7 @@ public class CombatUI : MonoBehaviour
 
         effectTextRoot.localScale = Vector3.zero;
 
-        effectTextRoot.transform.DOScale(1, turnDur / 3 * 2).onComplete = ()=>
+        effectTextRoot.transform.DOScale(1, turnDur / 3 * 2).onComplete = () =>
         {
             effectTextRoot.gameObject.SetActive(false);
         };
