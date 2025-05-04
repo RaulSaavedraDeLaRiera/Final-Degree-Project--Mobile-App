@@ -94,4 +94,56 @@ Un ejemplo podría ser:
  java -jar target/dataupload-1.0-SNAPSHOT.jar rooms http://localhost:8080
 
 
+## Llamadas principales a la API
 
+Entre las principales llamadas que se encuentran disponibles en la API podemos encontrar las que se encuentran en la lista blanca:
+
+**Autenticación y Registro**:
+  - POST /api/v1/newUser: Permite registrar nuevos usuarios 
+  - GET /api/v1/login: Autentica a los usuarios y devuelve un token JWT
+  - GET /api/v1/token: Genera un token de autenticación
+
+**Información del Juego**:
+  - GET /api/v1/gameinfo: Obtiene la información general del juego
+  - GET /api/v1/userinfo: Obtiene información general de los usuarios
+
+**Gestión de Usuarios**:
+  - GET /api/v1/user: Lista todos los usuarios 
+  - GET /api/v1/user/{id}: Obtiene información específica de un usuario
+  - GET /api/v1/userTop: Devuelve el top 3 de usuarios
+  - GET /api/v1/userTopFriends/{id}: Obtiene el top 3 de amigos de un usuario
+
+**Sistema de Amigos**:
+  - PATCH /api/v1/userPending/{id}: Gestiona solicitudes de amistad pendientes
+  - PATCH /api/v1/userSent/{id}: Gestiona solicitudes de amistad enviadas
+  - DELETE /api/v1/user/removeFriend/{id}: Elimina un amigo
+  - DELETE /api/v1/user/removeFriendPending/{id}: Elimina una solicitud pendiente
+  - DELETE /api/v1/user/removeFriendSent/{id}: Elimina una solicitud enviada
+
+**Gestión de Critterons**:
+  - POST /api/v1/critteron: Crea un nuevo critteron
+  - GET /api/v1/critteron: Lista todos los critterons
+  - GET /api/v1/critteron/{id}: Obtiene información de un critteron específico
+  - PUT /api/v1/critteron: Actualiza un critteron
+  - DELETE /api/v1/critteron/{id}: Elimina un critteron
+
+**Gestión de Habitaciones**:
+  - POST /api/v1/room: Crea una nueva habitación
+  - GET /api/v1/room: Lista todas las habitaciones
+  - GET /api/v1/room/{id}: Obtiene información de una habitación específica
+  - PUT /api/v1/room: Actualiza una habitación
+  - DELETE /api/v1/room/{id}: Elimina una habitación
+
+**Gestión de Marcas**:
+  - POST /api/v1/mark: Crea una nueva marca
+  - GET /api/v1/mark: Lista todas las marcas
+  - GET /api/v1/mark/{id}: Obtiene información de una marca específica
+  - PUT /api/v1/mark: Actualiza una marca
+  - DELETE /api/v1/mark/{id}: Elimina una marca
+
+**Recompensas y Progreso**:
+  - POST /api/v1/gameinfo/weekRewards: Actualiza las recompensas semanales
+  - POST /api/v1/gameinfo/weekRewards/{day}: Actualiza las recompensas de un día específico 
+  - PATCH /api/v1/user/{id}: Actualiza campos específicos de un usuario
+
+Cada una de estas llamadas está diseñada para manejar operaciones específicas del juego, siguiendo los principios RESTful. Las llamadas que no están en la lista blanca requieren autenticación mediante un token JWT válido en el encabezado de la petición.
