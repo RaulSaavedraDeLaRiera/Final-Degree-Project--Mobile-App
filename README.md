@@ -1,3 +1,12 @@
+# Summary
+
+#### Development of a mobile video game with social features (ranking, friends system) and real-time location. Backend built with Spring Boot and MongoDB in the cloud, including secure authentication and multiple endpoints for static and dynamic data.
+
+# Contributions
+
+#### I worked on both the initial design and development of the API, including authentication and database design, as well as on various parts of the client, such as real-time location features and the use of native Android sensors.
+
+
 # TFG2024-AntonioPRaulS
 ## TFG 2024 - Aplicación Móvil
 
